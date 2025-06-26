@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes float1 {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(40px, -25px) rotate(5deg);
+    }
+    50% {
+        transform: translate(25px, -50px) rotate(0deg);
+    }
+    75% {
+        transform: translate(-15px, -30px) rotate(-5deg);
+    }
+}
+
+@keyframes float2 {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(-30px, 25px) rotate(5deg);
+    }
+    50% {
+        transform: translate(-50px, 10px) rotate(0deg);
+    }
+    75% {
+        transform: translate(-20px, -15px) rotate(-5deg);
+    }
+}
+
+@keyframes float3 {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(25px, 30px) rotate(5deg);
+    }
+    50% {
+        transform: translate(50px, 15px) rotate(0deg);
+    }
+    75% {
+        transform: translate(30px, -25px) rotate(-5deg);
+    }
+}
+
+@keyframes float4 {
+    0%,
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(-40px, 15px) rotate(5deg);
+    }
+    50% {
+        transform: translate(-25px, 40px) rotate(0deg);
+    }
+    75% {
+        transform: translate(10px, 25px) rotate(-5deg);
+    }
+}
+
+.animate-shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+.animate-check {
+    animation: check 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.animate-float1 {
+    animation: float1 15s ease-in-out infinite;
+}
+.animate-float2 {
+    animation: float2 18s ease-in-out infinite;
+}
+.animate-float3 {
+    animation: float3 20s ease-in-out infinite;
+}
+.animate-float4 {
+    animation: float4 16s ease-in-out infinite;
+}
+
+/* Additional animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+/* ------------ */
+/* Tambahkan ini di CSS untuk efek tambahan */
+.focus\:ring-\[\#259148\]:focus {
+    --tw-ring-color: #259148;
+}
+.hover\:scale-105:hover {
+    transform: scale(1.05);
+}
+.transition-all {
+    transition-property: all;
+}
+.duration-300 {
+    transition-duration: 300ms;
+}
+
+/* Tambahkan animasi tambahan jika diperlukan */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* // Tambahkan di CSS/global.css */
+.glow-effect {
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.5), 0 0 40px rgba(76, 175, 80, 0.3);
+    transition: box-shadow 0.3s ease;
+}
+
+.glow-effect:hover {
+    box-shadow: 0 0 30px rgba(76, 175, 80, 0.7), 0 0 50px rgba(76, 175, 80, 0.5);
+}
+
+@keyframes pulse-slow {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.animate-pulse-slow {
+    animation: pulse-slow 3s infinite;
+}
+
+/* {Tambahkan ini ke CSS animasi} */
+@keyframes float-up {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.2;
+    }
+    50% {
+        transform: translateX(10px);
+    }
+    100% {
+        transform: translateY(-100px) translateX(20px);
+        opacity: 0;
+    }
+}
