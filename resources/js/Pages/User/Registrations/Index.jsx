@@ -214,7 +214,7 @@ export default function UserRegistrationsIndex({ auth }) {
                                         </h4>
                                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                             <a
-                                                href={`/storage/${reg.business_proposal_file}`}
+                                                href={`/berkas/storage/${reg.business_proposal_file}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center px-4 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors duration-150 border border-gray-200"
@@ -237,7 +237,7 @@ export default function UserRegistrationsIndex({ auth }) {
                                                 </span>
                                             </a>
                                             <a
-                                                href={`/storage/${reg.mustahik_certificate_file}`}
+                                                href={`/berkas/storage/${reg.mustahik_certificate_file}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center px-4 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors duration-150 border border-gray-200"
@@ -260,7 +260,7 @@ export default function UserRegistrationsIndex({ auth }) {
                                                 </span>
                                             </a>
                                             <a
-                                                href={`/storage/${reg.pesantren_certificate_file}`}
+                                                href={`/berkas/storage/${reg.pesantren_certificate_file}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="flex items-center px-4 py-2 bg-white rounded-md shadow-sm hover:bg-gray-100 transition-colors duration-150 border border-gray-200"

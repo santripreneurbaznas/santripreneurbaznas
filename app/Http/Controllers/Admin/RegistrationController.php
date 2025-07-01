@@ -55,9 +55,9 @@ class RegistrationController extends Controller
                     'motivation' => $reg->motivation,
                     'estimated_monthly_income' => $reg->estimated_monthly_income,
                     'number_wa' => $reg->number_wa,
-                    'business_proposal_file' => asset('storage/' . $reg->business_proposal_file),
-                    'mustahik_certificate_file' => asset('storage/' . $reg->mustahik_certificate_file),
-                    'pesantren_certificate_file' => asset('storage/' . $reg->pesantren_certificate_file),
+                    'business_proposal_file' => asset('/berkas/storage/' . $reg->business_proposal_file),
+                    'mustahik_certificate_file' => asset('/berkas/storage/' . $reg->mustahik_certificate_file),
+                    'pesantren_certificate_file' => asset('/berkas/storage/' . $reg->pesantren_certificate_file),
                     'status' => $reg->status,
                     'created_at' => $reg->created_at->format('d/m/Y H:i'),
                 ];

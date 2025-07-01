@@ -226,7 +226,7 @@ function DocumentCard({ title, fileUrl }) {
         <div className="bg-white rounded-lg border border-gray-200 p-4 hover:shadow-md transition-shadow">
             <h4 className="text-sm font-medium text-gray-700 mb-2">{title}</h4>
             <a
-                href={`/storage/${fileUrl}`}
+                href={`/berkas/storage/${fileUrl}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"

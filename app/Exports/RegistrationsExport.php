@@ -50,7 +50,7 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
 
     public function map($reg): array
     {
-        $baseUrl = url('/storage/');
+        $baseUrl = url('/berkas/storage/');
 
         return [
             $reg->user->name,
