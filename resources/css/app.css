@@ -180,3 +180,31 @@
         opacity: 0;
     }
 }
+
+/* resources/css/app.css */
+
+/* Animasi bintang kelap-kelip */
+@keyframes twinkle {
+    0% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+}
+
+/* Kelas untuk bintang */
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: white;
+    border-radius: 50%;
+    animation: twinkle 3s ease-in-out infinite;
+}

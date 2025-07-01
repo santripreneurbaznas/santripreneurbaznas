@@ -1,127 +1,306 @@
-import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
-import { Link } from '@inertiajs/react';
+import { useState, useEffect } from "react";
+import { Link, usePage, router } from "@inertiajs/react";
+import { usePathname } from "@/Hooks/usePathname";
+import { Icons } from "./Icons";
+import Toaster from "@/Components/Toater";
 
-export default function Authenticated({ auth, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+export default function AuthenticatedLayout({ children }) {
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
+    const { auth } = usePage().props;
+    const pathname = usePathname();
+
+    // console.log(pathname);
+
+    // Close mobile sidebar when route changes
+    useEffect(() => {
+        setMobileSidebarOpen(false);
+    }, [pathname]);
+
+    // Navigation items
+    const navItems = [
+        {
+            name: "Dashboard",
+            href: "/dashboard",
+            icon: <Icons.dashboard className="w-5 h-5" />,
+            allowedRoles: [3, 2, 1],
+        },
+        {
+            name: "Data Peserta",
+            href: "/super-admin/users",
+            icon: <Icons.orders className="w-5 h-5" />,
+            allowedRoles: [1],
+        },
+        {
+            name: "Admin Akses",
+            href: "/super-admin/admin-access",
+            icon: <Icons.orders className="w-5 h-5" />,
+            allowedRoles: [1],
+        },
+        {
+            name: "Program",
+            href: "/super-admin/management",
+            icon: <Icons.orders className="w-5 h-5" />,
+            allowedRoles: [1],
+        },
+        {
+            name: "Pendaftaran",
+            href: "/admin/registrations",
+            icon: <Icons.portfolio className="w-5 h-5" />,
+            allowedRoles: [2],
+        },
+        {
+            name: "Daftar Lomba",
+            href: "/user/competitions",
+            icon: <Icons.services className="w-5 h-5" />,
+            allowedRoles: [3],
+        },
+        {
+            name: "Pendaftaran Saya",
+            href: "/user/my-registrations",
+            icon: <Icons.testimonials className="w-5 h-5" />,
+            allowedRoles: [3],
+        },
+
+        {
+            name: "Pengaturan",
+            href: "/profile",
+            icon: <Icons.setting className="w-5 h-5" />,
+            allowedRoles: [1, 2, 3],
+        },
+    ];
+
+    const filteredNavItems = navItems.filter((item) =>
+        item.allowedRoles.includes(auth.user.role_id)
+    );
+
+    // console.log(auth);
 
     return (
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </div>
-
-                        <div className="hidden sm:flex sm:items-center sm:ml-6">
-                            <div className="ml-3 relative">
-                                <Dropdown>
-                                    <Dropdown.Trigger>
-                                        <span className="inline-flex rounded-md">
-                                            <button
-                                                type="button"
-                                                className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
-                                            >
-                                                {auth.user.name}
-
-                                                <svg
-                                                    className="ml-2 -mr-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fillRule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clipRule="evenodd"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        </span>
-                                    </Dropdown.Trigger>
-
-                                    <Dropdown.Content>
-                                        <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                                        <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            Log Out
-                                        </Dropdown.Link>
-                                    </Dropdown.Content>
-                                </Dropdown>
-                            </div>
-                        </div>
-
-                        <div className="-mr-2 flex items-center sm:hidden">
-                            <button
-                                onClick={() => setShowingNavigationDropdown((previousState) => !previousState)}
-                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
-                            >
-                                <svg className="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                    <path
-                                        className={!showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                    <path
-                                        className={showingNavigationDropdown ? 'inline-flex' : 'hidden'}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </div>
-
-                    <div className="pt-4 pb-1 border-t border-gray-200">
-                        <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">
-                                {auth.user.name}
-                            </div>
-                            <div className="font-medium text-sm text-gray-500">{auth.user.email}</div>
-                        </div>
-
-                        <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
-                </header>
+        <div className="flex h-screen bg-gradient-to-br from-gray-50 to-gray-100 ">
+            <Toaster />
+            {/* Mobile sidebar backdrop */}
+            {mobileSidebarOpen && (
+                <div
+                    className="fixed inset-0 z-20 bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300 lg:hidden"
+                    onClick={() => setMobileSidebarOpen(false)}
+                />
             )}
 
-            <main>{children}</main>
+            {/* Collapsible Sidebar */}
+            <aside
+                className={`fixed inset-y-0 left-0 z-30 bg-white  shadow-xl transition-all duration-300 ease-in-out ${
+                    sidebarOpen ? "w-64" : "w-20"
+                } ${
+                    mobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
+                } lg:translate-x-0`}
+            >
+                <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200 bg-gradient-to-br from-[#259148] to-[#4CAF50] relative overflow-hidden">
+                    {[...Array(10)].map((_, i) => (
+                        <div
+                            key={i}
+                            className="absolute w-1 h-1 bg-white rounded-full opacity-0 "
+                            style={{
+                                left: `${Math.random() * 100}%`,
+                                top: `${Math.random() * 100}%`,
+                                animation: `twinkle ${
+                                    Math.random() * 3 + 5
+                                }s infinite ${Math.random() * 0.5}s`,
+                            }}
+                        ></div>
+                    ))}
+
+                    <Link href="/dashboard" className="z-10">
+                        {sidebarOpen ? (
+                            <div className="flex items-center justify-center">
+                                <img
+                                    src="/images/logo.png"
+                                    alt=""
+                                    className="w-[140px] brightness-0 invert"
+                                />
+                            </div>
+                        ) : (
+                            <>
+                                <img
+                                    src="/favicons/android-chrome-192x192.png"
+                                    alt=""
+                                    className="h-8 w-8 brightness-0 invert"
+                                />
+                            </>
+                        )}
+                    </Link>
+                    {sidebarOpen && (
+                        <button
+                            onClick={() => setMobileSidebarOpen(false)}
+                            className="p-1 rounded-md text-white hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white lg:hidden z-10"
+                        >
+                            <Icons.close className="w-6 h-6" />
+                        </button>
+                    )}
+                </div>
+
+                <div className="overflow-y-auto h-[calc(100vh-4rem)] py-4 px-3 bg-white ">
+                    <nav>
+                        <ul className="space-y-1">
+                            {filteredNavItems.map((item) => (
+                                <li key={item.name}>
+                                    <Link
+                                        href={item.href}
+                                        className={`flex items-center p-3 rounded-lg hover:bg-[#259148]/10  transition-all duration-200 ${
+                                            sidebarOpen
+                                                ? "hover:translate-x-1 hover:shadow-sm"
+                                                : ""
+                                        } ${
+                                            pathname === item.href
+                                                ? "bg-[#259148]/10 text-[#259148]  font-medium border-l-4 border-[#259148] "
+                                                : "text-gray-700 "
+                                        }`}
+                                    >
+                                        <span className="mr-3">
+                                            {item.icon}
+                                        </span>
+                                        {sidebarOpen && (
+                                            <>
+                                                <span>{item.name}</span>
+                                                {pathname === item.href && (
+                                                    <span className="ml-auto w-2 h-2 rounded-full bg-[#259148]  animate-pulse"></span>
+                                                )}
+                                            </>
+                                        )}
+                                    </Link>
+                                </li>
+                            ))}
+                            <li>
+                                <Link
+                                    href={route("logout")}
+                                    method="post"
+                                    as="button"
+                                    className={`flex items-center p-3 rounded-lg hover:bg-[#259148]/10  transition-all duration-200 w-full text-gray-700 ${
+                                        sidebarOpen
+                                            ? "hover:translate-x-1 hover:shadow-sm"
+                                            : ""
+                                    }`}
+                                >
+                                    <Icons.logout className="w-5 h-5 mr-3" />
+                                    {sidebarOpen && (
+                                        <>
+                                            <span>Keluar</span>
+                                        </>
+                                    )}
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                {/* Sidebar footer */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200  bg-white ">
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#259148] to-[#4CAF50] flex items-center justify-center text-white">
+                                {auth.user.name?.charAt(0) || (
+                                    <Icons.user className="w-5 h-5" />
+                                )}
+                            </div>
+                            {sidebarOpen && (
+                                <div>
+                                    <p className="text-sm font-medium text-gray-700 ">
+                                        {auth.user.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500  capitalize">
+                                        {auth.user.role}
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        {sidebarOpen && (
+                            <Link
+                                href={route("logout")}
+                                method="post"
+                                as="button"
+                                className="text-gray-500 hover:text-gray-700  hover:bg-gray-100 p-2 rounded-full transition-colors"
+                            >
+                                <Icons.logout className="w-5 h-5" />
+                            </Link>
+                        )}
+                    </div>
+                </div>
+            </aside>
+
+            {/* Static Content Area */}
+            <div
+                className={`flex-1 flex flex-col overflow-hidden ${
+                    sidebarOpen ? "lg:ml-64" : "lg:ml-20"
+                }`}
+            >
+                {/* Header */}
+                <header className="bg-white  shadow-sm z-10 glass-effect">
+                    <div className="flex items-center justify-between h-16 px-6">
+                        <div className="flex items-center">
+                            <button
+                                onClick={() => setMobileSidebarOpen(true)}
+                                className="p-2 rounded-md text-gray-500 hover:text-gray-700  hover:bg-gray-100  focus:outline-none focus:ring-2 focus:ring-[#0b1d51] lg:hidden transition-colors"
+                            >
+                                <Icons.menu className="w-6 h-6" />
+                            </button>
+                            <button
+                                onClick={() => setSidebarOpen(!sidebarOpen)}
+                                className="p-2 rounded-md text-gray-500 hover:text-gray-700  hover:bg-gray-100  hidden lg:block transition-colors"
+                            >
+                                <div className="relative w-6 h-6">
+                                    <Icons.chevronLeft
+                                        className={`w-6 h-6 absolute transition-all duration-300 ${
+                                            sidebarOpen
+                                                ? "opacity-100 rotate-0"
+                                                : "opacity-0 -rotate-90"
+                                        }`}
+                                    />
+                                    <Icons.chevronRight
+                                        className={`w-6 h-6 absolute transition-all duration-300 ${
+                                            sidebarOpen
+                                                ? "opacity-0 rotate-90"
+                                                : "opacity-100 rotate-0"
+                                        }`}
+                                    />
+                                </div>
+                            </button>
+                            <h1 className="ml-4 text-lg font-semibold text-gray-800 ">
+                                {navItems.find((item) => item.href === pathname)
+                                    ?.name || "Dashboard"}
+                            </h1>
+                        </div>
+
+                        <div className="flex items-center space-x-4">
+                            <div className="relative">
+                                <button className="flex items-center space-x-2 focus:outline-none group">
+                                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#259148] to-[#4CAF50] flex items-center justify-center text-white">
+                                        {auth.user.name?.charAt(0) || (
+                                            <Icons.user className="w-5 h-5" />
+                                        )}
+                                    </div>
+                                    <div className="hidden md:flex flex-col items-start">
+                                        <span className="hidden md:inline-block text-sm font-medium text-gray-700  group-hover:text-[#0b1d51]  transition-colors capitalize">
+                                            {auth.user.name}
+                                        </span>
+                                        <span className="hidden md:inline-block text-[12px] font-medium text-gray-700  group-hover:text-[#0b1d51]  transition-colors">
+                                            {auth.user.email}
+                                        </span>
+                                    </div>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                {/* Main Content */}
+                <main className="flex-1 overflow-y-auto bg-gradient-to-br from-gray-50 to-gray-100  p-4 md:p-6">
+                    <div className="mx-auto lg:max-w-6xl">
+                        <div className="animate-fadeIn bg-white  rounded-xl shadow-sm p-4 md:p-6 hover:shadow-md transition-shadow duration-300">
+                            {children}
+                        </div>
+                    </div>
+                </main>
+            </div>
         </div>
     );
 }

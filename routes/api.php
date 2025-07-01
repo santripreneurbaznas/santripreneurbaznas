@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Competition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,4 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::get('/active-competitions', function () {
+    return Competition::with('categories')
+        ->where('is_active', true)
+        ->where('end_date', '>=', now())
+        ->orderBy('start_date', 'asc')
+        ->get();
 });
