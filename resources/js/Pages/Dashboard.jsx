@@ -10,6 +10,7 @@ import {
     FiCheckCircle,
     FiClock,
 } from "react-icons/fi";
+import useFlashMessages from "@/Hooks/useFlashMessages";
 
 export default function Dashboard({
     auth,
@@ -56,6 +57,9 @@ export default function Dashboard({
                 return `Anda telah mendaftar di ${competitionName}`;
         }
     };
+
+    useFlashMessages();
+
     return (
         <AuthenticatedLayout>
             <Head title="Dashboard" />
@@ -65,7 +69,7 @@ export default function Dashboard({
                     {/* Welcome Banner */}
                     <div className="bg-gradient-to-br from-[#259148] to-[#4CAF50] rounded-xl shadow-md p-6 mb-8 text-white">
                         <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                            Selamat Datang, {auth.user.name}!
+                            Selamat Datang, {auth.user.name}
                         </h1>
                         <p className="opacity-90">
                             Kelola partisipasi Anda dalam berbagai kompetisi

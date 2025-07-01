@@ -3,6 +3,16 @@ import { Link, usePage, router } from "@inertiajs/react";
 import { usePathname } from "@/Hooks/usePathname";
 import { Icons } from "./Icons";
 import Toaster from "@/Components/Toater";
+import {
+    FiAward,
+    FiCalendar,
+    FiFileText,
+    FiHome,
+    FiKey,
+    FiSettings,
+    FiUserCheck,
+    FiUsers,
+} from "react-icons/fi";
 
 export default function AuthenticatedLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -22,50 +32,49 @@ export default function AuthenticatedLayout({ children }) {
         {
             name: "Dashboard",
             href: "/dashboard",
-            icon: <Icons.dashboard className="w-5 h-5" />,
+            icon: <FiHome className="w-5 h-5" />,
             allowedRoles: [3, 2, 1],
         },
         {
             name: "Data Peserta",
             href: "/super-admin/users",
-            icon: <Icons.orders className="w-5 h-5" />,
+            icon: <FiUsers className="w-5 h-5" />,
             allowedRoles: [1],
         },
         {
             name: "Admin Akses",
             href: "/super-admin/admin-access",
-            icon: <Icons.orders className="w-5 h-5" />,
+            icon: <FiKey className="w-5 h-5" />,
             allowedRoles: [1],
         },
         {
             name: "Program",
             href: "/super-admin/management",
-            icon: <Icons.orders className="w-5 h-5" />,
+            icon: <FiAward className="w-5 h-5" />,
             allowedRoles: [1],
         },
         {
             name: "Pendaftaran",
             href: "/admin/registrations",
-            icon: <Icons.portfolio className="w-5 h-5" />,
+            icon: <FiFileText className="w-5 h-5" />,
             allowedRoles: [2],
         },
         {
             name: "Daftar Lomba",
             href: "/user/competitions",
-            icon: <Icons.services className="w-5 h-5" />,
+            icon: <FiCalendar className="w-5 h-5" />,
             allowedRoles: [3],
         },
         {
             name: "Pendaftaran Saya",
             href: "/user/my-registrations",
-            icon: <Icons.testimonials className="w-5 h-5" />,
+            icon: <FiUserCheck className="w-5 h-5" />,
             allowedRoles: [3],
         },
-
         {
             name: "Pengaturan",
             href: "/profile",
-            icon: <Icons.setting className="w-5 h-5" />,
+            icon: <FiSettings className="w-5 h-5" />,
             allowedRoles: [1, 2, 3],
         },
     ];

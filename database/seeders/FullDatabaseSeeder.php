@@ -24,15 +24,23 @@ class FullDatabaseSeeder extends Seeder
         $users = [
             [
                 'name' => 'superadmin',
-                'email' => 'superadmin@example.com',
-                'password' => Hash::make('password'),
+                'email' => 'santripreneurbaznas.id@gmail.com',
+                'password' => Hash::make('Bismillah.123'),
                 'role_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
+                'name' => 'Santrigo',
+                'email' => 'official.santrigo@gmail.com',
+                'password' => Hash::make('password'),
+                'role_id' => 2,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'name' => 'admin1',
-                'email' => 'admin1@example.com',
+                'email' => 'admin1@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 2,
                 'created_at' => now(),
@@ -40,7 +48,7 @@ class FullDatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'admin2',
-                'email' => 'admin2@example.com',
+                'email' => 'admin2@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 2,
                 'created_at' => now(),
@@ -48,7 +56,7 @@ class FullDatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'user1',
-                'email' => 'user1@example.com',
+                'email' => 'user1@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 3,
                 'created_at' => now(),
@@ -56,7 +64,7 @@ class FullDatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'user2',
-                'email' => 'user2@example.com',
+                'email' => 'user2@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 3,
                 'created_at' => now(),
@@ -64,7 +72,7 @@ class FullDatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'user3',
-                'email' => 'user3@example.com',
+                'email' => 'user3@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 3,
                 'created_at' => now(),
@@ -72,7 +80,7 @@ class FullDatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'user4',
-                'email' => 'user4@example.com',
+                'email' => 'user4@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 3,
                 'created_at' => now(),
@@ -80,7 +88,7 @@ class FullDatabaseSeeder extends Seeder
             ],
             [
                 'name' => 'user5',
-                'email' => 'user5@example.com',
+                'email' => 'user5@gmail.com',
                 'password' => Hash::make('password'),
                 'role_id' => 3,
                 'created_at' => now(),
@@ -91,20 +99,11 @@ class FullDatabaseSeeder extends Seeder
         // 4. Competitions
         $competitions = [
             [
-                'name' => 'Hackathon 2025',
-                'description' => 'Kompetisi pengembangan aplikasi',
+                'name' => 'Santripreneur BAZNAS 2025',
+                'description' => 'Kompetisi penyelenggaraan Santripreneur BAZNAS 2025',
                 'start_date' => '2025-07-01',
                 'end_date' => '2025-08-01',
 
-
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'name' => 'Startup Pitching',
-                'description' => 'Kompetisi presentasi bisnis',
-                'start_date' => '2025-07-10',
-                'end_date' => '2025-08-10',
 
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -115,17 +114,24 @@ class FullDatabaseSeeder extends Seeder
         // 3. Categories
         $categories = [
             [
-                'name' => 'Teknologi',
-                'description' => 'Kompetisi bidang teknologi',
-                'competition_id' => 2,
+                'name' => 'Haji dan Umroh',
+                'description' => 'Kompetisi bidang haji dan umroh',
+                'competition_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
 
             ],
             [
-                'name' => 'Bisnis',
-                'description' => 'Kompetisi bidang bisnis',
-                'competition_id' => 2,
+                'name' => 'Industri Kreatif',
+                'description' => 'Kompetisi bidang industri kreatif',
+                'competition_id' => 1,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Peternakan',
+                'description' => 'Kompetisi bidang peternakan',
+                'competition_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -140,8 +146,18 @@ class FullDatabaseSeeder extends Seeder
         // 6. AdminCategoryAccess
         $adminAccess = [
             [
-                'user_id' => 2, // admin1
-                'category_id' => 1, // Teknologi
+                'user_id' => 2,
+                'category_id' => 1,
+                'created_at' => now(),
+            ],
+            [
+                'user_id' => 3,
+                'category_id' => 2,
+                'created_at' => now(),
+            ],
+            [
+                'user_id' => 4,
+                'category_id' => 3,
                 'created_at' => now(),
             ],
         ];
@@ -149,9 +165,9 @@ class FullDatabaseSeeder extends Seeder
 
         for ($i = 1; $i <= 5; $i++) {
             Registration::create([
-                'user_id' => $i + 3, // pastikan ada user dengan id ini
-                'competition_id' => 1, // sesuaikan dengan id yang tersedia
-                'category_id' => rand(1, 2), // sesuaikan juga
+                'user_id' => $i + 3,
+                'competition_id' => 1,
+                'category_id' => rand(1, 3),
 
                 'place_of_birth' => 'Kota ' . $i,
                 'date_of_birth' => Carbon::now()->subYears(20 + $i)->format('Y-m-d'),

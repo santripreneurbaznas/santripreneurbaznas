@@ -11,6 +11,7 @@ import {
     Legend,
     ResponsiveContainer,
 } from "recharts";
+import useFlashMessages from "@/Hooks/useFlashMessages";
 
 export default function SuperAdminDashboard({ auth, categories, chartData }) {
     const formatChartData = () => {
@@ -54,6 +55,8 @@ export default function SuperAdminDashboard({ auth, categories, chartData }) {
     ];
     const randomColor =
         avatarColors[Math.floor(Math.random() * avatarColors.length)];
+
+    useFlashMessages();
 
     return (
         <AuthenticatedLayout>

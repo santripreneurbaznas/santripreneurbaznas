@@ -73,6 +73,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/registrations', [AdminRegistrationController::class, 'index'])->name('admin.registrations.index');
         Route::get('/registrations/{registration}', [AdminRegistrationController::class, 'show'])->name('admin.registrations.show');
         Route::put('/registrations/{registration}', [AdminRegistrationController::class, 'update'])->name('admin.registrations.update');
+
+        Route::get('/regist/export', [AdminRegistrationController::class, 'export_excel'])
+            ->name('admin.registrations.export');
     });
 
     // Super Admin routes
@@ -95,6 +98,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/competitions', [ManagementController::class, 'storeCompetition'])->name('superadmin.competitions.store');
         Route::put('/competitions/{competition}', [ManagementController::class, 'updateCompetition'])->name('superadmin.competitions.update');
         Route::patch('/competitions/{competition}/toggle-status', [ManagementController::class, 'toggleCompetitionStatus'])->name('superadmin.competitions.toggle-status');
+
+
+        // Registrations
+        Route::get('/registrations/{registration}', [AdminRegistrationController::class, 'show'])->name('superadmin.registrations.show');
     });
 });
 
@@ -106,9 +113,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-Route::get('/testlogin', function () {
-    return Inertia::render('Login');
-});
+// Route::get('/testlogin', function () {
+//     return Inertia::render('Login');
+// });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 

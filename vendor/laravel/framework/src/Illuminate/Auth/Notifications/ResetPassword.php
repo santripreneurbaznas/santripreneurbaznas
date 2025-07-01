@@ -75,12 +75,17 @@ class ResetPassword extends Notification
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
-            ->subject(Lang::get('Reset Password Notification'))
-            ->line(Lang::get('You are receiving this email because we received a password reset request for your account.'))
-            ->action(Lang::get('Reset Password'), $url)
-            ->line(Lang::get('This password reset link will expire in :count minutes.', ['count' => config('auth.passwords.'.config('auth.defaults.passwords').'.expire')]))
-            ->line(Lang::get('If you did not request a password reset, no further action is required.'));
+            ->subject('Reset Password | Aplikasi Santripreneur')
+            ->greeting('Assalamu’alaikum!')
+            ->line('Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda di Aplikasi Santripreneur.')
+            ->action('Reset Kata Sandi', $url)
+            ->line('Tautan reset ini hanya berlaku selama :count menit.', [
+                'count' => config('auth.passwords.' . config('auth.defaults.passwords') . '.expire')
+            ])
+            ->line('Jika Anda tidak meminta reset, abaikan email ini. Data Anda tetap aman.')
+            ->salutation('Wassalamu’alaikum warahmatullahi wabarakatuh');
     }
+
 
     /**
      * Get the reset URL for the given notifiable.

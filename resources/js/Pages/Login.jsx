@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Head } from "@inertiajs/react";
+import { Head, usePage, router } from "@inertiajs/react";
+import { toast } from "sonner";
 
 const LoginPage = () => {
+    const { errors } = usePage().props;
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -21,12 +23,31 @@ const LoginPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        toast.loading("Loading...");
         setIsLoading(true);
-        // Simulate API call
-        setTimeout(() => {
-            setIsLoading(false);
-            // Handle login logic here
-        }, 1500);
+
+        router.post(
+            route("login"),
+            {
+                email: formData.email,
+                password: formData.password,
+                remember: formData.remember,
+            },
+            {
+                onFinish: () => {
+                    toast.success("Login successful!");
+                    toast.dismiss();
+                    setIsLoading(false);
+                }, // ResetIsLoading(false),
+            },
+            {
+                onError: () => {
+                    toast.error("Login failed!");
+                    toast.dismiss();
+                    setIsLoading(false);
+                }, // ResetIsLoading(false),
+            }
+        );
     };
 
     return (
@@ -78,6 +99,12 @@ const LoginPage = () => {
 
                             {/* Card Body */}
                             <div className="p-8">
+                                {errors.email && (
+                                    <div className="mb-4 bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+                                        <p>{errors.email}</p>
+                                    </div>
+                                )}
+
                                 <form
                                     onSubmit={handleSubmit}
                                     className="space-y-6"
@@ -97,9 +124,14 @@ const LoginPage = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleChange}
-                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#259148] focus:border-transparent transition-all pl-10"
+                                                className={`block w-full px-4 py-3 rounded-lg border ${
+                                                    errors.email
+                                                        ? "border-red-500"
+                                                        : "border-gray-300"
+                                                } focus:ring-2 focus:ring-[#259148] focus:border-transparent transition-all pl-10`}
                                                 placeholder="email@contoh.com"
                                                 required
+                                                autoFocus
                                             />
                                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                                 <svg
@@ -135,7 +167,11 @@ const LoginPage = () => {
                                                 name="password"
                                                 value={formData.password}
                                                 onChange={handleChange}
-                                                className="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#259148] focus:border-transparent transition-all pl-10"
+                                                className={`block w-full px-4 py-3 rounded-lg border ${
+                                                    errors.password
+                                                        ? "border-red-500"
+                                                        : "border-gray-300"
+                                                } focus:ring-2 focus:ring-[#259148] focus:border-transparent transition-all pl-10`}
                                                 placeholder="••••••••"
                                                 required
                                             />
@@ -156,6 +192,11 @@ const LoginPage = () => {
                                                 </svg>
                                             </div>
                                         </div>
+                                        {errors.password && (
+                                            <p className="mt-1 text-sm text-red-600">
+                                                {errors.password}
+                                            </p>
+                                        )}
                                     </div>
 
                                     {/* Remember & Forgot */}
@@ -178,7 +219,7 @@ const LoginPage = () => {
                                         </div>
                                         <div className="text-sm">
                                             <a
-                                                href="#"
+                                                href={route("password.request")}
                                                 className="font-medium text-[#259148] hover:underline"
                                             >
                                                 Lupa password?
@@ -195,7 +236,9 @@ const LoginPage = () => {
                                             type="submit"
                                             disabled={isLoading}
                                             className={`w-full px-6 py-3 bg-[#259148] hover:bg-[#1e7e34] text-white font-bold rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center ${
-                                                isLoading ? "opacity-80" : ""
+                                                isLoading
+                                                    ? "opacity-80 cursor-not-allowed"
+                                                    : ""
                                             }`}
                                         >
                                             {isLoading ? (
@@ -250,6 +293,15 @@ const LoginPage = () => {
                         {/* Footer */}
                         <div className="mt-6 text-center text-sm text-gray-600">
                             <p>
+                                Belum punya akun?{" "}
+                                <a
+                                    href={route("register")}
+                                    className="text-[#259148] hover:underline font-medium"
+                                >
+                                    Daftar sekarang
+                                </a>
+                            </p>
+                            <p className="mt-2">
                                 © {new Date().getFullYear()} Santripreneur. All
                                 rights reserved.
                             </p>

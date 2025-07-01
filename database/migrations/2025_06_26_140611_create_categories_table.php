@@ -16,8 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
-
-            $table->foreignId('competition_id')->constrained();
+            $table->foreignId('competition_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

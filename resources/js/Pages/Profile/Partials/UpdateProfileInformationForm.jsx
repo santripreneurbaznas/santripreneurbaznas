@@ -123,7 +123,7 @@ export default function UpdateProfileInformation({
                 <div className="flex items-center gap-4">
                     <Button
                         type="submit"
-                        processing={processing}
+                        disabled={processing}
                         variant="primary"
                         className="min-w-[120px]"
                     >

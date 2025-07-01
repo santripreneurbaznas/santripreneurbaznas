@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('description');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            // $table->foreignId('category_id')->constrained();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

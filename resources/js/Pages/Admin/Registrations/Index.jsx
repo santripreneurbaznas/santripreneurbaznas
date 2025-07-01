@@ -14,6 +14,7 @@ import {
     FiChevronRight,
 } from "react-icons/fi";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function AdminRegistrationsIndex({ auth }) {
     const { registrations, meta } = usePage().props;
@@ -92,18 +93,35 @@ export default function AdminRegistrationsIndex({ auth }) {
                             </p>
                         </div>
                     </div>
+                    <div className="mb-6">
+                        <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-4 md:items-center md:justify-between">
+                            {/* Search Input - Now takes full width on mobile, then moves to right on desktop */}
+                            <div className="relative w-full md:w-64">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <FiSearch className="text-gray-400" />
+                                </div>
+                                <input
+                                    type="text"
+                                    placeholder="Cari Pendaftar"
+                                    value={searchQuery}
+                                    onChange={(e) =>
+                                        setSearchQuery(e.target.value)
+                                    }
+                                    className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm"
+                                />
+                            </div>
 
-                    <div className="mb-4 relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                            <FiSearch className="text-gray-400" />
+                            {/* Export Button - Full width on mobile, auto width on desktop */}
+                            <div className="w-full md:w-auto">
+                                <a
+                                    href={route("admin.registrations.export")}
+                                    className="inline-flex items-center justify-center w-full md:w-auto px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 focus:bg-green-700 active:bg-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition ease-in-out duration-150"
+                                >
+                                    <FiDownload className="mr-2" />
+                                    Export Excel
+                                </a>
+                            </div>
                         </div>
-                        <input
-                            type="text"
-                            placeholder="Cari Pendaftar"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        />
                     </div>
 
                     {registrations.length === 0 ? (
@@ -144,12 +162,12 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                 >
                                                     Dokumen
                                                 </th>
-                                                <th
+                                                {/* <th
                                                     scope="col"
                                                     className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                                                 >
                                                     Status
-                                                </th>
+                                                </th> */}
                                                 <th
                                                     scope="col"
                                                     className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -264,7 +282,7 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                         </td>
 
                                                         {/* Status */}
-                                                        <td className="px-6 py-4">
+                                                        {/* <td className="px-6 py-4">
                                                             <span
                                                                 className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
                                                                     reg.status
@@ -278,14 +296,14 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                                     ? "Ditolak"
                                                                     : "Menunggu"}
                                                             </span>
-                                                        </td>
+                                                        </td> */}
 
                                                         {/* Aksi */}
                                                         <td className="px-6 py-4 text-right">
                                                             <div className="flex justify-end space-x-2">
                                                                 <Link
                                                                     href={`/admin/registrations/${reg.id}`}
-                                                                    className="p-2 text-green-600 hover:bg-green-50 rounded-full transition-colors"
+                                                                    className="p-2 text-green-600  rounded-lg transition-colors flex items-center gap-2 bg-green-100 text-[12px] hover:bg-green-200"
                                                                     title="Lihat Detail"
                                                                 >
                                                                     <FiEye
@@ -293,9 +311,10 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                                             18
                                                                         }
                                                                     />
+                                                                    Detail
                                                                 </Link>
 
-                                                                <select
+                                                                {/* <select
                                                                     value={
                                                                         reg.status
                                                                     }
@@ -320,7 +339,7 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                                     <option value="rejected">
                                                                         Rejected
                                                                     </option>
-                                                                </select>
+                                                                </select> */}
                                                             </div>
                                                         </td>
                                                     </tr>

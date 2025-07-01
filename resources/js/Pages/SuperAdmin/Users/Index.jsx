@@ -358,7 +358,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                                                         {/* Role & Managed Categories */}
                                                         <td className="px-6 py-4">
                                                             <div className="flex items-center">
-                                                                <FiShield className="mr-2 text-purple-500" />
+                                                                <FiShield className="mr-2 text-green-500" />
                                                                 <span className="font-medium">
                                                                     {
                                                                         user
@@ -413,7 +413,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                                                                         }
                                                                     />
                                                                 </button>
-                                                                <button
+                                                                {/* <button
                                                                     onClick={() =>
                                                                         handleDelete(
                                                                             user.id
@@ -427,7 +427,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                                                                             18
                                                                         }
                                                                     />
-                                                                </button>
+                                                                </button> */}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -481,7 +481,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                                                                                                 </p>
                                                                                             </div>
                                                                                             <Link
-                                                                                                href={`/admin/registrations/${reg.id}`}
+                                                                                                href={`/super-admin/registrations/${reg.id}`}
                                                                                                 className="text-green-600 hover:text-green-800 flex items-center text-sm"
                                                                                             >
                                                                                                 <FiEye className="mr-1" />

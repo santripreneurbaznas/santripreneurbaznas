@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ExportRegistrationAdmin;
+use App\Exports\RegistrationsExport;
 use App\Http\Controllers\Controller;
 use App\Models\AdminCategoryAccessModel;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RegistrationController extends Controller
 {
@@ -92,9 +95,9 @@ class RegistrationController extends Controller
         if (!$registration) {
             abort(404);
         }
-        $registration->load(['competition', 'category']);
+        $registration->load(['competition', 'category', 'user']);
 
-        return Inertia::render('User/Registrations/Show', [
+        return Inertia::render('Admin/Registrations/Show', [
             'registration' => [
                 ...$registration->toArray(),
                 'can_edit' => $registration->status === 'pending',
@@ -139,5 +142,27 @@ class RegistrationController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+
+    function export_excel()
+    {
+        $managedCategories = auth()->user()->managedCategories()->pluck('categories.id');
+
+        if ($managedCategories->isEmpty()) {
+            return back()->with('error', 'Anda belum mengelola kategori apapun');
+        }
+
+        $count = Registration::whereIn('category_id', $managedCategories)->count();
+
+        if ($count === 0) {
+            return back()->with('error', 'Tidak ada data registrasi untuk diexport');
+        }
+
+        return Excel::download(
+            new RegistrationsExport($managedCategories),
+            'registrations_' . now()->format('Ymd_His') . '.xlsx'
+        );
     }
 }

@@ -10,7 +10,7 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
             <Head title="Profile" />
 
             <div className="py-8">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+                <div className="max-w-5xl mx-auto lg:px-8 space-y-6">
                     {/* Profile Header */}
                     <div className="text-center mb-8">
                         <div className="mx-auto h-24 w-24 rounded-full bg-gradient-to-br from-[#259148] to-[#4CAF50] flex items-center justify-center text-white text-4xl font-bold mb-4">
