@@ -55,8 +55,8 @@ const LoginPage = () => {
             <Head title="Log in" />
             <div className="min-h-screen bg-gradient-to-br from-[#f0fdf4] to-[#dcfce7] flex flex-col">
                 {/* Floating decorative elements */}
-                <div className="fixed top-20 left-10 w-40 h-40 bg-[#259148]/10 rounded-full filter blur-xl animate-float1"></div>
-                <div className="fixed bottom-20 right-10 w-40 h-40 bg-[#FFC107]/10 rounded-full filter blur-xl animate-float2"></div>
+                <div className="fixed top-20 left-10 w-40 h-40 bg-[#259148]/10 rounded-full filter blur-xl animate-float1 -z-10"></div>
+                <div className="fixed bottom-20 right-10 w-40 h-40 bg-[#FFC107]/10 rounded-full filter blur-xl animate-float2 -z-10"></div>
 
                 {/* Main Content */}
                 <main className="flex-grow flex items-center justify-center p-4">
