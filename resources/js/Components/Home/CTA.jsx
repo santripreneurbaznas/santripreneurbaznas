@@ -89,7 +89,7 @@ const RegistrationCTA = () => {
                     {/* CTA Buttons */}
                     <div className="flex flex-col sm:flex-row justify-center gap-4 animate-fadeIn delay-500">
                         <button
-                            onClick={() => (window.location.href = "/klaster")}
+                            onClick={() => (window.location.href = "/login")}
                             className="px-8 py-4 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 flex items-center justify-center"
                         >
                             Daftar Sekarang

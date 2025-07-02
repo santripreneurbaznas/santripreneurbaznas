@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Head, usePage, router } from "@inertiajs/react";
+import { Head, usePage, router, Link } from "@inertiajs/react";
 import { toast } from "sonner";
 
 const LoginPage = () => {
@@ -217,14 +217,6 @@ const LoginPage = () => {
                                                 Ingat saya
                                             </label>
                                         </div>
-                                        <div className="text-sm">
-                                            <a
-                                                href={route("password.request")}
-                                                className="font-medium text-[#259148] hover:underline"
-                                            >
-                                                Lupa password?
-                                            </a>
-                                        </div>
                                     </div>
 
                                     {/* Submit Button */}
@@ -287,20 +279,36 @@ const LoginPage = () => {
                                         </button>
                                     </motion.div>
                                 </form>
+
+                                <div>
+                                    <div className="mt-6 text-center text-sm text-gray-600">
+                                        <p>
+                                            Belum punya akun?{" "}
+                                            <Link
+                                                href={route("register")}
+                                                className="text-[#259148] hover:underline font-medium"
+                                            >
+                                                Daftar sekarang
+                                            </Link>
+                                        </p>
+                                    </div>
+                                    <div className="mt-2 text-center text-sm text-gray-600">
+                                        <p>
+                                            Lupa Kata Sandi ?{" "}
+                                            <Link
+                                                href={route("password.request")}
+                                                className="text-[#259148] hover:underline font-medium"
+                                            >
+                                                Reset Kata Sandi
+                                            </Link>
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
                         {/* Footer */}
                         <div className="mt-6 text-center text-sm text-gray-600">
-                            <p>
-                                Belum punya akun?{" "}
-                                <a
-                                    href={route("register")}
-                                    className="text-[#259148] hover:underline font-medium"
-                                >
-                                    Daftar sekarang
-                                </a>
-                            </p>
                             <p className="mt-2">
                                 © {new Date().getFullYear()} Santripreneur. All
                                 rights reserved.

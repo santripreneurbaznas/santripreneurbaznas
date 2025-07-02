@@ -86,7 +86,7 @@ const Navbar = () => {
                     {/* Desktop Icons */}
                     <div className="hidden md:flex items-center space-x-6">
                         <motion.button
-                            onClick={() => (window.location.href = "/klaster")}
+                            onClick={() => (window.location.href = "/login")}
                             whileHover={{ scale: 0.9 }}
                             whileTap={{ scale: 0.9 }}
                             className="bg-[#FFC107] py-2 px-4 font-semibold rounded-lg text-primary  mx-auto border-2 border-white"
@@ -146,7 +146,7 @@ const Navbar = () => {
                                 <div className="flex items-center  pt-2 border-t border-gray-200">
                                     <motion.button
                                         onClick={() =>
-                                            (window.location.href = "/klaster")
+                                            (window.location.href = "/login")
                                         }
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.9 }}

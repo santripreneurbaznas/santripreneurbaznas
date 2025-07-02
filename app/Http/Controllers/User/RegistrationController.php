@@ -74,11 +74,14 @@ class RegistrationController extends Controller
         // Dapatkan nama user yang login (ganti spasi dengan underscore jika ada)
         $userName = str_replace(' ', '_', auth()->user()->name);
 
-        // Mapping nama file untuk masing-masing tipe
+        // Buat timestamp dalam format Indonesia: tanggalbulantahunjam
+        $timestamp = now()->format('dmYHi'); // Format: tanggal (d), bulan (m), tahun (Y), jam (H), menit (i)
+
+        // Mapping nama file untuk masing-masing tipe dengan menambahkan timestamp
         $fileNames = [
-            'business_proposal' => $userName . '_proposal_bisnis.pdf',
-            'mustahik_certificate' => $userName . '_sertifikat_mustahik.pdf',
-            'pesantren_certificate' => $userName . '_sertifikat_pesantren.pdf'
+            'business_proposal' => $userName . '_' . $timestamp . '_proposal_bisnis.pdf',
+            'mustahik_certificate' => $userName . '_' . $timestamp . '_sertifikat_mustahik.pdf',
+            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf'
         ];
 
         // Simpan file dengan nama yang sudah ditentukan
@@ -165,13 +168,13 @@ class RegistrationController extends Controller
                 'estimated_monthly_income' => $registration->estimated_monthly_income,
                 'number_wa' => $registration->number_wa,
                 'business_proposal_file_url' => $registration->business_proposal_file
-                    ? asset('storage/' . $registration->business_proposal_file)
+                    ? asset('/berkas/storage/' . $registration->business_proposal_file)
                     : null,
                 'mustahik_certificate_file_url' => $registration->mustahik_certificate_file
-                    ? asset('storage/' . $registration->mustahik_certificate_file)
+                    ? asset('/berkas/storage/' . $registration->mustahik_certificate_file)
                     : null,
                 'pesantren_certificate_file_url' => $registration->pesantren_certificate_file
-                    ? asset('storage/' . $registration->pesantren_certificate_file)
+                    ? asset('/berkas/storage/' . $registration->pesantren_certificate_file)
                     : null,
                 'status' => $registration->status,
             ],
@@ -213,11 +216,16 @@ class RegistrationController extends Controller
         // Dapatkan nama user yang login
         $userName = str_replace(' ', '_', auth()->user()->name);
 
-        // Mapping nama file untuk masing-masing tipe
+
+
+        // Buat timestamp dalam format Indonesia: tanggalbulantahunjam
+        $timestamp = now()->format('dmYHi'); // Format: tanggal (d), bulan (m), tahun (Y), jam (H), menit (i)
+
+        // Mapping nama file untuk masing-masing tipe dengan menambahkan timestamp
         $fileNames = [
-            'business_proposal' => $userName . '_proposal_bisnis.pdf',
-            'mustahik_certificate' => $userName . '_sertifikat_mustahik.pdf',
-            'pesantren_certificate' => $userName . '_sertifikat_pesantren.pdf'
+            'business_proposal' => $userName . '_' . $timestamp . '_proposal_bisnis.pdf',
+            'mustahik_certificate' => $userName . '_' . $timestamp . '_sertifikat_mustahik.pdf',
+            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf'
         ];
 
         // Update file yang diubah

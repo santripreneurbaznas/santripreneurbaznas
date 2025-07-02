@@ -179,7 +179,7 @@ const OurPrograms = () => {
                 {/* CTA */}
                 <div className="text-center mt-16 animate-fadeIn delay-500">
                     <button
-                        onClick={() => (window.location.href = "/klaster")}
+                        onClick={() => (window.location.href = "/login")}
                         className="px-8 py-3 bg-[#259148] hover:bg-green-700 text-white font-medium rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 inline-flex items-center"
                     >
                         Bergabung sekarang

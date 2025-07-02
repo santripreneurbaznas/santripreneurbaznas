@@ -83,7 +83,7 @@ const PreFooter = () => {
 
                 <div className="text-center animate-fadeIn delay-500">
                     <Link
-                        href="/klaster"
+                        href="/login"
                         className="relative w-fit px-8 py-4 bg-[#259148] text-white font-bold rounded-full text-lg hover:bg-[#1e7a3d] hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl flex items-center mx-auto overflow-hidden group"
                     >
                         <span className="relative z-10 flex items-center">

@@ -45,7 +45,7 @@ const HeroSection = () => {
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fadeIn delay-200">
                     <Link
-                        href="/klaster"
+                        href="/login"
                         className="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-semibold rounded-lg shadow-lg transform hover:scale-105 transition-all duration-300"
                     >
                         Daftar Sekarang

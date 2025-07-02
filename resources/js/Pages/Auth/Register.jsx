@@ -476,20 +476,22 @@ export default function Register() {
                                         </button>
                                     </motion.div>
                                 </form>
+                                <div className="mt-6 text-center text-sm text-gray-600">
+                                    <p>
+                                        Sudah punya akun?{" "}
+                                        <Link
+                                            href={route("login")}
+                                            className="text-[#259148] hover:underline font-medium"
+                                        >
+                                            Masuk disini
+                                        </Link>
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
                         {/* Footer */}
                         <div className="mt-6 text-center text-sm text-gray-600">
-                            <p>
-                                Sudah punya akun?{" "}
-                                <Link
-                                    href={route("login")}
-                                    className="text-[#259148] hover:underline font-medium"
-                                >
-                                    Masuk disini
-                                </Link>
-                            </p>
                             <p className="mt-2">
                                 © {new Date().getFullYear()} Santripreneur. All
                                 rights reserved.

@@ -130,7 +130,7 @@ const CompetitionCategories = () => {
 
                                     <div className="flex justify-center">
                                         <Link
-                                            href="/klaster"
+                                            href="/login"
                                             className="px-6 py-2 bg-transparent border border-[#259148] text-[#259148] font-medium rounded-lg hover:bg-[#259148] hover:text-white transition-all duration-300"
                                         >
                                             Daftar Sekarang

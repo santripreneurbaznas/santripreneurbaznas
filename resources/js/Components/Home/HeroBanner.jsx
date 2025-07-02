@@ -80,7 +80,7 @@ const HeroBanner = () => {
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fadeIn delay-200">
                         <a
-                            href="/klaster"
+                            href="/login"
                             className="bg-white text-[#259148] px-8 py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg text-center"
                         >
                             Daftar Sekarang
