@@ -6,23 +6,22 @@ export default function UserRegistrationEdit({
     registration,
     auth,
     categories,
+    errors,
 }) {
-    const { data, setData, errors, post, processing, reset, progress } =
-        useForm({
-            category_id: registration.category_id || "",
-            place_of_birth: registration.place_of_birth || "",
-            date_of_birth: registration.date_of_birth || "",
-            gender: registration.gender || "",
-            address: registration.address || "",
-            boarding_school_name: registration.boarding_school_name || "",
-            motivation: registration.motivation || "",
-            estimated_monthly_income:
-                registration.estimated_monthly_income || "",
-            number_wa: registration.number_wa || "",
-            business_proposal_file: null,
-            mustahik_certificate_file: null,
-            pesantren_certificate_file: null,
-        });
+    const { data, setData, post, processing, reset, progress } = useForm({
+        category_id: registration.category_id || "",
+        place_of_birth: registration.place_of_birth || "",
+        date_of_birth: registration.date_of_birth || "",
+        gender: registration.gender || "",
+        address: registration.address || "",
+        boarding_school_name: registration.boarding_school_name || "",
+        motivation: registration.motivation || "",
+        estimated_monthly_income: registration.estimated_monthly_income || "",
+        number_wa: registration.number_wa || "",
+        business_proposal_file: null,
+        mustahik_certificate_file: null,
+        pesantren_certificate_file: null,
+    });
 
     const handleSubmit = (e) => {
         e.preventDefault();
