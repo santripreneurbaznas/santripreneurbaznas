@@ -182,7 +182,9 @@ const Footer = () => {
                                         color: colorPalette.secondaryText,
                                     }}
                                 >
-                                    Jl. Pesantren No. 123, Jawa Timur, Indonesia
+                                    Jl. Matraman Raya No.134 5, RT.5/RW.4, Kb.
+                                    Manggis, Kec. Matraman, Kota Jakarta Timur,
+                                    Daerah Khusus Ibukota Jakarta 13150
                                 </span>
                             </li>
                             <li className="flex items-center">
@@ -206,7 +208,7 @@ const Footer = () => {
                                         color: colorPalette.secondaryText,
                                     }}
                                 >
-                                    +62 123 4567 8910
+                                    +62 81383822698
                                 </span>
                             </li>
                             <li className="flex items-center">
@@ -230,7 +232,7 @@ const Footer = () => {
                                         color: colorPalette.secondaryText,
                                     }}
                                 >
-                                    info@santripreneur.id
+                                    santripreneurbaznas.id@gmail.com
                                 </span>
                             </li>
                         </ul>
