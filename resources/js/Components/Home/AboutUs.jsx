@@ -4,7 +4,7 @@ import React from "react";
 const AboutUs = () => {
     return (
         <section
-            id="#tentang-kami"
+            id="tentang-kami"
             className="relative py-16 md:py-24 bg-white overflow-hidden"
         >
             {/* Floating decorative elements */}

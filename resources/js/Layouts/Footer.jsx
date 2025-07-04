@@ -157,7 +157,7 @@ const Footer = () => {
                         <ul className="space-y-4">
                             <li className="flex items-start">
                                 <svg
-                                    className="w-5 h-5 mr-3 mt-0.5"
+                                    className="w-12 h-12 mr-3 mt-0.5"
                                     fill="none"
                                     stroke="currentColor"
                                     viewBox="0 0 24 24"
@@ -309,29 +309,6 @@ const Footer = () => {
                         &copy; {new Date().getFullYear()} Santripreneur. All
                         rights reserved.
                     </p>
-                    <div className="flex justify-center space-x-6 mt-4">
-                        <a
-                            href="#"
-                            className="hover:underline transition-colors duration-300"
-                            style={{ color: colorPalette.secondaryText }}
-                        >
-                            Terms of Service
-                        </a>
-                        <a
-                            href="#"
-                            className="hover:underline transition-colors duration-300"
-                            style={{ color: colorPalette.secondaryText }}
-                        >
-                            Privacy Policy
-                        </a>
-                        <a
-                            href="#"
-                            className="hover:underline transition-colors duration-300"
-                            style={{ color: colorPalette.secondaryText }}
-                        >
-                            Sitemap
-                        </a>
-                    </div>
                 </div>
             </div>
         </footer>
