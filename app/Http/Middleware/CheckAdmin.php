@@ -15,8 +15,13 @@ class CheckAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!auth()->check() || !auth()->user()->isAdmin()) {
-            abort(403);
+        if (!auth()->check()) {
+            // Untuk pengguna yang belum login
+            return redirect()->guest(route('login'));
+        }
+
+        if (!auth()->user()->isAdmin()) {
+            abort(403, 'Anda tidak memiliki akses sebagai Admin');
         }
 
         return $next($request);

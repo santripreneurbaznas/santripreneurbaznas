@@ -16,7 +16,7 @@ class CheckSuperAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (!auth()->check() || !auth()->user()->isSuperAdmin()) {
-            abort(403);
+            abort(403, 'Anda tidak memiliki akses sebagai Super Admin');
         }
         return $next($request);
     }

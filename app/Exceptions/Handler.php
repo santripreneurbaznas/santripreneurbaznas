@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Inertia\Inertia;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -39,10 +40,28 @@ class Handler extends ExceptionHandler
     /**
      * Register the exception handling callbacks for the application.
      */
-    public function register(): void
+    public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        // Tangani AuthorizationException (untuk Gates/Policies)
+        $this->renderable(function (\Illuminate\Auth\Access\AuthorizationException $e, $request) {
+            return $this->prepareForbiddenResponse($e->getMessage(), $request);
         });
+
+        // Tangani HttpException dengan kode 403
+        $this->renderable(function (\Symfony\Component\HttpKernel\Exception\HttpException $e, $request) {
+            if ($e->getStatusCode() === 403) {
+                return $this->prepareForbiddenResponse($e->getMessage(), $request);
+            }
+            return null;
+        });
+    }
+
+    protected function prepareForbiddenResponse($message, $request)
+    {
+        if ($request->expectsJson()) {
+            return response()->json(['message' => $message], 403);
+        }
+
+        return Inertia::render('Errors/GreenForbidden')->toResponse($request)->setStatusCode(403);
     }
 }
