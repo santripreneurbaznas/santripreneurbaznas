@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { toast } from "sonner";
+import axios from "axios";
+import { debounce } from "@/Utils/debounce";
 
 export default function RegistrationForm({ competition, categories, errors }) {
+    const [provinces, setProvinces] = useState([]);
+    const [regencies, setRegencies] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [villages, setVillages] = useState([]);
+    const [loading, setLoading] = useState({
+        provinces: false,
+        regencies: false,
+        districts: false,
+        villages: false,
+    });
+    const [error, setError] = useState({
+        provinces: null,
+        regencies: null,
+        districts: null,
+        villages: null,
+    });
+
     const { data, setData, post, processing } = useForm({
         competition_id: competition.id,
         category_id: "",
@@ -11,6 +30,10 @@ export default function RegistrationForm({ competition, categories, errors }) {
         date_of_birth: "",
         gender: "",
         address: "",
+        province: "",
+        kabupaten: "",
+        kecamatan: "",
+        kelurahan: "",
         boarding_school_name: "",
         motivation: "",
         estimated_monthly_income: "",
@@ -19,6 +42,126 @@ export default function RegistrationForm({ competition, categories, errors }) {
         mustahik_certificate_file: null,
         pesantren_certificate_file: null,
     });
+
+    // Fetch provinces saat komponen mount
+    useEffect(() => {
+        const fetchProvinces = async () => {
+            setLoading((prev) => ({ ...prev, provinces: true }));
+            setError((prev) => ({ ...prev, provinces: null }));
+            try {
+                const response = await axios.get("/api/wilayah/provinces");
+                setProvinces(response.data);
+            } catch (err) {
+                console.error("Error fetching provinces:", err);
+                setError((prev) => ({
+                    ...prev,
+                    provinces: "Gagal memuat data provinsi",
+                }));
+                toast.error("Gagal memuat data provinsi");
+            } finally {
+                setLoading((prev) => ({ ...prev, provinces: false }));
+            }
+        };
+        fetchProvinces();
+    }, []);
+    // Debounced province change handler
+    const handleProvinceChange = debounce(async (e) => {
+        const provinceId = e.target.value;
+        const provinceName = e.target.options[e.target.selectedIndex].text;
+
+        setData("province", provinceName);
+        setData("kabupaten", "");
+        setData("kecamatan", "");
+        setData("kelurahan", "");
+
+        if (provinceId) {
+            setLoading((prev) => ({ ...prev, regencies: true }));
+            setError((prev) => ({ ...prev, regencies: null }));
+            try {
+                const response = await axios.get(
+                    `/api/wilayah/regencies/${provinceId}`
+                );
+                setRegencies(response.data);
+            } catch (err) {
+                console.error("Error fetching regencies:", err);
+                setError((prev) => ({
+                    ...prev,
+                    regencies: "Gagal memuat data kabupaten",
+                }));
+                toast.error("Gagal memuat data kabupaten");
+            } finally {
+                setLoading((prev) => ({ ...prev, regencies: false }));
+            }
+        }
+        setDistricts([]);
+        setVillages([]);
+    }, 300); // Debounce 300ms
+
+    // Handle perubahan kabupaten
+    const handleRegencyChange = debounce(async (e) => {
+        const regencyId = e.target.value;
+        const regencyName = e.target.options[e.target.selectedIndex].text;
+
+        setData("kabupaten", regencyName);
+        setData("kecamatan", "");
+        setData("kelurahan", "");
+
+        if (regencyId) {
+            setLoading((prev) => ({ ...prev, districts: true }));
+            setError((prev) => ({ ...prev, districts: null }));
+            try {
+                const response = await axios.get(
+                    `/api/wilayah/districts/${regencyId}`
+                );
+                setDistricts(response.data);
+            } catch (err) {
+                console.error("Error fetching districts:", err);
+                setError((prev) => ({
+                    ...prev,
+                    districts: "Gagal memuat data kecamatan",
+                }));
+                toast.error("Gagal memuat data kecamatan");
+            } finally {
+                setLoading((prev) => ({ ...prev, districts: false }));
+            }
+        }
+        setVillages([]);
+    }, 300);
+
+    // Handle perubahan kecamatan
+    const handleDistrictChange = debounce(async (e) => {
+        const districtId = e.target.value;
+        const districtName = e.target.options[e.target.selectedIndex].text;
+
+        setData("kecamatan", districtName);
+        setData("kelurahan", "");
+
+        if (districtId) {
+            setLoading((prev) => ({ ...prev, villages: true }));
+            setError((prev) => ({ ...prev, villages: null }));
+            try {
+                const response = await axios.get(
+                    `/api/wilayah/villages/${districtId}`
+                );
+                setVillages(response.data);
+            } catch (err) {
+                console.error("Error fetching villages:", err);
+                setError((prev) => ({
+                    ...prev,
+                    villages: "Gagal memuat data kelurahan",
+                }));
+                toast.error("Gagal memuat data kelurahan");
+            } finally {
+                setLoading((prev) => ({ ...prev, villages: false }));
+            }
+        }
+    }, 300);
+
+    // Handle perubahan kelurahan
+    const handleVillageChange = (e) => {
+        const villageName = e.target.options[e.target.selectedIndex].text;
+        setData("kelurahan", villageName);
+    };
 
     const handleSubmit = (e) => {
         if (
@@ -260,6 +403,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                     </label>
                                     <textarea
                                         name="address"
+                                        placeholder="Contoh : Jl.Rusa 1"
                                         value={data.address}
                                         onChange={(e) =>
                                             setData("address", e.target.value)
@@ -272,11 +416,261 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                         required
                                     ></textarea>
+                                    <p className="mt-1 text-sm text-gray-500">
+                                        Isi alamat{" "}
+                                        <span className="font-bold">tanpa</span>{" "}
+                                        menyertakan RT/RW dan kode pos
+                                    </p>
                                     {errors.address && (
                                         <p className="mt-1 text-sm text-red-600">
                                             {errors.address}
                                         </p>
                                     )}
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Provinsi */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Provinsi{" "}
+                                            <span className="text-red-500">
+                                                *
+                                            </span>
+                                        </label>
+                                        <select
+                                            onChange={(e) => {
+                                                e.persist();
+                                                handleProvinceChange(e);
+                                            }}
+                                            disabled={loading.provinces}
+                                            className={`mt-1 block w-full rounded-md border ${
+                                                errors.province
+                                                    ? "border-red-300"
+                                                    : "border-gray-300"
+                                            } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
+                                                loading.provinces
+                                                    ? "opacity-75 cursor-not-allowed"
+                                                    : ""
+                                            }`}
+                                            required
+                                        >
+                                            <option value="">
+                                                -- Pilih Provinsi --
+                                            </option>
+                                            {loading.provinces ? (
+                                                <option value="" disabled>
+                                                    Memuat provinsi...
+                                                </option>
+                                            ) : error.provinces ? (
+                                                <option
+                                                    value=""
+                                                    disabled
+                                                    className="text-red-500"
+                                                >
+                                                    {error.provinces}
+                                                </option>
+                                            ) : (
+                                                provinces.map((province) => (
+                                                    <option
+                                                        key={province.id}
+                                                        value={province.id}
+                                                    >
+                                                        {province.name}
+                                                    </option>
+                                                ))
+                                            )}
+                                        </select>
+                                        {errors.province && (
+                                            <p className="mt-1 text-sm text-red-600">
+                                                {errors.province}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Kabupaten/Kota */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Kabupaten/Kota{" "}
+                                            <span className="text-red-500">
+                                                *
+                                            </span>
+                                        </label>
+                                        <select
+                                            onChange={(e) => {
+                                                e.persist();
+                                                handleRegencyChange(e);
+                                            }}
+                                            disabled={
+                                                !data.province ||
+                                                loading.regencies
+                                            }
+                                            className={`mt-1 block w-full rounded-md border ${
+                                                errors.kabupaten
+                                                    ? "border-red-300"
+                                                    : "border-gray-300"
+                                            } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
+                                                !data.province ||
+                                                loading.regencies
+                                                    ? "bg-gray-100 opacity-75 cursor-not-allowed"
+                                                    : ""
+                                            }`}
+                                            required
+                                        >
+                                            <option value="">
+                                                -- Pilih Kabupaten/Kota --
+                                            </option>
+                                            {loading.regencies ? (
+                                                <option value="" disabled>
+                                                    Memuat kabupaten...
+                                                </option>
+                                            ) : error.regencies ? (
+                                                <option
+                                                    value=""
+                                                    disabled
+                                                    className="text-red-500"
+                                                >
+                                                    {error.regencies}
+                                                </option>
+                                            ) : (
+                                                regencies.map((regency) => (
+                                                    <option
+                                                        key={regency.id}
+                                                        value={regency.id}
+                                                    >
+                                                        {regency.name}
+                                                    </option>
+                                                ))
+                                            )}
+                                        </select>
+                                        {errors.kabupaten && (
+                                            <p className="mt-1 text-sm text-red-600">
+                                                {errors.kabupaten}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Kecamatan */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Kecamatan{" "}
+                                            <span className="text-red-500">
+                                                *
+                                            </span>
+                                        </label>
+                                        <select
+                                            onChange={(e) => {
+                                                e.persist();
+                                                handleDistrictChange(e);
+                                            }}
+                                            disabled={
+                                                !data.kabupaten ||
+                                                loading.districts
+                                            }
+                                            className={`mt-1 block w-full rounded-md border ${
+                                                errors.kecamatan
+                                                    ? "border-red-300"
+                                                    : "border-gray-300"
+                                            } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
+                                                !data.kabupaten ||
+                                                loading.districts
+                                                    ? "bg-gray-100 opacity-75 cursor-not-allowed"
+                                                    : ""
+                                            }`}
+                                            required
+                                        >
+                                            <option value="">
+                                                -- Pilih Kecamatan --
+                                            </option>
+                                            {loading.districts ? (
+                                                <option value="" disabled>
+                                                    Memuat kecamatan...
+                                                </option>
+                                            ) : error.districts ? (
+                                                <option
+                                                    value=""
+                                                    disabled
+                                                    className="text-red-500"
+                                                >
+                                                    {error.districts}
+                                                </option>
+                                            ) : (
+                                                districts.map((district) => (
+                                                    <option
+                                                        key={district.id}
+                                                        value={district.id}
+                                                    >
+                                                        {district.name}
+                                                    </option>
+                                                ))
+                                            )}
+                                        </select>
+                                        {errors.kecamatan && (
+                                            <p className="mt-1 text-sm text-red-600">
+                                                {errors.kecamatan}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* Kelurahan/Desa */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            Kelurahan/Desa{" "}
+                                            <span className="text-red-500">
+                                                *
+                                            </span>
+                                        </label>
+                                        <select
+                                            onChange={(e) => {
+                                                e.persist();
+                                                handleVillageChange(e);
+                                            }}
+                                            disabled={
+                                                !data.kecamatan ||
+                                                loading.villages
+                                            }
+                                            className={`mt-1 block w-full rounded-md border ${
+                                                errors.kelurahan
+                                                    ? "border-red-300"
+                                                    : "border-gray-300"
+                                            } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
+                                                !data.kecamatan ||
+                                                loading.villages
+                                                    ? "bg-gray-100 opacity-75 cursor-not-allowed"
+                                                    : ""
+                                            }`}
+                                            required
+                                        >
+                                            <option value="">
+                                                -- Pilih Kelurahan/Desa --
+                                            </option>
+                                            {loading.villages ? (
+                                                <option value="" disabled>
+                                                    Memuat kelurahan...
+                                                </option>
+                                            ) : error.villages ? (
+                                                <option
+                                                    value=""
+                                                    disabled
+                                                    className="text-red-500"
+                                                >
+                                                    {error.villages}
+                                                </option>
+                                            ) : (
+                                                villages.map((village) => (
+                                                    <option
+                                                        key={village.id}
+                                                        value={village.id}
+                                                    >
+                                                        {village.name}
+                                                    </option>
+                                                ))
+                                            )}
+                                        </select>
+                                        {errors.kelurahan && (
+                                            <p className="mt-1 text-sm text-red-600">
+                                                {errors.kelurahan}
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
 
                                 {/* Pesantren Information Section */}

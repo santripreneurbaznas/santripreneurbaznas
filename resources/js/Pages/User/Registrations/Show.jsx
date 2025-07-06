@@ -57,16 +57,6 @@ export default function UserRegistrationShow({ auth }) {
                             <span
                                 className={`px-4 py-2 rounded-full text-sm font-semibold bg-green-100 text-green-800`}
                             >
-                                {/* <span
-                                className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(
-                                    registration.status
-                                )}`}
-                            > */}
-                                {/* {registration.status === "approved"
-                                    ? "Disetujui"
-                                    : registration.status === "rejected"
-                                    ? "Ditolak"
-                                    : "Menunggu"} */}
                                 Terdaftar
                             </span>
                         </div>
@@ -106,7 +96,7 @@ export default function UserRegistrationShow({ auth }) {
                                         Jenis Kelamin
                                     </p>
                                     <p className="text-gray-800">
-                                        {registration.gender === "male"
+                                        {registration.gender === "Laki-laki"
                                             ? "Laki-laki"
                                             : "Perempuan"}
                                     </p>
@@ -116,7 +106,7 @@ export default function UserRegistrationShow({ auth }) {
                             <div className="space-y-4">
                                 <div>
                                     <p className="text-sm font-medium text-gray-500">
-                                        Alamat
+                                        Alamat Lengkap
                                     </p>
                                     <p className="text-gray-800">
                                         {registration.address}
@@ -131,6 +121,43 @@ export default function UserRegistrationShow({ auth }) {
                                         {registration.number_wa}
                                     </p>
                                 </div>
+                            </div>
+                        </div>
+
+                        {/* Tambahkan bagian alamat lengkap di sini */}
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Provinsi
+                                </p>
+                                <p className="text-gray-800 flex items-center">
+                                    <FiMapPin className="mr-2 text-gray-500" />
+                                    {registration.province}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Kabupaten/Kota
+                                </p>
+                                <p className="text-gray-800">
+                                    {registration.kabupaten}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Kecamatan
+                                </p>
+                                <p className="text-gray-800">
+                                    {registration.kecamatan}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Kelurahan/Desa
+                                </p>
+                                <p className="text-gray-800">
+                                    {registration.kelurahan}
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -3,38 +3,38 @@ import React from "react";
 const Timeline = () => {
     const events = [
         {
-            date: "1 Juli 2025",
+            date: "8 Juli 2025",
             title: "Pendaftaran Dibuka",
             description:
                 "Pendaftaran kompetisi resmi dibuka untuk seluruh santripreneur",
             icon: "📅",
         },
         {
-            date: "15 Agustus 2025",
+            date: "31 Juli 2025",
             title: "Batas Akhir Pendaftaran",
             description: "Batas akhir pengumpulan proposal bisnis",
             icon: "⏰",
         },
         {
-            date: "1 September 2025",
+            date: "To Be Announced on August 2025",
             title: "Pengumuman Seleksi",
             description: "Pengumuman peserta yang lolos ke tahap berikutnya",
             icon: "📢",
         },
         {
-            date: "15 September 2025",
+            date: "To Be Announced on August 2025",
             title: "Bootcamp Santripreneur",
             description: "Pelatihan intensif untuk finalis",
             icon: "🎓",
         },
         {
-            date: "10 Oktober 2025",
+            date: "To Be Announced on August 2025",
             title: "Final Kompetisi",
             description: "Presentasi final di hadapan dewan juri",
             icon: "🏆",
         },
         {
-            date: "17 Oktober 2025",
+            date: "To Be Announced on August 2025",
             title: "Pengumuman Pemenang",
             description: "Malam penganugerahan pemenang kompetisi",
             icon: "🎉",

@@ -3,7 +3,7 @@ import React from "react";
 const PreFooter = () => {
     const partners = [
         { name: "BAZNAS RI", logo: "/images/baznas.png" },
-        { name: "SantriGo", logo: "/images/santrigo.png" },
+
         { name: "Al Ittifaq", logo: "/images/alittifaq.png" },
         { name: "IPB", logo: "/images/ipb.png" },
     ];

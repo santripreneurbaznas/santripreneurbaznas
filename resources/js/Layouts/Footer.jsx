@@ -232,7 +232,7 @@ const Footer = () => {
                                         color: colorPalette.secondaryText,
                                     }}
                                 >
-                                    santripreneurbaznas.id@gmail.com
+                                    connect@santripreneurbaznas.id
                                 </span>
                             </li>
                         </ul>

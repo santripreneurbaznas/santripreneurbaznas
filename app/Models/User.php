@@ -30,12 +30,14 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'nik',
         'role_id',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+
     ];
 
     protected $casts = [

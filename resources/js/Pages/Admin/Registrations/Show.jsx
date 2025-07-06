@@ -143,6 +143,41 @@ export default function UserRegistrationShow({ auth }) {
                                 </div>
                             </div>
                         </div>
+                        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Provinsi
+                                </p>
+                                <p className="text-gray-800 flex items-center">
+                                    <FiMapPin className="mr-2 text-gray-500" />
+                                    {registration.province}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Kabupaten/Kota
+                                </p>
+                                <p className="text-gray-800">
+                                    {registration.kabupaten}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Kecamatan
+                                </p>
+                                <p className="text-gray-800">
+                                    {registration.kecamatan}
+                                </p>
+                            </div>
+                            <div>
+                                <p className="text-sm font-medium text-gray-500">
+                                    Kelurahan/Desa
+                                </p>
+                                <p className="text-gray-800">
+                                    {registration.kelurahan}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     {/* Pesantren Information Section */}

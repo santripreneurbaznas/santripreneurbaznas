@@ -53,20 +53,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role_id' => 'required|exists:roles,id',
-            'category_ids' => 'nullable|array', // Tambahkan validasi untuk category_ids
-            'category_ids.*' => 'exists:categories,id'
+            'nik' => 'required|string|unique:users',
+            // 'category_ids' => 'nullable|array', // Tambahkan validasi untuk category_ids
+            // 'category_ids.*' => 'exists:categories,id'
         ]);
 
         $user =   User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role_id
+            'role_id' => 3,
+            'nik' => $request->nik
         ]);
 
         if ($request->role_id == 2 && !empty($request->category_ids)) {
@@ -97,7 +99,6 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
 
 
         $request->validate([

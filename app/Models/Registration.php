@@ -9,7 +9,7 @@ class Registration extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'competition_id', 'status', 'category_id', 'place_of_birth', 'date_of_birth', 'gender', 'address', 'boarding_school_name', 'motivation', 'estimated_monthly_income', 'number_wa', 'business_proposal_file', 'mustahik_certificate_file', 'pesantren_certificate_file'];
+    protected $fillable = ['user_id', 'competition_id', 'status', 'category_id', 'place_of_birth', 'date_of_birth', 'gender', 'address', 'province', 'kabupaten', 'kecamatan', 'kelurahan', 'boarding_school_name', 'motivation', 'estimated_monthly_income', 'number_wa', 'business_proposal_file', 'mustahik_certificate_file', 'pesantren_certificate_file'];
 
     public function user()
     {

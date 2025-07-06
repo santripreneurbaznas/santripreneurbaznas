@@ -21,6 +21,10 @@ return new class extends Migration
             $table->date('date_of_birth');
             $table->string('gender');
             $table->string('address');
+            $table->string('province');
+            $table->string('kabupaten');
+            $table->string('kecamatan');
+            $table->string('kelurahan');
             $table->string('boarding_school_name');
             $table->string('motivation');
             $table->string('estimated_monthly_income');

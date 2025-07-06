@@ -62,6 +62,10 @@ class RegistrationController extends Controller
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:Laki-laki,Perempuan',
             'address' => 'required|string|max:255',
+            'province' => 'required|string|max:100',
+            'kabupaten' => 'required|string|max:100',
+            'kecamatan' => 'required|string|max:100',
+            'kelurahan' => 'required|string|max:100',
             'boarding_school_name' => 'required|string|max:100',
             'motivation' => 'required|string|max:500',
             'estimated_monthly_income' => 'required|string|max:50',
@@ -163,6 +167,10 @@ class RegistrationController extends Controller
                 'date_of_birth' => $registration->date_of_birth,
                 'gender' => $registration->gender,
                 'address' => $registration->address,
+                'province' => $registration->province,
+                'kabupaten' => $registration->kabupaten,
+                'kecamatan' => $registration->kecamatan,
+                'kelurahan' => $registration->kelurahan,
                 'boarding_school_name' => $registration->boarding_school_name,
                 'motivation' => $registration->motivation,
                 'estimated_monthly_income' => $registration->estimated_monthly_income,
@@ -188,6 +196,8 @@ class RegistrationController extends Controller
     // app/Http/Controllers/User/UserRegistrationController.php
     public function update(Request $request, Registration $registration)
     {
+
+        // dd($request->all());
         // Validasi kepemilikan
         if ($registration->user_id !== auth()->id()) {
             abort(403);
@@ -204,6 +214,10 @@ class RegistrationController extends Controller
             'date_of_birth' => 'sometimes|required|date',
             'gender' => 'sometimes|required|in:Laki-laki,Perempuan',
             'address' => 'sometimes|required|string|max:255',
+            'province' => 'sometimes|required|string|max:100',
+            'kabupaten' => 'sometimes|required|string|max:100',
+            'kecamatan' => 'sometimes|required|string|max:100',
+            'kelurahan' => 'sometimes|required|string|max:100',
             'boarding_school_name' => 'sometimes|required|string|max:100',
             'motivation' => 'sometimes|required|string|max:500',
             'estimated_monthly_income' => 'sometimes|required|string|max:50',
@@ -255,6 +269,10 @@ class RegistrationController extends Controller
             'date_of_birth',
             'gender',
             'address',
+            'province',
+            'kabupaten',
+            'kecamatan',
+            'kelurahan',
             'boarding_school_name',
             'motivation',
             'estimated_monthly_income',

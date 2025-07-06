@@ -37,6 +37,10 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
             'Tanggal Lahir',
             'Jenis Kelamin',
             'Alamat',
+            'Provinsi',
+            'Kabupaten',
+            'Kecamatan',
+            'Kelurahan',
             'Nama Pesantren',
             'Motivasi',
             'Perkiraan Penghasilan Bulanan',
@@ -60,6 +64,10 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
             $reg->date_of_birth,
             $reg->gender,
             $reg->address,
+            $reg->province,
+            $reg->kabupaten,
+            $reg->kecamatan,
+            $reg->kelurahan,
             $reg->boarding_school_name,
             $reg->motivation,
             $reg->estimated_monthly_income,
@@ -74,7 +82,7 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
     public function styles(Worksheet $sheet)
     {
         // Style untuk header
-        $sheet->getStyle('A1:O1')->applyFromArray([
+        $sheet->getStyle('A1:S1')->applyFromArray([
             'font' => [
                 'bold' => true
             ],
@@ -90,7 +98,7 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
         ]);
 
         // Style untuk seluruh data
-        $sheet->getStyle('A2:O' . $sheet->getHighestRow())
+        $sheet->getStyle('A2:S' . $sheet->getHighestRow())
             ->applyFromArray([
                 'borders' => [
                     'allBorders' => [
@@ -100,12 +108,12 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
                 ]
             ]);
 
-        // Warna hijau untuk kolom Nilai
-        $sheet->getStyle('O2:O' . $sheet->getHighestRow())
+        // Warna hijau untuk kolom Nilai (kolom S)
+        $sheet->getStyle('S2:S' . $sheet->getHighestRow())
             ->applyFromArray([
                 'fill' => [
                     'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '90EE90']
+                    'startColor' => ['rgb' => '90EE90'] // Warna hijau muda
                 ]
             ]);
 
@@ -113,27 +121,27 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
         $highestRow = $sheet->getHighestRow();
 
         for ($row = 2; $row <= $highestRow; $row++) {
-            // Proposal Bisnis (L kolom)
-            $sheet->getCell("L{$row}")->getHyperlink()->setUrl($sheet->getCell("L{$row}")->getValue());
-            $sheet->getStyle("L{$row}")->applyFromArray([
+            // Proposal Bisnis (P kolom - index 15)
+            $sheet->getCell("P{$row}")->getHyperlink()->setUrl($sheet->getCell("P{$row}")->getValue());
+            $sheet->getStyle("P{$row}")->applyFromArray([
                 'font' => [
                     'color' => ['rgb' => '0563C1'],
                     'underline' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_SINGLE
                 ]
             ]);
 
-            // Sertifikat Mustahik (M kolom)
-            $sheet->getCell("M{$row}")->getHyperlink()->setUrl($sheet->getCell("M{$row}")->getValue());
-            $sheet->getStyle("M{$row}")->applyFromArray([
+            // Sertifikat Mustahik (Q kolom - index 16)
+            $sheet->getCell("Q{$row}")->getHyperlink()->setUrl($sheet->getCell("Q{$row}")->getValue());
+            $sheet->getStyle("Q{$row}")->applyFromArray([
                 'font' => [
                     'color' => ['rgb' => '0563C1'],
                     'underline' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_SINGLE
                 ]
             ]);
 
-            // Sertifikat Pesantren (N kolom)
-            $sheet->getCell("N{$row}")->getHyperlink()->setUrl($sheet->getCell("N{$row}")->getValue());
-            $sheet->getStyle("N{$row}")->applyFromArray([
+            // Sertifikat Pesantren (R kolom - index 17)
+            $sheet->getCell("R{$row}")->getHyperlink()->setUrl($sheet->getCell("R{$row}")->getValue());
+            $sheet->getStyle("R{$row}")->applyFromArray([
                 'font' => [
                     'color' => ['rgb' => '0563C1'],
                     'underline' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_SINGLE
@@ -142,7 +150,7 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
         }
 
         // Auto size kolom
-        foreach (range('A', 'O') as $columnID) {
+        foreach (range('A', 'S') as $columnID) {
             $sheet->getColumnDimension($columnID)->setAutoSize(true);
         }
 

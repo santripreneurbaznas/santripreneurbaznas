@@ -36,6 +36,7 @@ export default function SuperAdminUsersIndex({ auth }) {
         role_id: "",
         password: "",
         password_confirmation: "",
+        nik: "",
         category_ids: [],
     });
     const [errors, setErrors] = useState({});
@@ -113,6 +114,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                 name: currentUser.name,
                 email: currentUser.email,
                 role_id: currentUser.role_id,
+                nik: currentUser.nik,
                 password: "",
                 password_confirmation: "",
                 category_ids:
@@ -201,7 +203,7 @@ export default function SuperAdminUsersIndex({ auth }) {
         });
     };
 
-    console.log(users);
+    // console.log(users);
 
     return (
         <AuthenticatedLayout>
@@ -656,7 +658,30 @@ export default function SuperAdminUsersIndex({ auth }) {
                             )}
                         </div>
 
-                        {/* Role */}
+                        {/* NIK */}
+                        <div className="col-span-1">
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                NIK
+                            </label>
+                            <input
+                                type="text"
+                                name="nik"
+                                value={formData.nik}
+                                onChange={handleInputChange}
+                                className={`w-full rounded-md border ${
+                                    errors.nik
+                                        ? "border-red-500"
+                                        : "border-gray-300"
+                                } px-3 py-2 focus:outline-none focus:ring-2 focus:ring-green-500`}
+                            />
+                            {errors.nik && (
+                                <p className="mt-1 text-sm text-red-600">
+                                    {errors.nik}
+                                </p>
+                            )}
+                        </div>
+
+                        {/* Role
                         <div className="col-span-1">
                             <label className="block text-sm font-medium text-gray-700 mb-1">
                                 Role
@@ -683,7 +708,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                                     {errors.role_id}
                                 </p>
                             )}
-                        </div>
+                        </div> */}
 
                         {/* Password */}
                         {!isEditing && (

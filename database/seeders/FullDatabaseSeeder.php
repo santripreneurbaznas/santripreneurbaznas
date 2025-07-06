@@ -26,6 +26,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'superadmin',
                 'email' => 'santripreneurbaznas.id@gmail.com',
                 'password' => Hash::make('Bismillah.123'),
+                'nik' => null,
                 'role_id' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -34,6 +35,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'Santrigo',
                 'email' => 'official.santrigo@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => null,
                 'role_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -42,6 +44,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'admin1',
                 'email' => 'admin1@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => null,
                 'role_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -50,6 +53,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'admin2',
                 'email' => 'admin2@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => null,
                 'role_id' => 2,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -58,6 +62,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'user1',
                 'email' => 'user1@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => rand(80000000, 9999999999),
                 'role_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -66,6 +71,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'user2',
                 'email' => 'user2@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => rand(80000000, 9999999999),
                 'role_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -74,6 +80,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'user3',
                 'email' => 'user3@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => rand(80000000, 9999999999),
                 'role_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -82,6 +89,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'user4',
                 'email' => 'user4@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => rand(80000000, 9999999999),
                 'role_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -90,6 +98,7 @@ class FullDatabaseSeeder extends Seeder
                 'name' => 'user5',
                 'email' => 'user5@gmail.com',
                 'password' => Hash::make('password'),
+                'nik' => rand(80000000, 9999999999),
                 'role_id' => 3,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -162,30 +171,153 @@ class FullDatabaseSeeder extends Seeder
             ],
         ];
         DB::table('admin_category_access')->insert($adminAccess);
+        // 7. Registration
+        // 7. Registration
+        $indonesiaRegions = [
+            [
+                'province' => 'Jawa Barat',
+                'regencies' => [
+                    [
+                        'name' => 'Kabupaten Bandung',
+                        'districts' => [
+                            [
+                                'name' => 'Cimenyan',
+                                'villages' => ['Cimenyan', 'Mekarsaluyu', 'Padasuka']
+                            ],
+                            [
+                                'name' => 'Cileunyi',
+                                'villages' => ['Cileunyi Kulon', 'Cileunyi Wetan', 'Cinunuk']
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'Kota Bandung',
+                        'districts' => [
+                            [
+                                'name' => 'Sukajadi',
+                                'villages' => ['Sukagalih', 'Sukawarna', 'Cipedes']
+                            ],
+                            [
+                                'name' => 'Coblong',
+                                'villages' => ['Dago', 'Lebak Siliwangi', 'Merdeka']
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'province' => 'Jawa Tengah',
+                'regencies' => [
+                    [
+                        'name' => 'Kota Semarang',
+                        'districts' => [
+                            [
+                                'name' => 'Banyumanik',
+                                'villages' => ['Banyumanik', 'Gedawang', 'Padangsari']
+                            ],
+                            [
+                                'name' => 'Tembalang',
+                                'villages' => ['Tembalang', 'Bulusan', 'Kedungmundu']
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'Kabupaten Semarang',
+                        'districts' => [
+                            [
+                                'name' => 'Tengaran',
+                                'villages' => ['Tegalrejo', 'Karangduren', 'Nyamat']
+                            ],
+                            [
+                                'name' => 'Suruh',
+                                'villages' => ['Plumbon', 'Krandon Lor', 'Gentan']
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+            [
+                'province' => 'Jawa Timur',
+                'regencies' => [
+                    [
+                        'name' => 'Kota Surabaya',
+                        'districts' => [
+                            [
+                                'name' => 'Tenggilis Mejoyo',
+                                'villages' => ['Tenggilis Mejoyo', 'Gunung Anyar', 'Keebon Agung']
+                            ],
+                            [
+                                'name' => 'Wonokromo',
+                                'villages' => ['Wonokromo', 'Darmo', 'Jagir']
+                            ]
+                        ]
+                    ],
+                    [
+                        'name' => 'Kabupaten Sidoarjo',
+                        'districts' => [
+                            [
+                                'name' => 'Taman',
+                                'villages' => ['Bohar', 'Ketegan', 'Kalijaten']
+                            ],
+                            [
+                                'name' => 'Krian',
+                                'villages' => ['Kemasan', 'Krian', 'Ponokawan']
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
-        for ($i = 1; $i <= 5; $i++) {
-            Registration::create([
-                'user_id' => $i + 3,
-                'competition_id' => 1,
-                'category_id' => rand(1, 3),
+        // Hitung jumlah user yang tersedia (dari seeder sebelumnya ada 9 user)
+        $availableUsers = DB::table('users')->where('role_id', 3)->get(); // Ambil hanya user biasa (role_id 3)
+        $userCount = count($availableUsers);
 
-                'place_of_birth' => 'Kota ' . $i,
-                'date_of_birth' => Carbon::now()->subYears(20 + $i)->format('Y-m-d'),
-                'gender' => $i % 2 == 0 ? 'female' : 'male',
-                'address' => 'Jalan Contoh No. ' . $i,
-                'boarding_school_name' => 'Pesantren Al-Hikmah ' . $i,
-                'motivation' => 'Saya ingin menjadi pengusaha sukses ' . $i,
-                'estimated_monthly_income' => '1500000',
-                'number_wa' => '0812345678' . $i,
+        $counter = 0;
+        foreach ($indonesiaRegions as $provinceIndex => $provinceData) {
+            foreach ($provinceData['regencies'] as $regencyIndex => $regencyData) {
+                foreach ($regencyData['districts'] as $districtIndex => $districtData) {
+                    foreach ($districtData['villages'] as $villageIndex => $villageName) {
+                        // Pastikan tidak melebihi jumlah user yang tersedia
+                        if ($counter >= $userCount) {
+                            break 4; // Keluar dari semua loop
+                        }
 
-                'business_proposal_file' => 'proposals/bisnis_' . $i . '.pdf',
-                'mustahik_certificate_file' => 'mustahik/surat_' . $i . '.pdf',
-                'pesantren_certificate_file' => 'ijazah/ijazah_' . $i . '.pdf',
+                        $user = $availableUsers[$counter];
+                        $counter++;
 
-                'status' => 'pending',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+                        Registration::create([
+                            'user_id' => $user->id, // Gunakan ID user yang benar
+                            'competition_id' => 1,
+                            'category_id' => rand(1, 3),
+
+                            'place_of_birth' => 'Kota ' . $counter,
+                            'date_of_birth' => Carbon::now()->subYears(20 + $counter)->format('Y-m-d'),
+                            'gender' => $counter % 2 == 0 ? 'Laki-laki' : 'Perempuan',
+                            'address' => 'Jalan Contoh No. ' . $counter . ' RT 0' . $counter . '/RW 0' . $counter,
+                            'province' => $provinceData['province'],
+                            'kabupaten' => $regencyData['name'],
+                            'kecamatan' => $districtData['name'],
+                            'kelurahan' => $villageName,
+                            'boarding_school_name' => 'Pesantren Al-Hikmah ' . $counter,
+                            'motivation' => 'Saya ingin menjadi pengusaha sukses ' . $counter,
+                            'estimated_monthly_income' => rand(1, 5) . '000000',
+                            'number_wa' => '0812' . rand(1000000, 9999999),
+
+                            'business_proposal_file' => 'proposals/bisnis_' . $counter . '.pdf',
+                            'mustahik_certificate_file' => 'mustahik/surat_' . $counter . '.pdf',
+                            'pesantren_certificate_file' => 'ijazah/ijazah_' . $counter . '.pdf',
+
+                            'status' => 'pending',
+                            'created_at' => Carbon::now()->subDays(rand(1, 30)),
+                            'updated_at' => Carbon::now()->subDays(rand(0, 29)),
+                        ]);
+                    }
+                }
+            }
         }
+
+        // Tambahkan fungsi ini di class seeder Anda
+
     }
 }
