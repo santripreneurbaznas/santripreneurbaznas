@@ -246,9 +246,9 @@ const TermsAndConditions = () => {
                         </h3>
                         <ul className="space-y-3 text-gray-600 relative z-10">
                             {[
-                                "Pendaftaran: 1 - 30 September 2025",
-                                "Pengumpulan dokumen lengkap: maksimal 5 Oktober 2025",
-                                "Pengumuman finalis: 15 Oktober 2025",
+                                "Pendaftaran: 8 - 31 Juli 2025",
+                                "Pengumpulan dokumen lengkap: To Be Announced on August 2025",
+                                "Pengumuman finalis: To Be Announced on August 20255",
                             ].map((item, index) => (
                                 <motion.li
                                     key={index}
