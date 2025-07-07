@@ -79,17 +79,17 @@ const HeroBanner = () => {
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start animate-fadeIn delay-200">
-                        <a
+                        {/* <a
                             href="/login"
                             className="bg-white text-[#259148] px-8 py-3 rounded-lg font-bold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg text-center"
                         >
                             Daftar Sekarang
-                        </a>
+                        </a> */}
                         <a
                             href="#program"
                             className="border-2 border-white text-white px-8 py-3 rounded-lg font-bold hover:bg-white/10 transition-all transform hover:scale-105 shadow-lg text-center"
                         >
-                            Lihat Program
+                            Lihat Program Kami
                         </a>
                     </div>
 
@@ -138,7 +138,7 @@ const HeroBanner = () => {
 
                         {/* Tag dengan efek lebih menarik */}
                         <div className="absolute -bottom-6 -right-6 bg-[#FFC107] px-6 py-3 rounded-lg shadow-lg border-2 border-white transform hover:rotate-3 transition-transform">
-                            <div className="text-[#259148] font-bold text-lg animate-pulse-slow">
+                            <div className="text-[#259148] font-bold text-lg">
                                 #SantriMaju
                             </div>
                         </div>

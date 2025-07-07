@@ -181,6 +181,19 @@ export default function RegistrationForm({ competition, categories, errors }) {
         setData(fieldName, e.target.files[0]);
     };
 
+    const handleDownload = () => {
+        // Ganti URL dengan path file ZIP Anda
+        const fileUrl = "/files/Berkas-BAZNAS Santripreuner-2025.zip";
+
+        // Membuat elemen anchor sementara
+        const link = document.createElement("a");
+        link.href = fileUrl;
+        link.download = "Berkas-BAZNAS Santripreuner-2025.zip";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <AuthenticatedLayout>
             <Head title={`Pendaftaran ${competition.name}`} />
@@ -809,6 +822,29 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         Silakan upload dokumen-dokumen berikut
                                         dalam format PDF (maksimal 2MB per file)
                                     </p>
+                                    <div className="mb-6">
+                                        <p className="text-sm text-gray-500 mb-2">
+                                            Download template dokumen:
+                                            <a
+                                                href="/files/Berkas-BAZNAS Santripreuner-2025.zip"
+                                                download
+                                                className="text-green-600 hover:text-green-800 ml-1 underline"
+                                            >
+                                                Klik di sini
+                                            </a>
+                                        </p>
+                                        <p className="text-sm text-gray-500">
+                                            Jika perlu kompres PDF:
+                                            <a
+                                                href="https://www.ilovepdf.com/compress_pdf"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-green-600 hover:text-green-800 ml-1 underline"
+                                            >
+                                                Klik di sini
+                                            </a>
+                                        </p>
+                                    </div>
 
                                     <div className="space-y-6">
                                         {/* Business Proposal File */}
