@@ -55,7 +55,7 @@ class RegistrationController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route('dashboard')->with('error', 'Pendaftaran Belum Dibuka');
+
         $validated = $request->validate([
             'competition_id' => 'required|exists:competitions,id',
             'category_id' => 'required|exists:categories,id',
