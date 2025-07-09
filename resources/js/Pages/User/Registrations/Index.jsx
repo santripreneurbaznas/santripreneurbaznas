@@ -284,7 +284,7 @@ export default function UserRegistrationsIndex({ auth }) {
                                             </a>
                                         </div>
 
-                                        <p className="text-sm text-gray-200">
+                                        <p className="text-sm text-gray-900 mt-5">
                                             Gabung grup WhatsApp:
                                             {reg.category_id === 1 ? (
                                                 <>
