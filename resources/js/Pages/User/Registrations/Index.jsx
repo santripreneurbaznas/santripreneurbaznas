@@ -283,6 +283,44 @@ export default function UserRegistrationsIndex({ auth }) {
                                                 </span>
                                             </a>
                                         </div>
+
+                                        <p className="text-sm text-gray-200">
+                                            Gabung grup WhatsApp:
+                                            {req.category_id === 1 ? (
+                                                <>
+                                                    <a
+                                                        href="https://chat.whatsapp.com/IIpBYCWHDZcBreqcNPmHnZ?mode=r_t"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-green-600 hover:text-green-800 ml-1 underline"
+                                                    >
+                                                        Klik di sini
+                                                    </a>
+                                                </>
+                                            ) : reg.category_id === 2 ? (
+                                                <>
+                                                    <a
+                                                        href="https://chat.whatsapp.com/IMmrLZr9S0T1Vl9ns1aH41?mode=r_t"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-green-600 hover:text-green-800 ml-1 underline"
+                                                    >
+                                                        Klik di sini
+                                                    </a>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <a
+                                                        href="https://chat.whatsapp.com/G7ZzUVi9R8k6A0opGgwLiD?mode=r_t"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                        className="text-green-600 hover:text-green-800 ml-1 underline"
+                                                    >
+                                                        Klik di sini
+                                                    </a>
+                                                </>
+                                            )}
+                                        </p>
                                     </div>
                                 </div>
                             ))}

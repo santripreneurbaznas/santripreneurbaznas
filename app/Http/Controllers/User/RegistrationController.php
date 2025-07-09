@@ -26,6 +26,7 @@ class RegistrationController extends Controller
                 'id' => $reg->id,
                 'competition_name' => $reg->competition->name,
                 'category_name' => $reg->category->name,
+                'category_id' => $reg->category->id,
                 'status' => $reg->status,
                 'created_at' => $reg->created_at->format('d/m/Y H:i'),
                 'business_proposal_file' => $reg->business_proposal_file,
