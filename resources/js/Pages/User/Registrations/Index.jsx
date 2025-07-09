@@ -286,7 +286,7 @@ export default function UserRegistrationsIndex({ auth }) {
 
                                         <p className="text-sm text-gray-200">
                                             Gabung grup WhatsApp:
-                                            {req.category_id === 1 ? (
+                                            {reg.category_id === 1 ? (
                                                 <>
                                                     <a
                                                         href="https://chat.whatsapp.com/IIpBYCWHDZcBreqcNPmHnZ?mode=r_t"
