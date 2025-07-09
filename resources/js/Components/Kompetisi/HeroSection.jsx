@@ -4,12 +4,12 @@ import React from "react";
 const HeroSection = () => {
     const handleDownload = () => {
         // Ganti URL dengan path file ZIP Anda
-        const fileUrl = "/files/Berkas-BAZNAS Santripreuner-2025.zip";
+        const fileUrl = "/files/Berkas-Santripreuner-BAZNAS-2025.zip";
 
         // Membuat elemen anchor sementara
         const link = document.createElement("a");
         link.href = fileUrl;
-        link.download = "Berkas-BAZNAS Santripreuner-2025.zip";
+        link.download = "Berkas-Santripreuner-BAZNAS-2025.zip";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);

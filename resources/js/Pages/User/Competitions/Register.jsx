@@ -826,7 +826,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         <p className="text-sm text-gray-500 mb-2">
                                             Download template dokumen:
                                             <a
-                                                href="/files/Berkas-BAZNAS Santripreuner-2025.zip"
+                                                href="/files/Berkas-Santripreuner-BAZNAS-2025.zip"
                                                 download
                                                 className="text-green-600 hover:text-green-800 ml-1 underline"
                                             >
