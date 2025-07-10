@@ -176,18 +176,16 @@ const PrizesAndAwards = () => {
                                     <h3 className="text-xl font-bold text-gray-800 mb-2">
                                         {award.title}
                                     </h3>
-                                    <p className="text-gray-600 text-sm mb-4">
-                                        {award.description}
-                                    </p>
+
                                     <div className="text-lg font-bold text-[#259148]">
                                         {award.prize}
                                     </div>
                                 </div>
 
                                 <div className="bg-gray-50 px-6 py-3 border-t border-gray-200">
-                                    <span className="text-sm text-gray-500">
-                                        + Sertifikat Penghargaan
-                                    </span>
+                                    <p className="text-gray-600 text-sm mb-4">
+                                        {award.description}
+                                    </p>
                                 </div>
                             </div>
 
