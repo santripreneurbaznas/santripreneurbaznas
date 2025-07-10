@@ -5,22 +5,22 @@ const PrizesAndAwards = () => {
     const prizes = [
         {
             title: "Juara 1",
-            amount: "Rp 20.000.000",
-            description: "Sertifikat + Program Pendampingan 1 Tahun",
+            amount: "Rp 17.000.000",
+            description: "Program Pendampingan 6 Bulan",
             color: "from-yellow-400 to-yellow-300",
             icon: "🥇",
         },
         {
             title: "Juara 2",
-            amount: "Rp 17.500.000",
-            description: "Sertifikat + Program Pendampingan 9 Bulan",
+            amount: "Rp 14.500.000",
+            description: "Program Pendampingan 6 Bulan",
             color: "from-gray-300 to-gray-200",
             icon: "🥈",
         },
         {
             title: "Juara 3",
-            amount: "Rp 15.000.000",
-            description: "Sertifikat + Program Pendampingan 6 Bulan",
+            amount: "Rp 12.000.000",
+            description: "Program Pendampingan 6 Bulan",
             color: "from-amber-600 to-amber-500",
             icon: "🥉",
         },
@@ -29,17 +29,17 @@ const PrizesAndAwards = () => {
     const specialAwards = [
         {
             title: "10 Finalis Terbaik",
-            description: "Sertifikat + Program Inkubasi 3 Bulan",
-            prize: "Rp 10.000.000",
+            description: "Program Pendampingan 6 Bulan",
+            prize: "Rp 9.500.000",
         },
         {
             title: "50 Finalis Terbaik",
-            description: "Sertifikat + Program Inkubasi 3 Bulan",
-            prize: "Rp 7.500.000",
+            description: "Program Pendampingan 6 Bulan",
+            prize: "Rp 6.000.000",
         },
         {
             title: "100 Finalis Terbaik",
-            description: "Sertifikat + Program Inkubasi 3 Bulan",
+            description: "Program Pendampingan 6 Bulan",
             prize: "Rp 3.000.000",
         },
     ];
@@ -72,7 +72,7 @@ const PrizesAndAwards = () => {
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                         Total hadiah lebih dari{" "}
                         <span className="font-bold text-[#259148]">
-                            Rp 50.000.000+
+                            Rp 500.000.000
                         </span>{" "}
                         untuk pemenang kompetisi
                     </p>
