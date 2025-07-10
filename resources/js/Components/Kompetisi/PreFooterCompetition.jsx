@@ -105,7 +105,7 @@ const PreFooter = () => {
                     </Link>
 
                     <p className="mt-6 text-gray-500 text-sm">
-                        Pendaftaran ditutup pada 15 Agustus 2025
+                        Pendaftaran ditutup pada 31 juli 2025
                     </p>
                 </div>
             </div>
