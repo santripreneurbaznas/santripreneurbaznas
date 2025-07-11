@@ -382,7 +382,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 </span>
                                             </label>
                                             <input
-                                                type="text"
+                                                type="number"
                                                 name="number_wa"
                                                 value={data.number_wa}
                                                 onChange={(e) =>
