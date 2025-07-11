@@ -116,9 +116,7 @@ export default function UserRegistrationShow({ auth }) {
                                         Jenis Kelamin
                                     </p>
                                     <p className="text-gray-800">
-                                        {registration.gender === "male"
-                                            ? "Laki-laki"
-                                            : "Perempuan"}
+                                        {registration.gender}
                                     </p>
                                 </div>
                             </div>
