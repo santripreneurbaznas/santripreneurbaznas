@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\{
     UserController
 };
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\SuperAdmin\AdminController;
 use App\Http\Controllers\SuperAdmin\ManagementController;
 use App\Http\Controllers\User\{
@@ -102,6 +103,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         // Registrations
         Route::get('/registrations/{registration}', [AdminRegistrationController::class, 'show'])->name('superadmin.registrations.show');
+
+
+        // Maintenance
+        Route::get('/maintenance', [MaintenanceController::class, 'index']);
+        Route::post('/maintenance/down', [MaintenanceController::class, 'down']);
+        Route::post('/maintenance/up', [MaintenanceController::class, 'up']);
     });
 });
 

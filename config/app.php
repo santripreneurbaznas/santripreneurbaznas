@@ -122,6 +122,7 @@ return [
     */
 
     'key' => env('APP_KEY'),
+    'maintenance_secret' => env('MAINTENANCE_SECRET', 'default-secret'),
 
     'cipher' => 'AES-256-CBC',
 
