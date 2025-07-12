@@ -1,19 +1,13 @@
 /.phpunit.cache
 /node_modules
-# /public/build
-# /public/hot
 /public/storage
 /public/favicons
 /public/images
 /public/.htaccess
 /public/favicon.ico
 /public/index.php
-
 /storage/*.key
-
-# /vendor
 .env
-# .git
 .env.backup
 .env.production
 Homestead.json

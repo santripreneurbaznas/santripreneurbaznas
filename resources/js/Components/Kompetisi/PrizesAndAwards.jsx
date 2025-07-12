@@ -5,21 +5,21 @@ const PrizesAndAwards = () => {
     const prizes = [
         {
             title: "Juara 1",
-            amount: "Rp 17.000.000",
+            amount: "Rp 20.000.000",
             description: "Program Pendampingan 6 Bulan",
             color: "from-yellow-400 to-yellow-300",
             icon: "🥇",
         },
         {
             title: "Juara 2",
-            amount: "Rp 14.500.000",
+            amount: "Rp 17.500.000",
             description: "Program Pendampingan 6 Bulan",
             color: "from-gray-300 to-gray-200",
             icon: "🥈",
         },
         {
             title: "Juara 3",
-            amount: "Rp 12.000.000",
+            amount: "Rp 15.000.000",
             description: "Program Pendampingan 6 Bulan",
             color: "from-amber-600 to-amber-500",
             icon: "🥉",
@@ -30,7 +30,7 @@ const PrizesAndAwards = () => {
         {
             title: "10 Finalis Terbaik",
             description: "Program Pendampingan 6 Bulan",
-            prize: "Rp 9.500.000",
+            prize: "Rp 10.000.000",
         },
         {
             title: "50 Finalis Terbaik",
@@ -40,7 +40,7 @@ const PrizesAndAwards = () => {
         {
             title: "100 Finalis Terbaik",
             description: "Program Pendampingan 6 Bulan",
-            prize: "Rp 3.000.000",
+            prize: "Rp 2.750.000",
         },
     ];
 
