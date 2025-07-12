@@ -9,6 +9,7 @@ import {
     FiFileText,
     FiHome,
     FiKey,
+    FiLock,
     FiSettings,
     FiUserCheck,
     FiUsers,
@@ -70,6 +71,12 @@ export default function AuthenticatedLayout({ children }) {
             href: "/user/my-registrations",
             icon: <FiUserCheck className="w-5 h-5" />,
             allowedRoles: [3],
+        },
+        {
+            name: "Maintanance",
+            href: "/super-admin/maintanance",
+            icon: <FiLock className="w-5 h-5" />,
+            allowedRoles: [1],
         },
         {
             name: "Pengaturan",
