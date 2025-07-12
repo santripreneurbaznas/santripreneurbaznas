@@ -24,7 +24,7 @@ class UserController extends Controller
                     ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         })
-            ->orderBy('created_at', 'desc')
+            ->orderBy('name', 'asc')
             ->paginate(10);
         $roles = Role::all();
         $categories = Category::all();
