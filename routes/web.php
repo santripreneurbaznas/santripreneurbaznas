@@ -40,9 +40,9 @@ Route::get('/', function () {
 Route::get('/pendaftaran', function () {
     return Inertia::render('Pendaftaran');
 });
-Route::get('/klaster', function () {
-    return Inertia::render('Klaster');
-});
+// Route::get('/klaster', function () {
+//     return Inertia::render('Klaster');
+// });
 Route::get('/kompetisi', function () {
     return Inertia::render('Kompetisi');
 });

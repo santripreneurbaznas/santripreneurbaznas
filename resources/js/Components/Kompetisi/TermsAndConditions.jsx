@@ -18,7 +18,6 @@ const TermsAndConditions = () => {
             "Santri tingkat akhir/pernah mengenyam pendidikan (lulusan) di Lembaga pondok pesantren",
             "Memiliki tanda status kesantrian dengan menunjukkan bukti Ijazah/Surat Rekomendasi Pesantren",
             "Memiliki usaha yang sedang dijalankan atau telah memiliki pengalaman dan kemampuan berwirausaha pada bidang yang ditentukan, dipersilahkan mendaftar",
-            "Usaha masuk dalam kategori bidang pertanian secara luas (mencakup perikanan, peternakan, kehutanan maupun teknologi pertanian)",
         ],
         dokumen: [
             "Menunjukkan surat keterangan Tidak Mampu dari Kelurahan/Desa/DKM Masjid",
@@ -26,10 +25,9 @@ const TermsAndConditions = () => {
             "Proposal usaha yang telah berjalan atau baru rencana",
             "Ijazah Formal/Surat Keterangan Santri dari Pondok Pesantren",
             "Foto usaha yang sedang dijalankan atau mockup usaha (bagi yang belum berjalan usahanya)",
-            "Curiculum Vitae (CV) / Riwayat hidup Peserta ",
         ],
         teknis: [
-            "Pendaftaran dilakukan secara online melalui google form",
+            "Pendaftaran dilakukan secara online melalui website",
             "Setiap Peserta hanya boleh mendaftar untuk satu kategori (klaster) kompetisi",
             "Bersedia mengikuti seluruh rangkaian kompetisi",
             "Keputusan juri bersifat mutlak dan tidak dapat diganggu gugat",
@@ -202,8 +200,10 @@ const TermsAndConditions = () => {
                         </h3>
                         <ul className="space-y-3 text-gray-600 relative z-10">
                             {[
+                                "Peserta hanya dapat mendaftar 1 Klaster",
                                 "Pastikan dokumen yang diupload jelas dan terbaca",
                                 "Proposal usaha maksimal 15 halaman",
+                                "Peserta diwajibkan untuk menggunakan template yang telah kami sediakan",
                                 "Pendaftaran tidak dipungut biaya apapun",
                             ].map((item, index) => (
                                 <motion.li
@@ -248,7 +248,7 @@ const TermsAndConditions = () => {
                             {[
                                 "Pendaftaran: 8 - 31 Juli 2025",
                                 "Pengumpulan dokumen lengkap: To Be Announced on August 2025",
-                                "Pengumuman finalis: To Be Announced on August 20255",
+                                "Pengumuman finalis: To Be Announced on August 2025",
                             ].map((item, index) => (
                                 <motion.li
                                     key={index}

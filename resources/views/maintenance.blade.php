@@ -168,8 +168,7 @@
         </div>
 
         <h1 class="text-3xl md:text-4xl font-bold mb-4 md:mb-6">Sedang Dalam Pemeliharaan</h1>
-        <p class="text-lg md:text-xl mb-6 md:mb-8">Kami sedang melakukan peningkatan sistem untuk pengalaman yang lebih
-            baik.</p>
+        <p class="text-lg md:text-xl mb-6 md:mb-8">Kami sedang melakukan peningkatan sistem mohon tunngu sebentar</p>
 
         <div class="progress-bar">
             <div class="progress"></div>
@@ -217,7 +216,9 @@
             <p class="text-sm opacity-90">Tim kami sedang bekerja keras untuk menyelesaikan pemeliharaan.</p>
         </div>
 
+        <p class="text-sm opacity-80 mb-5">lakukan refresh halaman setiap 5 menit sekali</p>
         <p class="text-sm opacity-80">Terima kasih atas pengertian dan kesabaran Anda.</p>
+
     </div>
 </body>
 
