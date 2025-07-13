@@ -147,8 +147,7 @@ const PrizesAndAwards = () => {
                         Khusus
                     </h3>
                     <p className="text-gray-600 max-w-2xl mx-auto">
-                        Penghargaan tambahan untuk kategori spesifik dengan
-                        total hadiah Rp 25.000.000
+                        Penghargaan tambahan untuk kategori spesifik
                     </p>
                 </div>
 
