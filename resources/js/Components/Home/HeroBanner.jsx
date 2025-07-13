@@ -68,7 +68,7 @@ const HeroBanner = () => {
                             Komunitas Santripreneur BAZNAS:
                         </span>
                         <span className="block text-yellow-300 mt-2">
-                            Santri Mandiri, Umat Berdikari
+                            Santri Mandiri, Ekonomi Berdikari
                         </span>
                     </h1>
 

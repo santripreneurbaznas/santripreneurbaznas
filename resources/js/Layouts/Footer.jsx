@@ -264,7 +264,7 @@ const Footer = () => {
                                     <span
                                         style={{ color: colorPalette.accent }}
                                     >
-                                        Umat Berdikari
+                                        Ekonomi Berdikari
                                     </span>
                                     <span
                                         className="absolute bottom-0 left-0 w-full h-1 opacity-50"

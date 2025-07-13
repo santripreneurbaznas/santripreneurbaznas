@@ -80,8 +80,7 @@ const AboutCompetition = () => {
                             <p className="text-gray-600">
                                 Dengan mengusung tema{" "}
                                 <span className="font-semibold text-[#259148]">
-                                    "Digitalisasi Wirausaha Santri Berbasis
-                                    Syariah"
+                                    "Santri Mandiri, Ekonomi Berdikari"
                                 </span>
                                 , kompetisi ini menjadi wadah bagi santri untuk
                                 mengasah kreativitas dan inovasi dalam
