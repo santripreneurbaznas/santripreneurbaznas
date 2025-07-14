@@ -36,4 +36,9 @@ class Category extends Model
     {
         return $this->belongsToMany(User::class, 'admin_category_access');
     }
+
+    public function uploads()
+    {
+        return $this->hasMany(Upload::class);
+    }
 }

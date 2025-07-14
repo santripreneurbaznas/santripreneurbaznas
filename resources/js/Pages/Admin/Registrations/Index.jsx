@@ -260,8 +260,22 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                                             14
                                                                         }
                                                                     />
-                                                                    Sertifikat
+                                                                    Dokumen
                                                                     Mustahik
+                                                                </a>
+                                                                <a
+                                                                    href={`${reg.sktm_certificate_file}`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="text-sm text-green-600 hover:text-green-800 flex items-center"
+                                                                >
+                                                                    <FiDownload
+                                                                        className="mr-1"
+                                                                        size={
+                                                                            14
+                                                                        }
+                                                                    />
+                                                                    Dokumen SKTM
                                                                 </a>
                                                                 <a
                                                                     href={`${reg.pesantren_certificate_file}`}
@@ -275,7 +289,7 @@ export default function AdminRegistrationsIndex({ auth }) {
                                                                             14
                                                                         }
                                                                     />
-                                                                    Sertifikat
+                                                                    Ijazah
                                                                     Pesantren
                                                                 </a>
                                                             </div>

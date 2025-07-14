@@ -58,6 +58,7 @@ class RegistrationController extends Controller
                     'business_proposal_file' => asset('/berkas/storage/' . $reg->business_proposal_file),
                     'mustahik_certificate_file' => asset('/berkas/storage/' . $reg->mustahik_certificate_file),
                     'pesantren_certificate_file' => asset('/berkas/storage/' . $reg->pesantren_certificate_file),
+                    'sktm_certificate_file' => asset('/berkas/storage/' . $reg->sktm_certificate_file),
                     'status' => $reg->status,
                     'created_at' => $reg->created_at->format('d/m/Y H:i'),
                 ];

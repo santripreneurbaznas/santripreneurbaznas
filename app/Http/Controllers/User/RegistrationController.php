@@ -34,6 +34,7 @@ class RegistrationController extends Controller
                 'business_proposal_file' => $reg->business_proposal_file,
                 'mustahik_certificate_file' => $reg->mustahik_certificate_file,
                 'pesantren_certificate_file' => $reg->pesantren_certificate_file,
+                'sktm_certificate_file' => $reg->sktm_certificate_file,
                 'can_edit' => $reg->status === 'pending' // Hanya bisa edit jika status pending
             ];
         });
@@ -59,6 +60,8 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         set_time_limit(60);
+        // dd($request->all());
+
 
         $validated = $request->validate([
             'competition_id' => 'required|exists:competitions,id',
@@ -78,7 +81,9 @@ class RegistrationController extends Controller
             'business_proposal_file' => 'required|file|mimes:pdf|max:2048',
             'mustahik_certificate_file' => 'required|file|mimes:pdf|max:2048',
             'pesantren_certificate_file' => 'required|file|mimes:pdf|max:2048',
+            'sktm_certificate_file' => 'required|file|mimes:pdf|max:2048',
         ]);
+
 
         // Dapatkan nama user yang login (ganti spasi dengan underscore jika ada)
         $userName = str_replace(' ', '_', auth()->user()->name);
@@ -90,16 +95,17 @@ class RegistrationController extends Controller
         $fileNames = [
             'business_proposal' => $userName . '_' . $timestamp . '_proposal_bisnis.pdf',
             'mustahik_certificate' => $userName . '_' . $timestamp . '_sertifikat_mustahik.pdf',
-            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf'
+            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf',
+            'sktm_certificate' => $userName . '_' . $timestamp . '_sertifikat_sktm.pdf'
         ];
 
         // Simpan file dengan nama yang sudah ditentukan
 
-
+        $filePaths = [];
         DB::beginTransaction();
         try {
-            foreach (['business_proposal', 'mustahik_certificate', 'pesantren_certificate'] as $fileType) {
-                $filePaths = [];
+            foreach (['business_proposal', 'mustahik_certificate', 'pesantren_certificate', 'sktm_certificate'] as $fileType) {
+
                 $file = $request->file($fileType . '_file');
 
                 // Simpan file dengan nama custom
@@ -119,9 +125,11 @@ class RegistrationController extends Controller
                 ['user_id' => auth()->id()]
             ));
             DB::commit();
+
             return redirect()->route('user.registrations.index')->with('success', 'Pendaftaran berhasil dikirim!');
         } catch (\Exception $e) {
             DB::rollBack();
+
             return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
@@ -197,7 +205,11 @@ class RegistrationController extends Controller
                 'pesantren_certificate_file_url' => $registration->pesantren_certificate_file
                     ? asset('/berkas/storage/' . $registration->pesantren_certificate_file)
                     : null,
+                'sktm_certificate_file_url' => $registration->sktm_certificate_file
+                    ? asset('/berkas/storage/' . $registration->sktm_certificate_file)
+                    : null,
                 'status' => $registration->status,
+
             ],
             'categories' => $categories
         ]);
@@ -238,6 +250,7 @@ class RegistrationController extends Controller
             'business_proposal_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
             'mustahik_certificate_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
             'pesantren_certificate_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
+            'sktm_certificate_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
         ]);
 
         // Dapatkan nama user yang login
@@ -252,11 +265,12 @@ class RegistrationController extends Controller
         $fileNames = [
             'business_proposal' => $userName . '_' . $timestamp . '_proposal_bisnis.pdf',
             'mustahik_certificate' => $userName . '_' . $timestamp . '_sertifikat_mustahik.pdf',
-            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf'
+            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf',
+            'sktm_certificate' => $userName . '_' . $timestamp . '_sertifikat_sktm.pdf',
         ];
 
         // Update file yang diubah
-        $fileFields = ['business_proposal', 'mustahik_certificate', 'pesantren_certificate'];
+        $fileFields = ['business_proposal', 'mustahik_certificate', 'pesantren_certificate', 'sktm_certificate'];
         foreach ($fileFields as $field) {
             if ($request->hasFile($field . '_file')) {
                 // Hapus file lama jika ada

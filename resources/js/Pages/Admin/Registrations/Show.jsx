@@ -231,6 +231,10 @@ export default function UserRegistrationShow({ auth }) {
                             />
                             <DocumentCard
                                 title="Sertifikat Mustahik"
+                                fileUrl={registration.sktm_certificate_file}
+                            />
+                            <DocumentCard
+                                title="Sertifikat Mustahik"
                                 fileUrl={registration.mustahik_certificate_file}
                             />
                             <DocumentCard

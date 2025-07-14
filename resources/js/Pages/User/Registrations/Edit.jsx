@@ -990,7 +990,7 @@ export default function UserRegistrationEdit({
                                         {/* Mustahik Certificate File */}
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Sertifikat Mustahik
+                                                Dokumen Self Assesment Mustahik{" "}
                                             </label>
                                             <p className="text-sm text-[#4CAF50] mb-2">
                                                 File saat ini:{" "}
@@ -1050,7 +1050,9 @@ export default function UserRegistrationEdit({
                                         {/* Pesantren Certificate File */}
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Sertifikat Pesantren
+                                                Ijazah Pondok Pesantren / Surat
+                                                Keterangan Kesantrian dari
+                                                Pondok Pesantren{" "}
                                             </label>
                                             <p className="text-sm text-[#4CAF50] mb-2">
                                                 File saat ini:{" "}
@@ -1102,6 +1104,67 @@ export default function UserRegistrationEdit({
                                                 <p className="mt-1 text-sm text-red-600">
                                                     {
                                                         errors.pesantren_certificate_file
+                                                    }
+                                                </p>
+                                            )}
+                                        </div>
+                                        {/* SKTM Certificate File */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">
+                                                Surat Keterangan Tidak Mampu
+                                                (SKTM) dari Kelurahan/Desa/DKM
+                                                Masjid{" "}
+                                            </label>
+                                            <p className="text-sm text-[#4CAF50] mb-2">
+                                                File saat ini:{" "}
+                                                <a
+                                                    href={
+                                                        registration.sktm_certificate_file_url
+                                                    }
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="hover:underline"
+                                                >
+                                                    Lihat Dokumen
+                                                </a>
+                                            </p>
+                                            <div className="mt-1 flex items-center">
+                                                <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-150">
+                                                    <svg
+                                                        className="w-8 h-8 text-gray-400"
+                                                        fill="none"
+                                                        stroke="currentColor"
+                                                        viewBox="0 0 24 24"
+                                                    >
+                                                        <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            strokeWidth="2"
+                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                                                        ></path>
+                                                    </svg>
+                                                    <span className="mt-2 text-sm text-gray-600">
+                                                        {data.sktm_certificate_file
+                                                            ? data
+                                                                  .sktm_certificate_file
+                                                                  .name
+                                                            : "Pilih File Baru (Opsional)"}
+                                                    </span>
+                                                    <input
+                                                        type="file"
+                                                        name="sktm_certificate_file"
+                                                        onChange={handleFileChange(
+                                                            "sktm_certificate_file"
+                                                        )}
+                                                        className="hidden"
+                                                        accept=".pdf"
+                                                    />
+                                                </label>
+                                            </div>
+                                            {errors.sktm_certificate_file && (
+                                                <p className="mt-1 text-sm text-red-600">
+                                                    {
+                                                        errors.sktm_certificate_file
                                                     }
                                                 </p>
                                             )}
