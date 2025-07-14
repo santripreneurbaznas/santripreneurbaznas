@@ -18,6 +18,7 @@ class DashboardController extends Controller
 
         if (auth()->user()->role_id === 1) {
             $categories = Category::where('is_active', true)
+                ->with(['competition'])
                 ->withCount('registrations')
                 ->get();
 

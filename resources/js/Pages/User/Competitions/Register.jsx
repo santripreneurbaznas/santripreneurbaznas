@@ -820,7 +820,10 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                     </h3>
                                     <p className="text-sm text-gray-500 mb-6">
                                         Silakan upload dokumen-dokumen berikut
-                                        dalam format PDF (maksimal 2MB per file)
+                                        dalam format PDF{" "}
+                                        <span className="text-green-600 font-semibold">
+                                            (maksimal 2MB per file)
+                                        </span>
                                     </p>
                                     <div className="mb-6">
                                         <p className="text-sm text-gray-500 mb-2">

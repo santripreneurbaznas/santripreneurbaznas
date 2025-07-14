@@ -137,7 +137,16 @@ export default function UserRegistrationsIndex({ auth }) {
                                                     Tanggal Pendaftaran:{" "}
                                                     {new Date(
                                                         reg.created_at
-                                                    ).toLocaleDateString()}
+                                                    ).toLocaleDateString(
+                                                        "id-ID",
+                                                        {
+                                                            day: "2-digit",
+                                                            month: "2-digit",
+                                                            year: "numeric",
+                                                            hour: "2-digit",
+                                                            minute: "2-digit",
+                                                        }
+                                                    )}
                                                 </p>
                                             </div>
                                         </div>

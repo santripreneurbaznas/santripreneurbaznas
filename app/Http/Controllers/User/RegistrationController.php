@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Registration;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RegistrationController extends Controller
 {
@@ -28,7 +30,7 @@ class RegistrationController extends Controller
                 'category_name' => $reg->category->name,
                 'category_id' => $reg->category->id,
                 'status' => $reg->status,
-                'created_at' => $reg->created_at->format('d/m/Y H:i'),
+                'created_at' => $reg->created_at->toISOString(),
                 'business_proposal_file' => $reg->business_proposal_file,
                 'mustahik_certificate_file' => $reg->mustahik_certificate_file,
                 'pesantren_certificate_file' => $reg->pesantren_certificate_file,
@@ -56,6 +58,7 @@ class RegistrationController extends Controller
      */
     public function store(Request $request)
     {
+        set_time_limit(60);
 
         $validated = $request->validate([
             'competition_id' => 'required|exists:competitions,id',
@@ -91,28 +94,36 @@ class RegistrationController extends Controller
         ];
 
         // Simpan file dengan nama yang sudah ditentukan
-        $filePaths = [];
-        foreach (['business_proposal', 'mustahik_certificate', 'pesantren_certificate'] as $fileType) {
-            $file = $request->file($fileType . '_file');
 
-            // Simpan file dengan nama custom
-            $path = $file->storeAs(
-                'registrations/' . $fileType,
-                $fileNames[$fileType],
-                'public'
-            );
 
-            $filePaths[$fileType . '_file'] = $path;
+        DB::beginTransaction();
+        try {
+            foreach (['business_proposal', 'mustahik_certificate', 'pesantren_certificate'] as $fileType) {
+                $filePaths = [];
+                $file = $request->file($fileType . '_file');
+
+                // Simpan file dengan nama custom
+                $path = $file->storeAs(
+                    'registrations/' . $fileType,
+                    $fileNames[$fileType],
+                    'public'
+                );
+
+                $filePaths[$fileType . '_file'] = $path;
+            }
+
+            // Buat registrasi
+            $registration = Registration::create(array_merge(
+                $validated,
+                $filePaths,
+                ['user_id' => auth()->id()]
+            ));
+            DB::commit();
+            return redirect()->route('user.registrations.index')->with('success', 'Pendaftaran berhasil dikirim!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
-
-        // Buat registrasi
-        $registration = Registration::create(array_merge(
-            $validated,
-            $filePaths,
-            ['user_id' => auth()->id()]
-        ));
-
-        return redirect()->route('user.registrations.index')->with('success', 'Pendaftaran berhasil dikirim!');
     }
 
     /**

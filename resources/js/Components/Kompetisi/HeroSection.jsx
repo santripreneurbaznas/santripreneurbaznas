@@ -31,11 +31,11 @@ const HeroSection = () => {
             {/* Main content */}
             <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
                 <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fadeIn">
-                    <span className="block">BAZNAS</span>
+                    <span className="block">Kompetisi BAZNAS</span>
                     <span className="block text-yellow-300 mt-2">
                         Santripreneur
                     </span>
-                    <span className="block mt-2">Competition 2025</span>
+                    <span className="block mt-2">2025</span>
                 </h1>
 
                 <p className="text-lg sm:text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-8 animate-fadeIn delay-100">
