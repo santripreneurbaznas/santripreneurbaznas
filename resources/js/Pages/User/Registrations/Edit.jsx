@@ -90,6 +90,12 @@ export default function UserRegistrationEdit({
                 data.pesantren_certificate_file
             );
         }
+        if (data.sktm_certificate_file) {
+            formData.append(
+                "sktm_certificate_file",
+                data.sktm_certificate_file
+            );
+        }
 
         // Use POST with _method=PATCH for FormData
         router.post(
