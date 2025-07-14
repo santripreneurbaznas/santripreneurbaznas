@@ -44,6 +44,7 @@ export default function UserRegistrationEdit({
         business_proposal_file: null,
         mustahik_certificate_file: null,
         pesantren_certificate_file: null,
+        sktm_certificate_file: null,
     });
 
     const handleSubmit = (e) => {

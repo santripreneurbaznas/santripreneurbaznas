@@ -804,7 +804,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 ? "border-red-300"
                                                 : "border-gray-300"
                                         } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
-                                        placeholder="Jelaskan motivasi Anda mengikuti kompetisi ini (maksimal 250 karakter)"
+                                        placeholder="Tulis motivasi Anda (maks. 250 karakter). Contoh: Saya tertarik ikut karena ingin belajar hal baru. (59 karakter)"
                                         required
                                     ></textarea>
                                     {errors.motivation && (
