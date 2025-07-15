@@ -41,6 +41,7 @@ export default function UserRegistrationEdit({
         motivation: registration.motivation || "",
         estimated_monthly_income: registration.estimated_monthly_income || "",
         number_wa: registration.number_wa || "",
+        number_kk: registration.number_kk || "",
         business_proposal_file: null,
         mustahik_certificate_file: null,
         pesantren_certificate_file: null,
@@ -70,6 +71,7 @@ export default function UserRegistrationEdit({
             data.estimated_monthly_income
         );
         formData.append("number_wa", data.number_wa);
+        formData.append("number_kk", data.number_kk);
 
         // Only append files if they exist
         if (data.business_proposal_file) {
@@ -453,6 +455,39 @@ export default function UserRegistrationEdit({
                                             {errors.gender && (
                                                 <p className="mt-1 text-sm text-red-600">
                                                     {errors.gender}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* KK Number */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">
+                                                Nomor KK{" "}
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="number_kk"
+                                                value={data.number_kk}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "number_kk",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className={`mt-1 block w-full rounded-md border ${
+                                                    errors.number_kk
+                                                        ? "border-red-300"
+                                                        : "border-gray-300"
+                                                } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
+                                                placeholder="Contoh: 081234567890"
+                                                required
+                                            />
+                                            {errors.number_kk && (
+                                                <p className="mt-1 text-sm text-red-600">
+                                                    {errors.number_kk}
                                                 </p>
                                             )}
                                         </div>

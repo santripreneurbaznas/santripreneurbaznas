@@ -38,6 +38,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
         motivation: "",
         estimated_monthly_income: "",
         number_wa: "",
+        number_kk: "",
         business_proposal_file: null,
         mustahik_certificate_file: null,
         pesantren_certificate_file: null,
@@ -329,6 +330,39 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             {errors.date_of_birth && (
                                                 <p className="mt-1 text-sm text-red-600">
                                                     {errors.date_of_birth}
+                                                </p>
+                                            )}
+                                        </div>
+
+                                        {/* KK Number */}
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700">
+                                                Nomor KK{" "}
+                                                <span className="text-red-500">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <input
+                                                type="number"
+                                                name="number_kk"
+                                                value={data.number_kk}
+                                                onChange={(e) =>
+                                                    setData(
+                                                        "number_kk",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className={`mt-1 block w-full rounded-md border ${
+                                                    errors.number_kk
+                                                        ? "border-red-300"
+                                                        : "border-gray-300"
+                                                } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
+                                                placeholder="Contoh: 081234567890"
+                                                required
+                                            />
+                                            {errors.number_kk && (
+                                                <p className="mt-1 text-sm text-red-600">
+                                                    {errors.number_kk}
                                                 </p>
                                             )}
                                         </div>

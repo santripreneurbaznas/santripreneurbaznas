@@ -78,6 +78,7 @@ class RegistrationController extends Controller
             'motivation' => 'required|string|max:255',
             'estimated_monthly_income' => 'required',
             'number_wa' => 'required|string|max:20',
+            'number_kk' => 'required|string|max:25',
             'business_proposal_file' => 'required|file|mimes:pdf|max:2048',
             'mustahik_certificate_file' => 'required|file|mimes:pdf|max:2048',
             'pesantren_certificate_file' => 'required|file|mimes:pdf|max:2048',
@@ -196,6 +197,7 @@ class RegistrationController extends Controller
                 'motivation' => $registration->motivation,
                 'estimated_monthly_income' => $registration->estimated_monthly_income,
                 'number_wa' => $registration->number_wa,
+                'number_kk' => $registration->number_kk,
                 'business_proposal_file_url' => $registration->business_proposal_file
                     ? asset('/berkas/storage/' . $registration->business_proposal_file)
                     : null,
@@ -247,6 +249,7 @@ class RegistrationController extends Controller
             'motivation' => 'sometimes|required|string|max:500',
             'estimated_monthly_income' => 'sometimes|required|string|max:50',
             'number_wa' => 'sometimes|required|string|max:20',
+            'number_kk' => 'sometimes|required|string|max:25',
             'business_proposal_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
             'mustahik_certificate_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
             'pesantren_certificate_file' => 'sometimes|nullable|file|mimes:pdf|max:2048',
@@ -303,7 +306,9 @@ class RegistrationController extends Controller
             'boarding_school_name',
             'motivation',
             'estimated_monthly_income',
-            'number_wa'
+            'number_wa',
+            'number_kk'
+
         ]));
 
         $registration->save();
