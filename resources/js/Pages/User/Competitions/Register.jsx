@@ -1093,10 +1093,13 @@ export default function RegistrationForm({ competition, categories, errors }) {
 
                                 {/* Form Actions */}
                                 <div className="pt-6 border-t border-gray-200">
-                                    <div>
+                                    <div className="soace-y-6">
                                         <p className="text-sm text-red-700 font-semibold">
                                             * Peserta hanya dapat mendaftar 1
                                             Klaster
+                                        </p>
+                                        <p className="text-sm text-red-700 font-semibold">
+                                            * 1 Kartu Keluarga untuk 1 Peserta
                                         </p>
                                     </div>
                                     <div className="flex justify-end pt-6 ">
