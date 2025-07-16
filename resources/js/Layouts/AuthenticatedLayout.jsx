@@ -74,7 +74,7 @@ export default function AuthenticatedLayout({ children }) {
         },
         {
             name: "Maintanance",
-            href: "/super-admin/maintanance",
+            href: "/super-admin/maintenance",
             icon: <FiLock className="w-5 h-5" />,
             allowedRoles: [1],
         },

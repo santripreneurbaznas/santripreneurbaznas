@@ -280,24 +280,39 @@ const LoginPage = () => {
                                     </motion.div>
                                 </form>
 
-                                <div>
-                                    <div className="mt-6 text-center text-sm text-gray-600">
+                                <div className="space-y-4 mt-6">
+                                    <div className="text-center text-sm text-gray-600">
+                                        <p>
+                                            Lihat Panduan Pendaftaran{" "}
+                                            <a
+                                                href="/tutorial/PANDUAN-PENDAFTARAN-SANTRIPRENEUR.pdf"
+                                                className="text-[#259148] font-medium underline underline-offset-2"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                di sini
+                                            </a>
+                                        </p>
+                                    </div>
+
+                                    <div className="text-center text-sm text-gray-600">
                                         <p>
                                             Belum punya akun?{" "}
                                             <Link
                                                 href={route("register")}
-                                                className="text-[#259148] hover:underline font-medium"
+                                                className="text-[#259148] font-medium underline underline-offset-2"
                                             >
                                                 Daftar sekarang
                                             </Link>
                                         </p>
                                     </div>
-                                    <div className="mt-2 text-center text-sm text-gray-600">
+
+                                    <div className="text-center text-sm text-gray-600">
                                         <p>
-                                            Lupa Kata Sandi ?{" "}
+                                            Lupa Kata Sandi?{" "}
                                             <Link
                                                 href={route("password.request")}
-                                                className="text-[#259148] hover:underline font-medium"
+                                                className="text-[#259148] font-medium underline underline-offset-2"
                                             >
                                                 Reset Kata Sandi
                                             </Link>
