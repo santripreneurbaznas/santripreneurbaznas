@@ -357,7 +357,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                         ? "border-red-300"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
-                                                placeholder="Contoh: 081234567890"
+                                                placeholder="Contoh: 1234567890123456"
                                                 required
                                             />
                                             {errors.number_kk && (
