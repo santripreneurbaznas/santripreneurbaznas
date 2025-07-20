@@ -4,6 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { toast } from "sonner";
 import axios from "axios";
 import { debounce } from "@/Utils/debounce";
+import useFlashMessages from "@/Hooks/useFlashMessages";
 
 export default function RegistrationForm({ competition, categories, errors }) {
     const [provinces, setProvinces] = useState([]);
@@ -204,6 +205,8 @@ export default function RegistrationForm({ competition, categories, errors }) {
         link.click();
         document.body.removeChild(link);
     };
+
+    useFlashMessages();
 
     return (
         <AuthenticatedLayout>

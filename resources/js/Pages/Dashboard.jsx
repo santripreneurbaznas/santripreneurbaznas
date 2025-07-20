@@ -17,46 +17,46 @@ export default function Dashboard({
     registrationsCount,
     recentActivities,
 }) {
-    const getStatusIcon = (status) => {
-        switch (status) {
-            case "approved":
-                return <FiCheckCircle className="text-green-600 text-sm" />;
-            case "pending":
-                return <FiClock className="text-yellow-500 text-sm" />;
-            case "rejected":
-                return <FiXCircle className="text-red-500 text-sm" />;
-            default:
-                return <FiFileText className="text-green-600 text-sm" />;
-        }
-    };
+    // const getStatusIcon = (status) => {
+    //     switch (status) {
+    //         case "approved":
+    //             return <FiCheckCircle className="text-green-600 text-sm" />;
+    //         case "pending":
+    //             return <FiClock className="text-yellow-500 text-sm" />;
+    //         case "rejected":
+    //             return <FiXCircle className="text-red-500 text-sm" />;
+    //         default:
+    //             return <FiFileText className="text-green-600 text-sm" />;
+    //     }
+    // };
 
-    // Fungsi untuk menentukan warna background berdasarkan status
-    const getStatusBgColor = (status) => {
-        switch (status) {
-            case "approved":
-                return "bg-green-100";
-            case "pending":
-                return "bg-yellow-100";
-            case "rejected":
-                return "bg-red-100";
-            default:
-                return "bg-green-100";
-        }
-    };
+    // // Fungsi untuk menentukan warna background berdasarkan status
+    // const getStatusBgColor = (status) => {
+    //     switch (status) {
+    //         case "approved":
+    //             return "bg-green-100";
+    //         case "pending":
+    //             return "bg-yellow-100";
+    //         case "rejected":
+    //             return "bg-red-100";
+    //         default:
+    //             return "bg-green-100";
+    //     }
+    // };
 
     // Fungsi untuk menentukan pesan berdasarkan status
-    const getStatusMessage = (status, competitionName) => {
-        switch (status) {
-            case "approved":
-                return `Pendaftaran Anda untuk ${competitionName} telah diterima`;
-            case "pending":
-                return `Pendaftaran Anda untuk ${competitionName} sedang diproses`;
-            case "rejected":
-                return `Pendaftaran Anda untuk ${competitionName} tidak disetujui`;
-            default:
-                return `Anda telah mendaftar di ${competitionName}`;
-        }
-    };
+    // const getStatusMessage = (status, competitionName) => {
+    //     switch (status) {
+    //         case "approved":
+    //             return `Pendaftaran Anda untuk ${competitionName} telah diterima`;
+    //         case "pending":
+    //             return `Pendaftaran Anda untuk ${competitionName} sedang diproses`;
+    //         case "rejected":
+    //             return `Pendaftaran Anda untuk ${competitionName} tidak disetujui`;
+    //         default:
+    //             return `Anda telah mendaftar di ${competitionName}`;
+    //     }
+    // };
 
     useFlashMessages();
 

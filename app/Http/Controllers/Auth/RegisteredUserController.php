@@ -49,7 +49,7 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(RouteServiceProvider::HOME)->with('success', 'Akun berhasil dibuat');
+        // return redirect(RouteServiceProvider::HOME)->with('success', 'Akun berhasil dibuat');
+        return redirect("/user/competitions/1/register")->with('success', 'Akun berhasil dibuat, Silahkan Lengkapi Pendaftaran Lomba');
     }
 }
