@@ -110,6 +110,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/maintenance/down', [MaintenanceController::class, 'down']);
         Route::post('/maintenance/up', [MaintenanceController::class, 'up']);
     });
+
+    // Export Exel
+    Route::get('/user/export', [UserController::class, 'export_excel'])
+        ->name('superadmin.users.export');
 });
 
 

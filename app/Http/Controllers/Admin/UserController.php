@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\UsersWithoutRegistrationExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Role;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Illuminate\Validation\Rules;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -143,5 +145,11 @@ class UserController extends Controller
         }
         $user->delete();
         return redirect()->route('users.index');
+    }
+
+
+    function export_excel()
+    {
+        return Excel::download(new UsersWithoutRegistrationExport, 'users_without_registration_' . now()->format('Ymd_His') . '.xlsx');
     }
 }

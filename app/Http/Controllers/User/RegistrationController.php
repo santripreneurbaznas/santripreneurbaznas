@@ -86,6 +86,7 @@ class RegistrationController extends Controller
         ]);
 
 
+
         // Dapatkan nama user yang login (ganti spasi dengan underscore jika ada)
         $userName = str_replace(' ', '_', auth()->user()->name);
 

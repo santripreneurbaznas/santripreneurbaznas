@@ -66,6 +66,15 @@ export default function RegistrationForm({ competition, categories, errors }) {
         };
         fetchProvinces();
     }, []);
+
+    useEffect(() => {
+        if (errors && Object.keys(errors).length > 0) {
+            toast.error("Terdapat kesalahan dalam input", {
+                description: "Silakan periksa kembali form yang Anda isi",
+            });
+        }
+    }, [errors]);
+
     // Debounced province change handler
     const handleProvinceChange = debounce(async (e) => {
         const provinceId = e.target.value;
