@@ -73,6 +73,22 @@ export default function RegistrationForm({ competition, categories, errors }) {
             toast.error("Terdapat kesalahan dalam input", {
                 description: "Silakan periksa kembali form yang Anda isi",
             });
+
+            // Cari elemen pertama dengan error
+            const firstErrorElement = document.querySelector(
+                '[class*="border-red-300"]'
+            );
+            if (firstErrorElement) {
+                firstErrorElement.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center",
+                });
+            } else {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            }
         }
     }, [errors]);
 
@@ -205,6 +221,8 @@ export default function RegistrationForm({ competition, categories, errors }) {
         link.click();
         document.body.removeChild(link);
     };
+
+    console.log(errors);
 
     useFlashMessages();
 
@@ -855,7 +873,8 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                     ></textarea>
                                     {errors.motivation && (
                                         <p className="mt-1 text-sm text-red-600">
-                                            {errors.motivation}
+                                            Karakter Terlalu Panjang Harap
+                                            Persingkat Menjadi 250 Karakter
                                         </p>
                                     )}
                                 </div>
@@ -884,7 +903,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             </a>
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            Jika perlu kompres PDF:
+                                            Jika perlu perkecil ukuran PDF:
                                             <a
                                                 href="https://www.ilovepdf.com/compress_pdf"
                                                 target="_blank"
@@ -906,7 +925,13 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 </span>
                                             </label>
                                             <div className="mt-1 flex items-center">
-                                                <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-150">
+                                                <label
+                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
+                                                        errors.business_proposal_file
+                                                            ? "border-red-300 border-2"
+                                                            : "border-gray-300"
+                                                    }`}
+                                                >
                                                     <svg
                                                         className="w-8 h-8 text-gray-400"
                                                         fill="none"
@@ -940,9 +965,8 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             </div>
                                             {errors.business_proposal_file && (
                                                 <p className="mt-1 text-sm text-red-600">
-                                                    {
-                                                        errors.business_proposal_file
-                                                    }
+                                                    File Proposal Terlalu Besar,
+                                                    Harap Perkecil Ukuran File
                                                 </p>
                                             )}
                                         </div>
@@ -956,7 +980,13 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 </span>
                                             </label>
                                             <div className="mt-1 flex items-center">
-                                                <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-150">
+                                                <label
+                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
+                                                        errors.mustahik_certificate_file
+                                                            ? "border-red-300 border-2"
+                                                            : "border-gray-300"
+                                                    }`}
+                                                >
                                                     <svg
                                                         className="w-8 h-8 text-gray-400"
                                                         fill="none"
@@ -990,9 +1020,9 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             </div>
                                             {errors.mustahik_certificate_file && (
                                                 <p className="mt-1 text-sm text-red-600">
-                                                    {
-                                                        errors.mustahik_certificate_file
-                                                    }
+                                                    File Self Assesment Mustahik
+                                                    Terlalu Besar, Harap
+                                                    Perkecil Ukuran File
                                                 </p>
                                             )}
                                         </div>
@@ -1008,7 +1038,13 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 </span>
                                             </label>
                                             <div className="mt-1 flex items-center">
-                                                <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-150">
+                                                <label
+                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
+                                                        errors.sktm_certificate_file
+                                                            ? "border-red-300 border-2"
+                                                            : "border-gray-300"
+                                                    }`}
+                                                >
                                                     <svg
                                                         className="w-8 h-8 text-gray-400"
                                                         fill="none"
@@ -1042,9 +1078,9 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             </div>
                                             {errors.sktm_certificate_file && (
                                                 <p className="mt-1 text-sm text-red-600">
-                                                    {
-                                                        errors.sktm_certificate_file
-                                                    }
+                                                    File Surat Keterangan Tidak
+                                                    Mampu Terlalu Besar, Harap
+                                                    Perkecil Ukuran File
                                                 </p>
                                             )}
                                         </div>
@@ -1060,7 +1096,13 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 </span>
                                             </label>
                                             <div className="mt-1 flex items-center">
-                                                <label className="flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed border-gray-300 cursor-pointer hover:bg-gray-50 transition-colors duration-150">
+                                                <label
+                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
+                                                        errors.pesantren_certificate_file
+                                                            ? "border-red-300 border-2"
+                                                            : "border-gray-300"
+                                                    }`}
+                                                >
                                                     <svg
                                                         className="w-8 h-8 text-gray-400"
                                                         fill="none"
@@ -1094,9 +1136,9 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             </div>
                                             {errors.pesantren_certificate_file && (
                                                 <p className="mt-1 text-sm text-red-600">
-                                                    {
-                                                        errors.pesantren_certificate_file
-                                                    }
+                                                    File Surat Keterangan
+                                                    Kesantrian Terlalu Besar,
+                                                    Harap Perkecil Ukuran File
                                                 </p>
                                             )}
                                         </div>
