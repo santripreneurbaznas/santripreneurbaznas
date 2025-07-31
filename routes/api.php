@@ -24,7 +24,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/active-competitions', function () {
     return Competition::with('categories')
         ->where('is_active', true)
-        ->where('end_date', '>=', now())
         ->orderBy('start_date', 'asc')
         ->get();
 });
