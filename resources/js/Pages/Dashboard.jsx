@@ -78,69 +78,6 @@ export default function Dashboard({
                             dengan mudah
                         </p>
                     </div>
-                    {registrationsCount > 0 ? (
-                        <></>
-                    ) : (
-                        <>
-                            <div className="bg-gradient-to-br from-[#ff3d3d] to-[#c62828] rounded-xl shadow-md p-6 mb-8 text-white relative ">
-                                {/* Warning Badge */}
-                                <div className="absolute -top-3 -left-3 bg-yellow-400 text-red-800 w-16 h-16 rounded-full flex items-center justify-center transform rotate-12">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-8 w-8"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        strokeWidth={3}
-                                    >
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                                        />
-                                    </svg>
-                                </div>
-
-                                <div className="ml-8">
-                                    {" "}
-                                    {/* Memberi space untuk badge */}
-                                    <h1 className="text-2xl md:text-3xl font-bold mb-2">
-                                        Anda Belum Menyelesaikan Pendaftaran
-                                        Lomba
-                                    </h1>
-                                    <p className="opacity-90 mb-6">
-                                        Segera Selesaikan Pendaftaran Lomba Anda
-                                    </p>
-                                    {/* Enhanced Button */}
-                                    <button
-                                        onClick={() =>
-                                            (window.location.href =
-                                                "/user/competitions/1/register")
-                                        }
-                                        className="relative overflow-hidden group bg-white text-red-600 font-bold py-3 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-95"
-                                    >
-                                        <span className="relative z-10 flex items-center justify-center gap-2">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-5 w-5 animate-pulse"
-                                                fill="none"
-                                                viewBox="0 0 24 24"
-                                                stroke="currentColor"
-                                            >
-                                                <path
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                                                />
-                                            </svg>
-                                            Selesaikan Sekarang
-                                        </span>
-                                        <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform group-hover:translate-x-full"></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </>
-                    )}
 
                     {/* Stats Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">

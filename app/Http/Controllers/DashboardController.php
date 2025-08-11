@@ -60,6 +60,8 @@ class DashboardController extends Controller
                 $weeklyData[] = $categoryData;
             }
 
+            // dd($categories);
+            //
             return Inertia::render(
                 'SuperAdmin/Dashboard',
                 [
