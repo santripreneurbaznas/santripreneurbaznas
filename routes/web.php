@@ -41,6 +41,9 @@ Route::get('/pendaftaran', function () {
 Route::get('/kompetisi', function () {
     return Inertia::render('Kompetisi');
 });
+Route::get('/announcement', function () {
+    return Inertia::render('Announcement');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // User routes
