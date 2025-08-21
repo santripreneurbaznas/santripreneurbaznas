@@ -5,6 +5,7 @@ import PreFooter from "@/Components/Home/Partnership";
 import OurPrograms from "@/Components/Home/Program";
 import VisionMission from "@/Components/Home/VisionMission";
 import WelcomeModal from "@/Components/Home/WelcomeModal";
+import AnnouncementModal from "@/Components/Pengumuman/AnnouncementModal";
 import Footer from "@/Layouts/Footer";
 import Navbar from "@/Layouts/Navbar";
 import { Link, Head } from "@inertiajs/react";
@@ -13,7 +14,7 @@ export default function Welcome(props) {
     return (
         <>
             <Head title="Welcome" />
-            <WelcomeModal />
+            <AnnouncementModal />
             <Navbar />
             <HeroBanner />
             <AboutUs />

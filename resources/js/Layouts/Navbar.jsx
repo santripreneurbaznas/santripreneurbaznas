@@ -22,7 +22,7 @@ const Navbar = () => {
     const navLinks = [
         { name: "Beranda", href: "/" },
         { name: "Program", href: "/#program" },
-        { name: "Tentang Kami", href: "/#tentang-kami" },
+        { name: "Pengumuman", href: "/announcement" },
         { name: "Kompetisi", href: "/kompetisi" },
     ];
 
