@@ -1,4 +1,6 @@
+import { router } from "@inertiajs/react";
 import { motion } from "framer-motion";
+import { FiArrowDown } from "react-icons/fi";
 import { useInView } from "react-intersection-observer";
 
 const AnnouncementHero = () => {
@@ -75,9 +77,9 @@ const AnnouncementHero = () => {
                         variants={itemVariants}
                         className="text-4xl md:text-6xl font-bold text-white mb-6 text-shadow-lg"
                     >
-                        <span className="block">SELAMAT KEPADA</span>
+                        <span className="block">Finalis Kompetisi</span>
                         <span className="block text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-400 mt-2">
-                            100 BESAR
+                            BAZNAS Santripreneur - 2025
                         </span>
                     </motion.h1>
 
@@ -97,31 +99,21 @@ const AnnouncementHero = () => {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold rounded-full glow-effect transition-all duration-300 flex items-center justify-center"
+                            onClick={() => {
+                                router.visit("#finalis-100-besar");
+                            }}
                         >
-                            Lihat Daftar Lengkap
-                            <svg
-                                className="w-5 h-5 ml-2"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M9 5l7 7-7 7"
-                                />
-                            </svg>
+                            Lihat Daftar Finalis
+                            <FiArrowDown className="ml-2" />
                         </motion.button>
 
-                        <motion.button
+                        {/* <motion.button
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="px-8 py-4 bg-white/10 text-white font-semibold rounded-full backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300"
                         >
                             Informasi Tahap Selanjutnya
-                        </motion.button>
+                        </motion.button> */}
                     </motion.div>
                 </motion.div>
             </div>

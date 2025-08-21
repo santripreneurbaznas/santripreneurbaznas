@@ -11,7 +11,7 @@ const Announcement = () => {
 
             <AnnouncementHero />
             <FinalistsSection />
-            <GratitudeSection />
+            {/* <GratitudeSection /> */}
             <Footer />
         </div>
     );

@@ -8,7 +8,7 @@ const FinalistsSection = () => {
         threshold: 0.1,
     });
 
-    const [showSpreadsheet, setShowSpreadsheet] = useState(false);
+    const [activeCluster, setActiveCluster] = useState("haji");
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -33,28 +33,76 @@ const FinalistsSection = () => {
         },
     };
 
-    const toggleSpreadsheet = () => {
-        setShowSpreadsheet(!showSpreadsheet);
+    const buttonVariants = {
+        hidden: { scale: 0.9, opacity: 0 },
+        visible: {
+            scale: 1,
+            opacity: 1,
+            transition: {
+                duration: 0.4,
+                ease: "easeOut",
+            },
+        },
+        hover: {
+            scale: 1.05,
+            boxShadow: "0 10px 25px -5px rgba(16, 185, 129, 0.4)",
+            transition: {
+                duration: 0.3,
+            },
+        },
+        tap: {
+            scale: 0.95,
+        },
     };
 
-    // URL untuk embed yang difokuskan hanya pada range data tertentu
-    // Ganti dengan range yang sesuai dengan data Anda
-    const sheetUrl =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqNYr3V2jJ9U3XpQ4kK8W4tQ6Z7bL8q9Jz7y3y1y2y1y2y1y2y1y2y1y2y1/pubhtml?gid=2121043538&amp;single=true&amp;widget=true&amp;headers=false&amp;range=A1:E101";
-
-    // Alternatif: menggunakan Google Sheets PUBLISH to web fitur dengan parameter chrome=false
-    const publishedSheetUrl =
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vQqNYr3V2jJ9U3XpQ4kK8W4tQ6Z7bL8q9Jz7y3y1y2y1y2y1y2y1y2y1/pubhtml?widget=true&amp;headers=false&amp;chrome=false";
+    const floatingElements = [
+        {
+            style: "top-20 left-10 w-8 h-8 bg-emerald-300/30 animate-float1",
+            shape: "rounded-full",
+        },
+        {
+            style: "top-1/3 right-16 w-12 h-12 bg-amber-300/20 animate-float2",
+            shape: "rounded-lg",
+        },
+        {
+            style: "bottom-1/4 left-20 w-10 h-10 bg-emerald-400/25 animate-float3",
+            shape: "rounded-full",
+        },
+        {
+            style: "bottom-40 right-24 w-14 h-14 bg-green-300/15 animate-float4",
+            shape: "rounded-lg",
+        },
+        {
+            style: "top-44 left-1/4 w-16 h-16 bg-amber-200/10 animate-float2",
+            shape: "rounded-full",
+        },
+    ];
 
     return (
-        <section className="relative py-20 bg-white overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full -translate-y-1/2 translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-50 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+        <section
+            id="finalis-100-besar"
+            className="relative py-20 bg-white overflow-hidden"
+        >
+            {/* Background decorative elements dengan animasi */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full -translate-y-1/2 translate-x-1/2 opacity-70"></div>
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-emerald-50 rounded-full translate-y-1/2 -translate-x-1/2 opacity-70"></div>
 
                 {/* Garis dekoratif */}
                 <div className="absolute top-1/2 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-100 to-transparent"></div>
+
+                {/* Floating elements dengan animasi */}
+                {floatingElements.map((element, index) => (
+                    <div
+                        key={index}
+                        className={`absolute ${element.style} ${element.shape} backdrop-blur-sm`}
+                    ></div>
+                ))}
+
+                {/* Pola latar belakang subtle */}
+                <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-0 left-0 w-full h-full pattern-dots pattern-green-500 pattern-bg-white pattern-opacity-20 pattern-size-4"></div>
+                </div>
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
@@ -67,23 +115,19 @@ const FinalistsSection = () => {
                 >
                     <motion.h2
                         variants={itemVariants}
-                        className="text-3xl md:text-4xl font-bold text-emerald-900 mb-6"
+                        className="text-4xl md:text-5xl font-bold text-emerald-900 mb-6"
                     >
-                        Daftar 100 Besar Peserta Lolos
-                    </motion.h2>
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-3xl md:text-4xl font-bold text-emerald-900 mb-6"
-                    >
-                        -Klaster Haji dan Umroh-
+                        <span className="text-shadow">
+                            Daftar 100 Besar Peserta Lolos
+                        </span>
                     </motion.h2>
 
                     <motion.div
                         variants={itemVariants}
-                        className="inline-flex items-center px-4 py-2 bg-emerald-100 text-emerald-800 rounded-full mb-8"
+                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 rounded-full shadow-sm mb-8 border border-emerald-200/60"
                     >
                         <svg
-                            className="w-5 h-5 mr-2"
+                            className="w-6 h-6 mr-2 text-emerald-600"
                             fill="currentColor"
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -94,16 +138,18 @@ const FinalistsSection = () => {
                                 clipRule="evenodd"
                             ></path>
                         </svg>
-                        <span>Selamat kepada 100 peserta terpilih</span>
+                        <span className="font-medium">
+                            Selamat kepada 100 peserta terpilih
+                        </span>
                     </motion.div>
 
                     <motion.p
                         variants={itemVariants}
-                        className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed"
+                        className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
                     >
                         Berikut adalah daftar peserta yang berhasil lolos ke
-                        tahap selanjutnya. Anda dapat melihat detail data dengan
-                        menekan tombol di bawah.
+                        tahap selanjutnya. Pilih klaster untuk melihat daftar
+                        peserta.
                     </motion.p>
                 </motion.div>
 
@@ -111,221 +157,159 @@ const FinalistsSection = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={inView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: 0.4 }}
-                    className="text-center mb-12"
+                    className="flex flex-col md:flex-row justify-center gap-5 mb-12 px-20 "
                 >
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={toggleSpreadsheet}
-                        className="px-8 py-4 bg-gradient-to-r from-emerald-500 to-green-600 text-white font-semibold rounded-full glow-effect transition-all duration-300 flex items-center justify-center mx-auto"
-                    >
-                        {showSpreadsheet
-                            ? "Sembunyikan Data"
-                            : "Lihat Data Lengkap"}
-                        <svg
-                            className={`w-5 h-5 ml-2 transition-transform duration-300 ${
-                                showSpreadsheet ? "rotate-180" : ""
-                            }`}
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
+                    {[
+                        { id: "haji", label: "Klaster Haji dan Umroh" },
+                        { id: "kreatif", label: "Klaster Industri Kreatif" },
+                        { id: "peternakan", label: "Klaster Peternakan" },
+                    ].map((cluster, index) => (
+                        <motion.button
+                            key={cluster.id}
+                            variants={buttonVariants}
+                            initial="hidden"
+                            animate="visible"
+                            whileHover="hover"
+                            whileTap="tap"
+                            onClick={() => setActiveCluster(cluster.id)}
+                            className={`px-8 py-4 font-semibold rounded-full transition-all duration-300 flex-1 min-w-[250px] bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg glow-effect`}
+                            style={{
+                                transition: "all 0.3s ease",
+                            }}
                         >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M19 9l-7 7-7-7"
-                            />
-                        </svg>
-                    </motion.button>
+                            {cluster.label}
+                        </motion.button>
+                    ))}
                 </motion.div>
 
-                {/* Embed Google Spreadsheet - Hanya tabel */}
+                {/* Info tambahan dengan animasi */}
                 <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{
-                        opacity: showSpreadsheet ? 1 : 0,
-                        height: showSpreadsheet ? "auto" : 0,
-                    }}
-                    transition={{ duration: 0.5 }}
-                    className="rounded-xl overflow-hidden shadow-2xl mb-12 bg-gray-50"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.6 }}
+                    className="bg-gradient-to-r from-emerald-50 to-green-50 rounded-2xl p-8 border border-emerald-100 max-w-4xl mx-auto shadow-sm mb-16"
                 >
-                    <div className="w-full h-[600px] overflow-auto">
-                        {showSpreadsheet && (
-                            <div className="p-4">
-                                <div className="bg-white rounded-lg shadow-sm p-2 ">
-                                    <h3 className="text-lg font-semibold text-emerald-800 ">
-                                        Daftar 100 Besar - Klaster Haji dan
-                                        Umroh
-                                    </h3>
-                                </div>
+                    <motion.h3
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.8 }}
+                        className="text-xl font-semibold text-emerald-900 mb-4 text-center flex items-center justify-center"
+                    >
+                        <motion.span
+                            animate={{ rotate: [0, 10, -10, 0] }}
+                            transition={{ duration: 0.5, delay: 1 }}
+                            className="inline-flex items-center justify-center w-8 h-8 bg-emerald-100 rounded-full mr-3"
+                        >
+                            <svg
+                                className="w-5 h-5 text-emerald-600"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                />
+                            </svg>
+                        </motion.span>
+                        Informasi Penting
+                    </motion.h3>
 
-                                {/* Jika menggunakan metode publish to web */}
-                                <iframe
-                                    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSG798DuitDcP005EIvEHl-mz8r-pD3OhxkicKez75QSxm2eAb5OJeYYdwklZ2Wuw6ZDqY5eFXBK4Xj/pubhtml?widget=true&amp;headers=false"
-                                    width="100%"
-                                    height="500"
-                                    frameBorder="0"
-                                    className="w-full border border-gray-200 rounded-lg"
-                                    allowFullScreen
-                                ></iframe>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 1 }}
+                        className="text-center"
+                    >
+                        <p className="text-lg text-emerald-800 leading-relaxed">
+                            Bagi peserta yang dinyatakan lolos, dimohon untuk
+                            memastikan bahwa
+                            <span className="font-semibold text-emerald-900">
+                                {" "}
+                                nomor WhatsApp selalu aktif{" "}
+                            </span>
+                            untuk mendapatkan informasi selanjutnya
+                        </p>
+                    </motion.div>
+                </motion.div>
 
-                                {/* Alternatif: Tautan langsung untuk yang ingin melihat di Google Sheets */}
-                                <div className="mt-4 text-center">
-                                    <a
-                                        href="https://docs.google.com/spreadsheets/d/1bLqivJEAOxZFq-dAJey04L-huIGYJc1d4igsZkPkQ5w/edit?usp=sharing"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center text-emerald-600 hover:text-emerald-800 font-medium"
-                                    >
-                                        Buka di Google Sheets
-                                        <svg
-                                            className="w-4 h-4 ml-1"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                                            />
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        )}
+                {/* Pesan inspiratif */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={inView ? { opacity: 1, y: 0 } : {}}
+                    transition={{ delay: 0.8 }}
+                    className="text-center mt-16 mb-16"
+                >
+                    <div className="inline-block p-1 bg-gradient-to-r from-emerald-400 to-green-500 rounded-full shadow-lg">
+                        <div className="bg-white rounded-full px-8 py-6">
+                            <motion.h3
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1 }}
+                                className="text-2xl font-semibold text-emerald-800 mb-3"
+                            >
+                                Terus Berkarya dan Menginspirasi!
+                            </motion.h3>
+                            <motion.p
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1.2 }}
+                                className="text-gray-600 text-lg"
+                            >
+                                Apapun hasilnya, kami bangga dengan semangat dan
+                                inovasi yang telah Anda tunjukkan.
+                            </motion.p>
+                        </div>
                     </div>
                 </motion.div>
 
-                {/* Info tambahan */}
-                {/* <motion.div
+                {/* Section terima kasih */}
+                <motion.div
                     initial={{ opacity: 0 }}
                     animate={inView ? { opacity: 1 } : {}}
-                    transition={{ delay: 0.6 }}
-                    className="bg-emerald-50 rounded-2xl p-8 border border-emerald-100 max-w-4xl mx-auto"
+                    transition={{ delay: 1 }}
+                    className="text-center mt-24 mb-16"
                 >
-                    <h3 className="text-xl font-semibold text-emerald-900 mb-4 text-center">
-                        Informasi Penting
-                    </h3>
+                    <motion.h2
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 1.2 }}
+                        className="text-4xl md:text-5xl font-bold text-emerald-900 mb-8"
+                    >
+                        <span className="text-shadow">
+                            Terima Kasih Atas Partisipasi Anda
+                        </span>
+                    </motion.h2>
 
-                    <div className="grid md:grid-cols-2 gap-6">
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mr-4">
-                                <svg
-                                    className="w-5 h-5 text-emerald-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 className="font-medium text-emerald-800 mb-1">
-                                    Tahap Selanjutnya
-                                </h4>
-                                <p className="text-sm text-emerald-700">
-                                    Peserta yang lolos akan dihubungi via email
-                                    untuk informasi tahap selanjutnya.
-                                </p>
-                            </div>
-                        </div>
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 1.4 }}
+                        className="inline-block px-8 py-4 bg-gradient-to-r from-emerald-100 to-green-100 rounded-full border border-emerald-200 shadow-md mb-10"
+                    >
+                        <span className="text-5xl md:text-6xl font-bold text-emerald-800 block">
+                            2.904
+                        </span>
+                        <span className="block text-emerald-600 text-lg mt-2 font-medium">
+                            Total Pendaftar
+                        </span>
+                    </motion.div>
 
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mr-4">
-                                <svg
-                                    className="w-5 h-5 text-emerald-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                                    />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 className="font-medium text-emerald-800 mb-1">
-                                    Konfirmasi Kehadiran
-                                </h4>
-                                <p className="text-sm text-emerald-700">
-                                    Harap konfirmasi kehadiran maksimal 3x24 jam
-                                    setelah pengumuman.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mr-4">
-                                <svg
-                                    className="w-5 h-5 text-emerald-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                                    />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 className="font-medium text-emerald-800 mb-1">
-                                    Dokumen yang Diperlukan
-                                </h4>
-                                <p className="text-sm text-emerald-700">
-                                    Siapkan dokumen persyaratan asli untuk
-                                    verifikasi pada tahap selanjutnya.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mr-4">
-                                <svg
-                                    className="w-5 h-5 text-emerald-600"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-                                    />
-                                </svg>
-                            </div>
-                            <div>
-                                <h4 className="font-medium text-emerald-800 mb-1">
-                                    Bantuan & Informasi
-                                </h4>
-                                <p className="text-sm text-emerald-700">
-                                    Untuk pertanyaan lebih lanjut, hubungi
-                                    panitia melalui email: info@seleksi.ac.id
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div> */}
+                    <motion.p
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        transition={{ delay: 1.6 }}
+                        className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+                    >
+                        Perjalanan seleksi ini telah menunjukkan dedikasi dan
+                        semangat luar biasa dari semua peserta. Kami sangat
+                        menghargai setiap usaha dan waktu yang telah Anda
+                        berikan.
+                    </motion.p>
+                </motion.div>
             </div>
         </section>
     );
