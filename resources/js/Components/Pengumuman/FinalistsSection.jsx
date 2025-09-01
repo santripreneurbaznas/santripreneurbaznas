@@ -1,14 +1,11 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { useState } from "react";
 
 const FinalistsSection = () => {
     const [ref, inView] = useInView({
         triggerOnce: true,
         threshold: 0.1,
     });
-
-    const [activeCluster, setActiveCluster] = useState("haji");
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -160,25 +157,38 @@ const FinalistsSection = () => {
                     className="flex flex-col md:flex-row justify-center gap-5 mb-12 px-20 "
                 >
                     {[
-                        { id: "haji", label: "Klaster Haji dan Umroh" },
-                        { id: "kreatif", label: "Klaster Industri Kreatif" },
-                        { id: "peternakan", label: "Klaster Peternakan" },
+                        {
+                            id: "haji",
+                            label: "Klaster Haji dan Umroh",
+                            link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Haji-dan-Umroh-2025.pdf",
+                        },
+                        {
+                            id: "kreatif",
+                            label: "Klaster Industri Kreatif",
+                            link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Industri-Kreatif-2025.pdf",
+                        },
+                        {
+                            id: "peternakan",
+                            label: "Klaster Peternakan",
+                            link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Peternakan-2025.pdf",
+                        },
                     ].map((cluster, index) => (
-                        <motion.button
+                        <motion.a
                             key={cluster.id}
+                            href={cluster.link}
                             variants={buttonVariants}
                             initial="hidden"
                             animate="visible"
                             whileHover="hover"
                             whileTap="tap"
-                            onClick={() => setActiveCluster(cluster.id)}
-                            className={`px-8 py-4 font-semibold rounded-full transition-all duration-300 flex-1 min-w-[250px] bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg glow-effect`}
+                            className={`px-8 py-4 font-semibold rounded-full transition-all duration-300 flex-1 min-w-[250px] bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg glow-effect text-center`}
                             style={{
                                 transition: "all 0.3s ease",
                             }}
+                            target="_blank"
                         >
                             {cluster.label}
-                        </motion.button>
+                        </motion.a>
                     ))}
                 </motion.div>
 
