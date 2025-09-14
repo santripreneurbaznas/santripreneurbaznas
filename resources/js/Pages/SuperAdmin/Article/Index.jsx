@@ -180,7 +180,7 @@ const ArticleList = ({ articles, filters }) => {
                                                                 <img
                                                                     className="h-12 w-12 rounded-lg object-cover border border-gray-200"
                                                                     src={
-                                                                        `/storage/${article.image}` ||
+                                                                        `/berkas/storage/${article.image}` ||
                                                                         "/placeholder-article.jpg"
                                                                     }
                                                                     alt={

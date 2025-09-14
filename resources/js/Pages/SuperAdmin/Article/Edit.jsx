@@ -10,7 +10,7 @@ const Edit = ({ article }) => {
     });
     const [editorReady, setEditorReady] = useState(false);
     const [imagePreview, setImagePreview] = useState(
-        article.image ? `/storage/${article.image}` : null
+        article.image ? `/berkas/storage/${article.image}` : null
     );
 
     useEffect(() => {
@@ -163,7 +163,7 @@ const Edit = ({ article }) => {
                                     <img
                                         src={
                                             imagePreview ||
-                                            `/storage/${article.image}`
+                                            `/berkas/storage/${article.image}`
                                         }
                                         alt="Preview"
                                         className="h-20 w-20 object-cover rounded-lg border border-gray-200 shadow-sm"

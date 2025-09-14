@@ -63,19 +63,18 @@ export default function AnnouncementModal() {
                             </div>
 
                             <h3 className="text-3xl font-extrabold text-gray-900 mb-2 uppercase">
-                                Pengumuman{" "}
+                                Baca Artikel Terbaru Kami
                             </h3>
 
                             <p className="text-lg text-emerald-600 font-semibold mb-4">
-                                Hasil Seleksi Kompetisi BAZNAS Santripreneur
-                                2025
+                                Ingin tahu rahasia sukses para Santripreneur ?
                             </p>
 
                             <div className="mt-6 space-y-4">
                                 <p className="text-gray-600">
-                                    Setelah melalui proses seleksi yang ketat,
-                                    kami dengan bangga mengumumkan 100 peserta
-                                    terpilih yang lolos ke tahap selanjutnya.
+                                    Artikel ini bisa jadi motivasi & ide baru
+                                    untuk bisnismu. Jangan lewatkan kesempatan
+                                    untuk belajar dari yang terbaik!
                                 </p>
 
                                 <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
@@ -94,19 +93,19 @@ export default function AnnouncementModal() {
                                             />
                                         </svg>
                                         <span className="text-amber-700 text-sm">
-                                            Bagi peserta yang lolos, pastikan
-                                            nomor WhatsApp aktif untuk informasi
-                                            selanjutnya.
+                                            Jangan lewatkan insight berharga
+                                            yang bisa menjadi motivasi untuk
+                                            kesuksesanmu di masa depan!
                                         </span>
                                     </div>
                                 </div>
 
                                 <div className="mt-8 space-y-3">
                                     <Link
-                                        href="/announcement"
+                                        href="/announcement" // Ganti dengan URL artikel yang sesuai
                                         className="w-full inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-lg transition-all duration-300 transform hover:scale-105 glow-effect"
                                     >
-                                        Lihat Daftar Lengkap
+                                        Baca Artikel Inspiratif Ini
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="ml-2 -mr-1 h-5 w-5"
@@ -127,7 +126,7 @@ export default function AnnouncementModal() {
                                         onClick={() => setIsOpen(false)}
                                         className="w-full inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-xl text-gray-700 bg-white hover:bg-gray-50 transition-all duration-300"
                                     >
-                                        Tutup
+                                        Nanti Saja
                                     </button>
                                 </div>
                             </div>
