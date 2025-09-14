@@ -126,7 +126,7 @@ const ListArticleUser = ({ latestArticle, articles }) => {
                                     <div className="relative overflow-hidden">
                                         {latestArticle.image && (
                                             <img
-                                                src={`/storage/${latestArticle.image}`}
+                                                src={`/berkas/storage/${latestArticle.image}`}
                                                 alt={latestArticle.title}
                                                 className="w-full h-96 object-contain transition-transform duration-700 group-hover:scale-110"
                                             />

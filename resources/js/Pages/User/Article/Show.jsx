@@ -134,7 +134,7 @@ export default function Show({ article, recommended, categories }) {
                                 {article.image && (
                                     <div className="relative overflow-hidden">
                                         <img
-                                            src={`/storage/${article.image}`}
+                                            src={`/berkas/storage/${article.image}`}
                                             alt={article.title}
                                             className="w-full h-64 sm:h-80 md:h-96 object-contain transition-transform duration-700 hover:scale-105"
                                         />
