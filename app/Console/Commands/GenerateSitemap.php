@@ -31,7 +31,7 @@ class GenerateSitemap extends Command
 
         foreach ($articles as $article) {
             $sitemap->add(
-                Url::create("/article/{$article->slug}")
+                Url::create("/articles/{$article->slug}")
                     ->setLastModificationDate($article->updated_at)
                     ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
                     ->setPriority(0.8)

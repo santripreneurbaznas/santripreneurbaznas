@@ -102,7 +102,7 @@ export default function AnnouncementModal() {
 
                                 <div className="mt-8 space-y-3">
                                     <Link
-                                        href="/announcement" // Ganti dengan URL artikel yang sesuai
+                                        href="/articles" // Ganti dengan URL artikel yang sesuai
                                         className="w-full inline-flex items-center justify-center px-8 py-4 border border-transparent text-base font-medium rounded-xl text-white bg-gradient-to-r from-emerald-500 to-green-600 hover:from-emerald-600 hover:to-green-700 shadow-lg transition-all duration-300 transform hover:scale-105 glow-effect"
                                     >
                                         Baca Artikel Inspiratif Ini
