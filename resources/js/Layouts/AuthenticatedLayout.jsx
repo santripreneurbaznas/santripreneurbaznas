@@ -49,6 +49,12 @@ export default function AuthenticatedLayout({ children }) {
             allowedRoles: [1],
         },
         {
+            name: "Artikel",
+            href: "/super-admin/articles",
+            icon: <FiFileText className="w-5 h-5" />,
+            allowedRoles: [1],
+        },
+        {
             name: "Program",
             href: "/super-admin/management",
             icon: <FiAward className="w-5 h-5" />,

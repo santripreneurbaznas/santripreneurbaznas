@@ -9,11 +9,14 @@ use App\Http\Controllers\Admin\{
     RegistrationController as AdminRegistrationController,
     UserController
 };
+use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\CkeditorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\SuperAdmin\AdminController;
 use App\Http\Controllers\SuperAdmin\ManagementController;
 use App\Http\Controllers\User\{
+    ArticleUserController,
     CompetitionController as UserCompetitionController,
     RegistrationController as UserRegistrationController
 };
@@ -44,6 +47,17 @@ Route::get('/kompetisi', function () {
 Route::get('/announcement', function () {
     return Inertia::render('Announcement');
 });
+Route::fallback(function () {
+    return Inertia::render('NotFound');
+});
+
+
+// Article
+Route::get('/articles', [ArticleUserController::class, 'index'])->name('user.articles.index');
+Route::get('/articles/search', [ArticleUserController::class, 'search'])->name('user.articles.search');
+Route::get('/articles/category/{category}', [ArticleUserController::class, 'category'])->name('user.articles.category');
+Route::get('/articles/{slug}', [ArticleUserController::class, 'show'])->name('user.articles.show');
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // User routes
@@ -107,6 +121,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/maintenance', [MaintenanceController::class, 'index']);
         Route::post('/maintenance/down', [MaintenanceController::class, 'down']);
         Route::post('/maintenance/up', [MaintenanceController::class, 'up']);
+
+        // Manage Articles
+        Route::post('/ckeditor/upload', [CkeditorController::class, 'upload'])->name('ckeditor.upload');
+
+        Route::get('/articles', [ArticleController::class, 'index'])->name('superadmin.articles.index');
+        Route::get('/articles/create', [ArticleController::class, 'create'])->name('superadmin.articles.create');
+        Route::post('/articles', [ArticleController::class, 'store'])->name('superadmin.articles.store');
+
+        Route::get('/articles/{article}/edit', [ArticleController::class, 'edit'])->name('superadmin.articles.edit');
+        Route::put('/articles/{article}', [ArticleController::class, 'update'])->name('superadmin.articles.update');
+
+        Route::get('/articles/{article}', [ArticleController::class, 'show'])->name('superadmin.articles.show');
+
+
+        Route::post('/articles/category', [ArticleController::class, 'storeCategory'])->name('superadmin.articles.category.store');
     });
 
     // Export Exel
@@ -121,11 +150,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
 
-Route::fallback(function () {
-    return Inertia::render('NotFound');
-});
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+
 
 
 Route::middleware('auth')->group(function () {

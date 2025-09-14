@@ -131,7 +131,7 @@ export default function ManagementIndex({ auth, competitions }) {
     };
 
     return (
-        <AuthenticatedLayout user={auth.user}>
+        <AuthenticatedLayout>
             <Head title="Management Kompetisi & Kategori" />
 
             <div className="min-h-screen">
