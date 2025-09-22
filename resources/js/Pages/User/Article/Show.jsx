@@ -210,7 +210,7 @@ export default function Show({ article, recommended, categories }) {
                                                     {rec.image && (
                                                         <div className="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden">
                                                             <img
-                                                                src={`/storage/${rec.image}`}
+                                                                src={`/berkas/storage/${rec.image}`}
                                                                 alt={rec.title}
                                                                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                                                             />

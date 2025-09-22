@@ -206,7 +206,7 @@ const ListArticleUser = ({ latestArticle, articles }) => {
                                         <div className="relative overflow-hidden aspect-[4/3]">
                                             {article.image ? (
                                                 <img
-                                                    src={`/storage/${article.image}`}
+                                                    src={`/berkas/storage/${article.image}`}
                                                     alt={article.title}
                                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                                 />
