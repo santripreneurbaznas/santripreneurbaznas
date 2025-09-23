@@ -103,94 +103,173 @@ const FinalistsSection = () => {
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <motion.div
-                    ref={ref}
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={inView ? "visible" : "hidden"}
-                    className="text-center mb-16"
-                >
-                    <motion.h2
-                        variants={itemVariants}
-                        className="text-4xl md:text-5xl font-bold text-emerald-900 mb-6"
-                    >
-                        <span className="text-shadow">
-                            Daftar 100 Besar Peserta Lolos
-                        </span>
-                    </motion.h2>
+                <div className="space-y-[60px] flex flex-col">
+                    <motion.div>
+                        <motion.div ref={ref} className="text-center mb-16">
+                            <motion.h2
+                                variants={itemVariants}
+                                className="text-4xl md:text-5xl font-bold text-emerald-900 mb-6"
+                            >
+                                <span className="text-shadow">
+                                    Daftar 100 Besar Peserta Lolos
+                                </span>
+                            </motion.h2>
 
-                    <motion.div
-                        variants={itemVariants}
-                        className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 rounded-full shadow-sm mb-8 border border-emerald-200/60"
-                    >
-                        <svg
-                            className="w-6 h-6 mr-2 text-emerald-600"
-                            fill="currentColor"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
+                            <motion.div
+                                variants={itemVariants}
+                                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 rounded-full shadow-sm mb-8 border border-emerald-200/60"
+                            >
+                                <svg
+                                    className="w-6 h-6 mr-2 text-emerald-600"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clipRule="evenodd"
+                                    ></path>
+                                </svg>
+                                <span className="font-medium">
+                                    Selamat kepada 100 peserta terpilih
+                                </span>
+                            </motion.div>
+
+                            <motion.p
+                                variants={itemVariants}
+                                className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+                            >
+                                Berikut adalah daftar peserta yang berhasil
+                                lolos ke tahap selanjutnya. Pilih klaster untuk
+                                melihat daftar peserta.
+                            </motion.p>
+                        </motion.div>
+                        {/* ini */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={inView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ delay: 0.4 }}
+                            className="flex flex-col md:flex-row justify-center gap-5 mb-12 px-20 "
                         >
-                            <path
-                                fillRule="evenodd"
-                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                clipRule="evenodd"
-                            ></path>
-                        </svg>
-                        <span className="font-medium">
-                            Selamat kepada 100 peserta terpilih
-                        </span>
+                            {[
+                                {
+                                    id: "haji",
+                                    label: "Klaster Haji dan Umroh",
+                                    link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Haji-dan-Umroh-2025.pdf",
+                                },
+                                {
+                                    id: "kreatif",
+                                    label: "Klaster Industri Kreatif",
+                                    link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Industri-Kreatif-2025.pdf",
+                                },
+                                {
+                                    id: "peternakan",
+                                    label: "Klaster Peternakan",
+                                    link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Peternakan-2025.pdf",
+                                },
+                            ].map((cluster, index) => (
+                                <motion.a
+                                    key={cluster.id}
+                                    href={cluster.link}
+                                    variants={buttonVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    whileHover="hover"
+                                    whileTap="tap"
+                                    className={`px-8 py-4 font-semibold rounded-full transition-all duration-300 flex-1 min-w-[250px] bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg glow-effect text-center`}
+                                    style={{
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    target="_blank"
+                                >
+                                    {cluster.label}
+                                </motion.a>
+                            ))}
+                        </motion.div>
                     </motion.div>
+                    <motion.div>
+                        <motion.div ref={ref} className="text-center mb-16">
+                            <motion.h2
+                                variants={itemVariants}
+                                className="text-4xl md:text-5xl font-bold text-emerald-900 mb-6"
+                            >
+                                <span className="text-shadow">
+                                    Daftar 50 Besar Peserta Lolos
+                                </span>
+                            </motion.h2>
 
-                    <motion.p
-                        variants={itemVariants}
-                        className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
-                    >
-                        Berikut adalah daftar peserta yang berhasil lolos ke
-                        tahap selanjutnya. Pilih klaster untuk melihat daftar
-                        peserta.
-                    </motion.p>
-                </motion.div>
+                            <motion.div
+                                variants={itemVariants}
+                                className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 rounded-full shadow-sm mb-8 border border-emerald-200/60"
+                            >
+                                <svg
+                                    className="w-6 h-6 mr-2 text-emerald-600"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                        clipRule="evenodd"
+                                    ></path>
+                                </svg>
+                                <span className="font-medium">
+                                    Selamat kepada 100 peserta terpilih
+                                </span>
+                            </motion.div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={inView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.4 }}
-                    className="flex flex-col md:flex-row justify-center gap-5 mb-12 px-20 "
-                >
-                    {[
-                        {
-                            id: "haji",
-                            label: "Klaster Haji dan Umroh",
-                            link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Haji-dan-Umroh-2025.pdf",
-                        },
-                        {
-                            id: "kreatif",
-                            label: "Klaster Industri Kreatif",
-                            link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Industri-Kreatif-2025.pdf",
-                        },
-                        {
-                            id: "peternakan",
-                            label: "Klaster Peternakan",
-                            link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Peternakan-2025.pdf",
-                        },
-                    ].map((cluster, index) => (
-                        <motion.a
-                            key={cluster.id}
-                            href={cluster.link}
-                            variants={buttonVariants}
-                            initial="hidden"
-                            animate="visible"
-                            whileHover="hover"
-                            whileTap="tap"
-                            className={`px-8 py-4 font-semibold rounded-full transition-all duration-300 flex-1 min-w-[250px] bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg glow-effect text-center`}
-                            style={{
-                                transition: "all 0.3s ease",
-                            }}
-                            target="_blank"
-                        >
-                            {cluster.label}
-                        </motion.a>
-                    ))}
-                </motion.div>
+                            <motion.p
+                                variants={itemVariants}
+                                className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+                            >
+                                Berikut adalah daftar peserta yang berhasil
+                                lolos ke tahap selanjutnya. Pilih klaster untuk
+                                melihat daftar peserta.
+                            </motion.p>
+                        </motion.div>
+
+                        {/* ini */}
+
+                        <motion.div className="flex flex-col md:flex-row justify-center gap-5 mb-12 px-20 ">
+                            {[
+                                {
+                                    id: "haji",
+                                    label: "Klaster Haji dan Umroh",
+                                    link: "/files/finalis/2025/Finalis-50-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Haji-dan-Umrah.pdf",
+                                },
+                                {
+                                    id: "kreatif",
+                                    label: "Klaster Industri Kreatif",
+                                    link: "/files/finalis/2025/Finalis-50-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Industri-Kreatif.pdf",
+                                },
+                                {
+                                    id: "peternakan",
+                                    label: "Klaster Peternakan",
+                                    link: "/files/finalis/2025/Finalis-50-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Peternakan.pdf",
+                                },
+                            ].map((cluster, index) => (
+                                <motion.a
+                                    key={cluster.id}
+                                    href={cluster.link}
+                                    variants={buttonVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    whileHover="hover"
+                                    whileTap="tap"
+                                    className={`px-8 py-4 font-semibold rounded-full transition-all duration-300 flex-1 min-w-[250px] bg-gradient-to-r from-emerald-500 to-green-600 text-white shadow-lg glow-effect text-center`}
+                                    style={{
+                                        transition: "all 0.3s ease",
+                                    }}
+                                    target="_blank"
+                                >
+                                    {cluster.label}
+                                </motion.a>
+                            ))}
+                        </motion.div>
+                    </motion.div>
+                </div>
 
                 {/* Info tambahan dengan animasi */}
                 <motion.div
