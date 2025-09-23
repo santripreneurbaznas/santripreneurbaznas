@@ -216,7 +216,7 @@ const FinalistsSection = () => {
                                     ></path>
                                 </svg>
                                 <span className="font-medium">
-                                    Selamat kepada 100 peserta terpilih
+                                    Selamat kepada 50 peserta terpilih
                                 </span>
                             </motion.div>
 
