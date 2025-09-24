@@ -161,7 +161,7 @@ const FinalistsSection = () => {
                                 {
                                     id: "kreatif",
                                     label: "Klaster Industri Kreatif",
-                                    link: "/files/finalis/2025/269-Pengumuman-Pitching-Audition-BAZNAS-Santripreneur-Klaster-Industri-Kreatif-2025-signed.pdf",
+                                    link: "/files/finalis/2025/Finalis-100-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Industri-Kreatif-2025.pdf",
                                 },
                                 {
                                     id: "peternakan",
@@ -242,7 +242,7 @@ const FinalistsSection = () => {
                                 {
                                     id: "kreatif",
                                     label: "Klaster Industri Kreatif",
-                                    link: "/files/finalis/2025/Finalis-50-Besar-Kompetisi-BAZNAS-Santripreneur-Klaster-Industri-Kreatif.pdf",
+                                    link: "/files/finalis/2025/269-Pengumuman-Pitching-Audition-BAZNAS-Santripreneur-Klaster-Industri-Kreatif-2025-signed.pdf",
                                 },
                                 {
                                     id: "peternakan",
