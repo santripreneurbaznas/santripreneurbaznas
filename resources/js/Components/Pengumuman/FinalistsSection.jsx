@@ -318,7 +318,7 @@ const FinalistsSection = () => {
                                 {
                                     id: "haji",
                                     label: "Klaster Haji dan Umroh",
-                                    link: "/files/finalis/2025/FINALIS-10-BESAR-KLASTER-HAJI-DAN-UMRAH.pdf",
+                                    link: "/files/finalis/2025/FINALIS-10-BESAR-KLASTER-HAJI-DAN-UMRAH-2025.pdf",
                                 },
                                 // {
                                 //     id: "kreatif",
