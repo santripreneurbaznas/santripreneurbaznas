@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-        <loc>http://localhost/127.0.0.1</loc>
-        <lastmod>2025-09-14T14:45:49+00:00</lastmod>
+        <loc>https://santripreneurbaznas.id</loc>
+        <lastmod>2025-09-30T16:08:20+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://localhost/127.0.0.1/kompetisi</loc>
-        <lastmod>2025-09-14T14:45:49+00:00</lastmod>
+        <loc>https://santripreneurbaznas.id/kompetisi</loc>
+        <lastmod>2025-09-30T16:08:20+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://localhost/127.0.0.1/announcement</loc>
-        <lastmod>2025-09-14T14:45:49+00:00</lastmod>
+        <loc>https://santripreneurbaznas.id/announcement</loc>
+        <lastmod>2025-09-30T16:08:20+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://localhost/127.0.0.1/article/kompetisi-baznas-santripreneur-2025-seleksi-50-besar-tiap-klaster-dimulai</loc>
-        <lastmod>2025-09-14T14:40:58+00:00</lastmod>
+        <loc>https://santripreneurbaznas.id/articles/kompetisi-baznas-santripreneur-2025-seleksi-50-besar-tiap-klaster-dimulai</loc>
+        <lastmod>2025-09-29T01:24:15+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://santripreneurbaznas.id/articles/50-peserta-terbaik-baznas-santripreneur-siap-ikuti-bootcamp-di-bekasi</loc>
+        <lastmod>2025-09-29T01:23:51+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>https://santripreneurbaznas.id/articles/grand-final-kompetisi-baznas-santripreneur-klaster-haji-dan-umrah</loc>
+        <lastmod>2025-09-30T16:08:20+00:00</lastmod>
 
             </url>
 </urlset>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Articles;
 use App\Models\CategoryArticle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ArticleUserController extends Controller
@@ -121,6 +122,11 @@ class ArticleUserController extends Controller
             'article'      => $article->fresh(['category']), // ambil data terbaru setelah update views
             'recommended'  => $recommended,
             'categories'   => $categories,
+        ])->withViewData([
+            'title' => $article->title,
+            'description' => Str::limit(strip_tags($article->content), 160),
+            'image' => $article->image ? url('berkas/storage/' . $article->image) : asset('default-og.jpg'),
+            'url' => url()->current(),
         ]);
     }
 }
