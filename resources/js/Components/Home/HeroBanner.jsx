@@ -12,15 +12,15 @@ const HeroBanner = () => {
         const interval = 20;
 
         // Hitung step untuk setiap counter
-        const santriStep = Math.ceil(3000 / (duration / interval));
-        const mentorStep = Math.ceil(100 / (duration / interval));
-        const mitraStep = Math.ceil(200 / (duration / interval));
+        const santriStep = Math.ceil(1505 / (duration / interval));
+        const mentorStep = Math.ceil(28 / (duration / interval));
+        const mitraStep = Math.ceil(225 / (duration / interval));
 
         const santriTimer = setInterval(() => {
             setSantriCount((prev) => {
-                if (prev >= 3000) {
+                if (prev >= 1505) {
                     clearInterval(santriTimer);
-                    return 3000;
+                    return 1505;
                 }
                 return prev + santriStep;
             });
@@ -28,9 +28,9 @@ const HeroBanner = () => {
 
         const mentorTimer = setInterval(() => {
             setMentorCount((prev) => {
-                if (prev >= 100) {
+                if (prev >= 28) {
                     clearInterval(mentorTimer);
-                    return 100;
+                    return 28;
                 }
                 return prev + mentorStep;
             });
@@ -38,9 +38,9 @@ const HeroBanner = () => {
 
         const mitraTimer = setInterval(() => {
             setMitraCount((prev) => {
-                if (prev >= 200) {
+                if (prev >= 225) {
                     clearInterval(mitraTimer);
-                    return 200;
+                    return 225;
                 }
                 return prev + mitraStep;
             });
@@ -99,19 +99,22 @@ const HeroBanner = () => {
                             <div className="text-3xl font-bold text-white">
                                 {santriCount.toLocaleString()}+
                             </div>
-                            <div className="text-white/80">Jaringan santri</div>
+                            <div className="text-white/80">
+                                {" "}
+                                Penerima Manfaat
+                            </div>
                         </div>
                         <div className="text-center">
                             <div className="text-3xl font-bold text-white">
-                                {mentorCount}+
+                                {mentorCount}
                             </div>
-                            <div className="text-white/80">Mentor Expert</div>
+                            <div className="text-white/80">provinsi</div>
                         </div>
                         <div className="text-center">
                             <div className="text-3xl font-bold text-white">
                                 {mitraCount} +
                             </div>
-                            <div className="text-white/80">Mitra</div>
+                            <div className="text-white/80">Kab Kota</div>
                         </div>
                     </div>
                 </div>
