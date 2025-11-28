@@ -8,10 +8,15 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Style\Font;
 
 class WinnersExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
     protected $categoryId;
+    protected $rowNumber = 0;
 
     public function __construct($categoryId)
     {
@@ -45,48 +50,100 @@ class WinnersExport implements FromCollection, WithHeadings, WithMapping, WithSt
             'Kecamatan',
             'Kelurahan/Desa',
             'Nomor Kartu Keluarga',
-            'Motivasi',
             'Perkiraan Penghasilan Bulanan',
-            'Tanggal Pendaftaran'
+            'Tanggal Pendaftaran',
         ];
     }
 
-    public function map($registration): array
+    public function map($r): array
     {
+        $this->rowNumber++;
+
         return [
-            $registration->id,
-            $registration->user->name,
-            $registration->user->nik,
-            $registration->user->email,
-            $registration->number_wa,
-            $registration->place_of_birth,
-            $registration->date_of_birth,
-            $registration->gender,
-            $registration->boarding_school_name,
-            $registration->address,
-            $registration->province,
-            $registration->kabupaten,
-            $registration->kecamatan,
-            $registration->kelurahan,
-            $registration->number_kk,
-            $registration->motivation,
-            $registration->estimated_monthly_income,
-            $registration->created_at->format('d/m/Y H:i')
+            $this->rowNumber,
+            $r->user->name,
+            "'" . $r->user->nik,
+            $r->user->email,
+            $r->number_wa,
+            $r->place_of_birth,
+            $r->date_of_birth,
+            $r->gender,
+            $r->boarding_school_name,
+            $r->address,
+            $r->province,
+            $r->kabupaten,
+            $r->kecamatan,
+            $r->kelurahan,
+            "'" . $r->number_kk,
+            $r->estimated_monthly_income,
+            $r->created_at->format('d/m/Y H:i'),
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        return [
-            // Style the first row as bold text
-            1 => ['font' => ['bold' => true]],
+        $highestRow = $sheet->getHighestRow();
 
-            // Set auto size for columns
-            'A:Z' => [
-                'alignment' => [
-                    'wrapText' => true,
-                ],
+        // STYLE HEADER
+        $sheet->getStyle('A1:Q1')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 12],
+            'fill' => [
+                'fillType' => Fill::FILL_SOLID,
+                'startColor' => ['rgb' => 'D9D9D9']
             ],
+            'borders' => [
+                'allBorders' => ['borderStyle' => Border::BORDER_THIN]
+            ],
+            'alignment' => [
+                'horizontal' => Alignment::HORIZONTAL_CENTER,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+                'wrapText'   => true,
+            ]
+        ]);
+
+        // STYLE BODY
+        $sheet->getStyle("A2:Q{$highestRow}")
+            ->applyFromArray([
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => Border::BORDER_THIN,
+                        'color' => ['rgb' => '000000']
+                    ]
+                ],
+                'alignment' => [
+                    'vertical' => Alignment::VERTICAL_TOP,
+                    'wrapText' => true
+                ]
+            ]);
+
+        // SET WIDTHS
+        $columnWidths = [
+            'A' => 6,
+            'B' => 25,
+            'C' => 20,
+            'D' => 25,
+            'E' => 18,
+            'F' => 15,
+            'G' => 15,
+            'H' => 15,
+            'I' => 25,
+            'J' => 35,
+            'K' => 15,
+            'L' => 20,
+            'M' => 20,
+            'N' => 20,
+            'O' => 20,
+            'P' => 20,
+            'Q' => 20,
         ];
+
+        foreach ($columnWidths as $col => $width) {
+            $sheet->getColumnDimension($col)->setWidth($width);
+        }
+
+        // HEADER HEIGHT
+        $sheet->getRowDimension(1)->setRowHeight(30);
+
+        return [];
     }
 }

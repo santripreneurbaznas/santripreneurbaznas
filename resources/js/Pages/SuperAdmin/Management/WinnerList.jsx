@@ -99,7 +99,7 @@ export default function WinnerList({ category }) {
                 <div className="space-y-4">
                     {/* Header Stats */}
                     <div className="bg-gradient-to-r from-green-50 to-green-50 p-4 rounded-lg border border-green-200">
-                        <div className="flex justify-between items-center">
+                        <div className="flex lg:flex-row flex-col space-y-2 lg:space-y-0 justify-between items-center">
                             <div className="flex items-center space-x-4">
                                 <div className="bg-green-100 p-3 rounded-full">
                                     <HandHeart className="text-green-600 text-xl" />
@@ -170,9 +170,6 @@ export default function WinnerList({ category }) {
                                                     <h4 className="text-lg font-semibold text-gray-900">
                                                         {winner.user.name}
                                                     </h4>
-                                                    <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-medium">
-                                                        Penerima Manfaat
-                                                    </span>
                                                 </div>
 
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
@@ -262,24 +259,6 @@ export default function WinnerList({ category }) {
                                                         </span>
                                                     </div>
                                                 </div>
-
-                                                {/* Motivasi */}
-                                                {winner.motivation && (
-                                                    <div className="mt-3 pt-3 border-t border-gray-200">
-                                                        <div className="flex">
-                                                            <span className="font-medium text-sm w-20">
-                                                                Motivasi:
-                                                            </span>
-                                                            <span className="text-sm text-gray-600 flex-1 italic">
-                                                                "
-                                                                {
-                                                                    winner.motivation
-                                                                }
-                                                                "
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
                                             </div>
                                         </div>
                                     </div>

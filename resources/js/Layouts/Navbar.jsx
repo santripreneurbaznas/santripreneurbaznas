@@ -150,7 +150,7 @@ const Navbar = () => {
                                         }
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.9 }}
-                                        className="bg-[#FFC107] p-2 rounded-lg text-white w-1/2 mx-auto"
+                                        className="bg-[#FFC107] p-2 rounded-lg text-primary w-1/2 mx-auto"
                                     >
                                         Daftar sekarang
                                     </motion.button>
