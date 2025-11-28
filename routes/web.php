@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\{
     UserController
 };
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Baznas\ProgramBaznasController;
 use App\Http\Controllers\CkeditorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaintenanceController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\User\{
     CompetitionController as UserCompetitionController,
     RegistrationController as UserRegistrationController
 };
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -57,6 +59,8 @@ Route::get('/articles', [ArticleUserController::class, 'index'])->name('user.art
 Route::get('/articles/search', [ArticleUserController::class, 'search'])->name('user.articles.search');
 Route::get('/articles/category/{category}', [ArticleUserController::class, 'category'])->name('user.articles.category');
 Route::get('/articles/{slug}', [ArticleUserController::class, 'show'])->name('user.articles.show');
+
+
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -112,6 +116,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/competitions/{competition}', [ManagementController::class, 'updateCompetition'])->name('superadmin.competitions.update');
         Route::patch('/competitions/{competition}/toggle-status', [ManagementController::class, 'toggleCompetitionStatus'])->name('superadmin.competitions.toggle-status');
 
+        // Manage Winner
+
+        Route::post('/winners/set', [ManagementController::class, 'setWinners'])->name('superadmin.winners.set');
+        Route::get('/registrations/search', [ManagementController::class, 'searchParticipants'])->name('superadmin.registrations.search');
+        Route::post('/registrations/bulk-search', [ManagementController::class, 'bulkSearch']);
+
+
+
 
         // Registrations
         Route::get('/registrations/{registration}', [AdminRegistrationController::class, 'show'])->name('superadmin.registrations.show');
@@ -138,14 +150,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/articles/category', [ArticleController::class, 'storeCategory'])->name('superadmin.articles.category.store');
     });
 
+    // Baznasroutes
+    Route::prefix('baznas')->middleware('baznas')->group(function () {
+        Route::get('/beneficiary', [ProgramBaznasController::class, 'index'])->name('baznas.beneficiary.index');
+    });
+
     // Export Exel
     Route::get('/user/export', [UserController::class, 'export_excel'])
         ->name('superadmin.users.export');
+
+    Route::get('/participant/categories/{category}/winners', [ManagementController::class, 'getWinnersByCategory'])->name('superadmin.winners.index');
+    Route::get('/participant/categories/{category}/winners/export', [ManagementController::class, 'exportWinners'])->name('superadmin.winners.export');
 });
-
-
-
-
 
 
 

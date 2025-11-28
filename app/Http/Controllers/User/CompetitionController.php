@@ -13,22 +13,47 @@ class CompetitionController extends Controller
 {
     public function showRegistrationForm(Competition $competition)
     {
-        // Cek apakah user sudah mendaftar di lomba ini
-        $alreadyRegistered = Registration::where('user_id', auth()->id())
+        $user = auth()->user();
+
+        // 1. Cek apakah user pernah MENANG di kompetisi manapun
+        $hasEverWon = Registration::where('user_id', $user->id)
+            ->where('is_winner', true)
+            ->exists();
+
+        if ($hasEverWon) {
+            return redirect()->route('user.registrations.index')
+                ->with('error', 'Anda sudah pernah menjadi pemenang dan tidak dapat mengikuti lomba lagi.');
+        }
+
+        // 2. Cek apakah user sudah daftar pada kompetisi ini
+        $alreadyRegistered = Registration::where('user_id', $user->id)
             ->where('competition_id', $competition->id)
             ->exists();
 
         if ($alreadyRegistered) {
-            return redirect()->route('user.registrations.index')->with('error', 'Anda sudah terdaftar di lomba ini');
+            return redirect()->route('user.registrations.index')
+                ->with('error', 'Anda sudah terdaftar di lomba ini.');
         }
 
-        $categories = $competition->categories()->where('is_active', true)->get();
+        // 3. Cek apakah kompetisi masih aktif
+        $competitionActive = $competition->is_active;
+
+        if (!$competitionActive) {
+            return redirect()->back()->with('error', 'Lomba sudah tidak tersedia.');
+        }
+
+        // 4. Ambil kategori aktif
+        $categories = $competition->categories()
+            ->where('is_active', true)
+            ->get();
 
         return Inertia::render('User/Competitions/Register', [
             'competition' => $competition,
-            'categories' => $categories,
+            'categories'  => $categories,
+            'user'        => $user
         ]);
     }
+
     public function index()
     {
         //

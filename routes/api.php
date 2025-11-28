@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\FileUploadController;
 use App\Models\Competition;
 use App\Services\WilayahService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -64,3 +66,5 @@ Route::prefix('wilayah')->group(function () {
         return response()->json(app(WilayahService::class)->getVillages($districtId));
     });
 });
+
+Route::post('/upload-registration-file', [FileUploadController::class, 'uploadRegistrationFile']);

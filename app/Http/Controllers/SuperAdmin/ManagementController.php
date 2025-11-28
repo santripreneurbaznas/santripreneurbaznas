@@ -5,8 +5,13 @@ namespace App\Http\Controllers\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Competition;
+use App\Models\Registration;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\WinnersExport;
+use App\Models\User;
+use Illuminate\Support\Str;
 
 class ManagementController extends Controller
 {
@@ -90,6 +95,112 @@ class ManagementController extends Controller
     {
         $competition->update(['is_active' => !$competition->is_active]);
         return redirect()->back()->with('success', 'Competition status updated.');
+    }
+
+
+    public function setWinners(Request $request)
+    {
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'winners' => 'required|array',
+            'winners.*' => 'exists:registrations,id',
+        ]);
+
+        Log::info($request->all());
+
+        // Reset semua pemenang di kategori ini
+        Registration::where('category_id', $request->category_id)
+            ->update(['is_winner' => false]);
+
+        // Set pemenang baru
+        Registration::whereIn('id', $request->winners)
+            ->update(['is_winner' => true]);
+
+        return back()->with('success', 'Pemenang berhasil ditetapkan.');
+    }
+
+    public function searchParticipants(Request $request)
+    {
+        $request->validate([
+            'nik' => 'required|string',
+            'category_id' => 'required|exists:categories,id'
+        ]);
+
+        $participants = Registration::with(['user', 'category'])
+            ->where('category_id', $request->category_id)
+            ->whereHas('user', function ($query) use ($request) {
+                $query->where('nik', 'like', '%' . $request->nik . '%');
+            })
+            ->where('is_winner', false) // Hanya yang belum jadi pemenang
+            ->get();
+
+        return response()->json($participants);
+    }
+
+    public function bulkSearch(Request $request)
+    {
+        $request->validate([
+            'niks' => 'required|array',
+            'niks.*' => 'string|size:16',
+            'category_id' => 'required|exists:categories,id'
+        ]);
+
+        $niks = $request->niks;
+
+        // Cari user berdasarkan NIK
+        $users = User::whereIn('nik', $niks)->get();
+
+        // Cari registrations berdasarkan user_id dan category_id
+        $found = [];
+        $notFound = [];
+
+        foreach ($niks as $nik) {
+            $user = $users->where('nik', $nik)->first();
+
+            if ($user) {
+                $registration = Registration::with(['user', 'category'])
+                    ->where('user_id', $user->id)
+                    ->where('category_id', $request->category_id)
+                    ->first();
+
+                if ($registration) {
+                    $found[] = $registration;
+                } else {
+                    $notFound[] = $nik;
+                }
+            } else {
+                $notFound[] = $nik;
+            }
+        }
+
+        return response()->json([
+            'found' => $found,
+            'not_found' => $notFound
+        ]);
+    }
+
+    public function getWinnersByCategory($categoryId)
+    {
+        $winners = Registration::with(['user', 'category'])
+            ->where('category_id', $categoryId)
+            ->where('is_winner', true)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($winners);
+    }
+
+    /**
+     * Export winners to Excel
+     */
+    public function exportWinners($categoryId)
+    {
+        $category = Category::findOrFail($categoryId);
+
+        return Excel::download(
+            new WinnersExport($categoryId),
+            'pemenang-' .  Str::slug($category->name) . '-' . now()->format('Y-m-d') . '.xlsx'
+        );
     }
 
 

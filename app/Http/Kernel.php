@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
         // ...
         'admin' => \App\Http\Middleware\CheckAdmin::class,
         'superadmin' => \App\Http\Middleware\CheckSuperAdmin::class,
+        'baznas' => \App\Http\Middleware\CheckBaznas::class
     ];
 }

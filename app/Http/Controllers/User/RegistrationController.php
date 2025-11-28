@@ -75,14 +75,14 @@ class RegistrationController extends Controller
             'kecamatan' => 'required|string|max:100',
             'kelurahan' => 'required|string|max:100',
             'boarding_school_name' => 'required|string|max:100',
-            'motivation' => 'required|string|max:255',
+            'motivation' => 'required|string|max:2000',
             'estimated_monthly_income' => 'required',
             'number_wa' => 'required|string|max:20',
             'number_kk' => 'required|string|max:25',
-            'business_proposal_file' => 'required|file|mimes:pdf|max:2048',
-            'mustahik_certificate_file' => 'required|file|mimes:pdf|max:2048',
-            'pesantren_certificate_file' => 'required|file|mimes:pdf|max:2048',
-            'sktm_certificate_file' => 'required|file|mimes:pdf|max:2048',
+            'business_proposal' => 'required|string', // Sekarang berupa path string
+            'mustahik_certificate' => 'required|string',
+            'pesantren_certificate' => 'required|string',
+            'sktm_certificate' => 'required|string',
         ]);
 
 
@@ -103,35 +103,41 @@ class RegistrationController extends Controller
 
         // Simpan file dengan nama yang sudah ditentukan
 
-        $filePaths = [];
         DB::beginTransaction();
         try {
-            foreach (['business_proposal', 'mustahik_certificate', 'pesantren_certificate', 'sktm_certificate'] as $fileType) {
+            // Langsung buat registrasi karena file sudah diupload sebelumnya
+            $registration = Registration::create([
+                'user_id' => auth()->id(),
+                'competition_id' => $validated['competition_id'],
+                'category_id' => $validated['category_id'],
+                'place_of_birth' => $validated['place_of_birth'],
+                'date_of_birth' => $validated['date_of_birth'],
+                'gender' => $validated['gender'],
+                'address' => $validated['address'],
+                'province' => $validated['province'],
+                'kabupaten' => $validated['kabupaten'],
+                'kecamatan' => $validated['kecamatan'],
+                'kelurahan' => $validated['kelurahan'],
+                'boarding_school_name' => $validated['boarding_school_name'],
+                'motivation' => $validated['motivation'],
+                'estimated_monthly_income' => $validated['estimated_monthly_income'],
+                'number_wa' => $validated['number_wa'],
+                'number_kk' => $validated['number_kk'],
 
-                $file = $request->file($fileType . '_file');
+                // 🟢 FE → DB mapping (INI YANG PENTING)
+                'business_proposal_file'      => $validated['business_proposal'],
+                'mustahik_certificate_file'   => $validated['mustahik_certificate'],
+                'pesantren_certificate_file'  => $validated['pesantren_certificate'],
 
-                // Simpan file dengan nama custom
-                $path = $file->storeAs(
-                    'registrations/' . $fileType,
-                    $fileNames[$fileType],
-                    'public'
-                );
+                // Jika ada kolom SKTM
+                'sktm_certificate_file'       => $validated['sktm_certificate'] ?? null,
+            ]);
 
-                $filePaths[$fileType . '_file'] = $path;
-            }
-
-            // Buat registrasi
-            $registration = Registration::create(array_merge(
-                $validated,
-                $filePaths,
-                ['user_id' => auth()->id()]
-            ));
             DB::commit();
 
             return redirect()->route('user.registrations.index')->with('success', 'Pendaftaran berhasil dikirim!');
         } catch (\Exception $e) {
             DB::rollBack();
-
             return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
@@ -247,7 +253,7 @@ class RegistrationController extends Controller
             'kecamatan' => 'sometimes|required|string|max:100',
             'kelurahan' => 'sometimes|required|string|max:100',
             'boarding_school_name' => 'sometimes|required|string|max:100',
-            'motivation' => 'sometimes|required|string|max:500',
+            'motivation' => 'sometimes|required|string|max:2000',
             'estimated_monthly_income' => 'sometimes|required|string|max:50',
             'number_wa' => 'sometimes|required|string|max:20',
             'number_kk' => 'sometimes|required|string|max:25',

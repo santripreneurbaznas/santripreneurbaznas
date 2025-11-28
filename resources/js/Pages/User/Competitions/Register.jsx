@@ -4,9 +4,15 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { toast } from "sonner";
 import axios from "axios";
 import { debounce } from "@/Utils/debounce";
-import useFlashMessages from "@/Hooks/useFlashMessages";
+import { Upload, Loader2, CheckCircle, FileCheck } from "lucide-react";
 
-export default function RegistrationForm({ competition, categories, errors }) {
+export default function RegistrationForm({
+    competition,
+    categories,
+    user,
+    errors,
+}) {
+    console.log(user);
     const [provinces, setProvinces] = useState([]);
     const [regencies, setRegencies] = useState([]);
     const [districts, setDistricts] = useState([]);
@@ -17,12 +23,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
         districts: false,
         villages: false,
     });
-    const [error, setError] = useState({
-        provinces: null,
-        regencies: null,
-        districts: null,
-        villages: null,
-    });
+    const [uploadingFiles, setUploadingFiles] = useState({});
 
     const { data, setData, post, processing } = useForm({
         competition_id: competition.id,
@@ -40,26 +41,21 @@ export default function RegistrationForm({ competition, categories, errors }) {
         estimated_monthly_income: "",
         number_wa: "",
         number_kk: "",
-        business_proposal_file: null,
-        mustahik_certificate_file: null,
-        pesantren_certificate_file: null,
-        sktm_certificate_file: null,
+        business_proposal: "",
+        mustahik_certificate: "",
+        pesantren_certificate: "",
+        sktm_certificate: "",
     });
 
     // Fetch provinces saat komponen mount
     useEffect(() => {
         const fetchProvinces = async () => {
             setLoading((prev) => ({ ...prev, provinces: true }));
-            setError((prev) => ({ ...prev, provinces: null }));
             try {
                 const response = await axios.get("/api/wilayah/provinces");
                 setProvinces(response.data);
             } catch (err) {
                 console.error("Error fetching provinces:", err);
-                setError((prev) => ({
-                    ...prev,
-                    provinces: "Gagal memuat data provinsi",
-                }));
                 toast.error("Gagal memuat data provinsi");
             } finally {
                 setLoading((prev) => ({ ...prev, provinces: false }));
@@ -68,13 +64,14 @@ export default function RegistrationForm({ competition, categories, errors }) {
         fetchProvinces();
     }, []);
 
+    console.log(errors);
+
     useEffect(() => {
         if (errors && Object.keys(errors).length > 0) {
             toast.error("Terdapat kesalahan dalam input", {
                 description: "Silakan periksa kembali form yang Anda isi",
             });
 
-            // Cari elemen pertama dengan error
             const firstErrorElement = document.querySelector(
                 '[class*="border-red-300"]'
             );
@@ -83,14 +80,11 @@ export default function RegistrationForm({ competition, categories, errors }) {
                     behavior: "smooth",
                     block: "center",
                 });
-            } else {
-                window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                });
             }
         }
     }, [errors]);
+
+    console.log(errors);
 
     // Debounced province change handler
     const handleProvinceChange = debounce(async (e) => {
@@ -104,7 +98,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
 
         if (provinceId) {
             setLoading((prev) => ({ ...prev, regencies: true }));
-            setError((prev) => ({ ...prev, regencies: null }));
             try {
                 const response = await axios.get(
                     `/api/wilayah/regencies/${provinceId}`
@@ -112,10 +105,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                 setRegencies(response.data);
             } catch (err) {
                 console.error("Error fetching regencies:", err);
-                setError((prev) => ({
-                    ...prev,
-                    regencies: "Gagal memuat data kabupaten",
-                }));
                 toast.error("Gagal memuat data kabupaten");
             } finally {
                 setLoading((prev) => ({ ...prev, regencies: false }));
@@ -123,7 +112,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
         }
         setDistricts([]);
         setVillages([]);
-    }, 300); // Debounce 300ms
+    }, 300);
 
     // Handle perubahan kabupaten
     const handleRegencyChange = debounce(async (e) => {
@@ -136,7 +125,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
 
         if (regencyId) {
             setLoading((prev) => ({ ...prev, districts: true }));
-            setError((prev) => ({ ...prev, districts: null }));
             try {
                 const response = await axios.get(
                     `/api/wilayah/districts/${regencyId}`
@@ -144,10 +132,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                 setDistricts(response.data);
             } catch (err) {
                 console.error("Error fetching districts:", err);
-                setError((prev) => ({
-                    ...prev,
-                    districts: "Gagal memuat data kecamatan",
-                }));
                 toast.error("Gagal memuat data kecamatan");
             } finally {
                 setLoading((prev) => ({ ...prev, districts: false }));
@@ -166,7 +150,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
 
         if (districtId) {
             setLoading((prev) => ({ ...prev, villages: true }));
-            setError((prev) => ({ ...prev, villages: null }));
             try {
                 const response = await axios.get(
                     `/api/wilayah/villages/${districtId}`
@@ -174,10 +157,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                 setVillages(response.data);
             } catch (err) {
                 console.error("Error fetching villages:", err);
-                setError((prev) => ({
-                    ...prev,
-                    villages: "Gagal memuat data kelurahan",
-                }));
                 toast.error("Gagal memuat data kelurahan");
             } finally {
                 setLoading((prev) => ({ ...prev, villages: false }));
@@ -191,54 +170,98 @@ export default function RegistrationForm({ competition, categories, errors }) {
         setData("kelurahan", villageName);
     };
 
-    const handleSubmit = (e) => {
-        if (
-            data.business_proposal_file == null ||
-            data.mustahik_certificate_file == null ||
-            data.pesantren_certificate_file == null
-        ) {
-            toast.error("File harus diisi");
+    // Fungsi untuk upload file otomatis
+    const handleFileUpload = async (fieldName, file) => {
+        if (!file) return;
+
+        // Validasi file
+        if (file.type !== "application/pdf") {
+            toast.error(`File ${fieldName} harus dalam format PDF`);
+            return;
         }
+
+        if (file.size > 2 * 1024 * 1024) {
+            // 2MB
+            toast.error(`File ${fieldName} terlalu besar. Maksimal 2MB`);
+            return;
+        }
+
+        setUploadingFiles((prev) => ({ ...prev, [fieldName]: true }));
+
+        try {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("field_name", fieldName);
+            formData.append("user_login", user.name);
+
+            const response = await axios.post(
+                "/api/upload-registration-file",
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            // Simpan path file ke form data
+            setData(fieldName, response.data.file_path);
+            toast.success(`File ${fieldName} berhasil diupload`);
+        } catch (error) {
+            console.error(`Error uploading ${fieldName}:`, error);
+            toast.error(`Gagal upload file ${fieldName}`);
+        } finally {
+            setUploadingFiles((prev) => ({ ...prev, [fieldName]: false }));
+        }
+    };
+
+    // Handler untuk perubahan file input
+    const handleFileChange = (fieldName) => async (e) => {
+        const file = e.target.files[0];
+
+        e.target.value = null;
+        if (file) {
+            await handleFileUpload(fieldName, file);
+        }
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("user.registrations.store"), {
-            forceFormData: true,
-        });
+
+        // Validasi file sudah diupload
+        const requiredFiles = [
+            "business_proposal",
+            "mustahik_certificate",
+            "pesantren_certificate",
+            "sktm_certificate",
+        ];
+
+        const missingFiles = requiredFiles.filter(
+            (fileField) => !data[fileField]
+        );
+
+        if (missingFiles.length > 0) {
+            toast.error("Semua file wajib diupload", {
+                description: "Harap upload semua file yang diperlukan",
+            });
+            return;
+        }
+
+        post(route("user.registrations.store"));
     };
-
-    const handleFileChange = (fieldName) => (e) => {
-        setData(fieldName, e.target.files[0]);
-    };
-
-    const handleDownload = () => {
-        // Ganti URL dengan path file ZIP Anda
-        const fileUrl = "/files/Berkas-BAZNAS Santripreuner-2025.zip";
-
-        // Membuat elemen anchor sementara
-        const link = document.createElement("a");
-        link.href = fileUrl;
-        link.download = "Berkas-BAZNAS Santripreuner-2025.zip";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
-
-    console.log(errors);
-
-    useFlashMessages();
 
     return (
         <AuthenticatedLayout>
             <Head title={`Pendaftaran ${competition.name}`} />
 
-            <div className=" bg-gray-50 min-h-screen">
-                <div className="">
+            <div className="bg-gray-50 min-h-screen py-8">
+                <div className="max-w-4xl mx-auto px-4">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="">
+                        <div className="p-6">
                             <div className="mb-8 text-center">
-                                <h1 className="text-2xl font-bold  mb-2 text-[#4CAF50]">
+                                <h1 className="text-2xl font-bold mb-2 text-[#4CAF50]">
                                     {competition.name}
                                 </h1>
-
                                 <p className="text-gray-600">
                                     Silakan lengkapi data berikut untuk
                                     mendaftar kompetisi
@@ -270,7 +293,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         }
                                         className={`mt-1 block w-full rounded-md border ${
                                             errors.category_id
-                                                ? "border-red-300"
+                                                ? "border-red-500 border-2"
                                                 : "border-gray-300"
                                         } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                         required
@@ -320,7 +343,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.place_of_birth
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 required
@@ -352,7 +375,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.date_of_birth
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 required
@@ -367,7 +390,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         {/* KK Number */}
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700">
-                                                Nomor KK{" "}
+                                                Nomor Kartu Keluarga{" "}
                                                 <span className="text-red-500">
                                                     *
                                                 </span>
@@ -384,7 +407,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.number_kk
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 placeholder="Contoh: 1234567890123456"
@@ -416,7 +439,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.gender
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 required
@@ -458,7 +481,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.number_wa
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 placeholder="Contoh: 081234567890"
@@ -489,7 +512,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         rows={3}
                                         className={`mt-1 block w-full rounded-md border ${
                                             errors.address
-                                                ? "border-red-300"
+                                                ? "border-red-500 border-2"
                                                 : "border-gray-300"
                                         } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                         required
@@ -505,6 +528,8 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         </p>
                                     )}
                                 </div>
+
+                                {/* Wilayah */}
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     {/* Provinsi */}
                                     <div>
@@ -522,7 +547,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             disabled={loading.provinces}
                                             className={`mt-1 block w-full rounded-md border ${
                                                 errors.province
-                                                    ? "border-red-300"
+                                                    ? "border-red-500 border-2"
                                                     : "border-gray-300"
                                             } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
                                                 loading.provinces
@@ -537,14 +562,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             {loading.provinces ? (
                                                 <option value="" disabled>
                                                     Memuat provinsi...
-                                                </option>
-                                            ) : error.provinces ? (
-                                                <option
-                                                    value=""
-                                                    disabled
-                                                    className="text-red-500"
-                                                >
-                                                    {error.provinces}
                                                 </option>
                                             ) : (
                                                 provinces.map((province) => (
@@ -583,7 +600,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             }
                                             className={`mt-1 block w-full rounded-md border ${
                                                 errors.kabupaten
-                                                    ? "border-red-300"
+                                                    ? "border-red-500 border-2"
                                                     : "border-gray-300"
                                             } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
                                                 !data.province ||
@@ -599,14 +616,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             {loading.regencies ? (
                                                 <option value="" disabled>
                                                     Memuat kabupaten...
-                                                </option>
-                                            ) : error.regencies ? (
-                                                <option
-                                                    value=""
-                                                    disabled
-                                                    className="text-red-500"
-                                                >
-                                                    {error.regencies}
                                                 </option>
                                             ) : (
                                                 regencies.map((regency) => (
@@ -645,7 +654,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             }
                                             className={`mt-1 block w-full rounded-md border ${
                                                 errors.kecamatan
-                                                    ? "border-red-300"
+                                                    ? "border-red-500 border-2"
                                                     : "border-gray-300"
                                             } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
                                                 !data.kabupaten ||
@@ -661,14 +670,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             {loading.districts ? (
                                                 <option value="" disabled>
                                                     Memuat kecamatan...
-                                                </option>
-                                            ) : error.districts ? (
-                                                <option
-                                                    value=""
-                                                    disabled
-                                                    className="text-red-500"
-                                                >
-                                                    {error.districts}
                                                 </option>
                                             ) : (
                                                 districts.map((district) => (
@@ -707,7 +708,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             }
                                             className={`mt-1 block w-full rounded-md border ${
                                                 errors.kelurahan
-                                                    ? "border-red-300"
+                                                    ? "border-red-500 border-2"
                                                     : "border-gray-300"
                                             } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 ${
                                                 !data.kecamatan ||
@@ -723,14 +724,6 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             {loading.villages ? (
                                                 <option value="" disabled>
                                                     Memuat kelurahan...
-                                                </option>
-                                            ) : error.villages ? (
-                                                <option
-                                                    value=""
-                                                    disabled
-                                                    className="text-red-500"
-                                                >
-                                                    {error.villages}
                                                 </option>
                                             ) : (
                                                 villages.map((village) => (
@@ -751,7 +744,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                     </div>
                                 </div>
 
-                                {/* Pesantren Information Section */}
+                                {/* Pesantren Information */}
                                 <div className="border-t border-gray-200 pt-6">
                                     <h3 className="text-lg font-medium text-gray-900 mb-4">
                                         Informasi Pesantren
@@ -779,7 +772,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.boarding_school_name
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 required
@@ -814,7 +807,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                                 }
                                                 className={`mt-1 block w-full rounded-md border ${
                                                     errors.estimated_monthly_income
-                                                        ? "border-red-300"
+                                                        ? "border-red-500 border-2"
                                                         : "border-gray-300"
                                                 } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                                 required
@@ -865,7 +858,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         rows={4}
                                         className={`mt-1 block w-full rounded-md border ${
                                             errors.motivation
-                                                ? "border-red-300"
+                                                ? "border-red-500 border-2"
                                                 : "border-gray-300"
                                         } shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50`}
                                         placeholder="Tulis motivasi Anda (maks. 250 karakter). Contoh: Saya tertarik ikut karena ingin belajar hal baru. (59 karakter)"
@@ -891,9 +884,10 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             (maksimal 2MB per file)
                                         </span>
                                     </p>
+
                                     <div className="mb-6">
                                         <p className="text-sm text-gray-500 mb-2">
-                                            Download template dokumen:
+                                            Download template dokumen:{" "}
                                             <a
                                                 href="/files/Berkas-Santripreuner-BAZNAS-2025.zip"
                                                 download
@@ -903,7 +897,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             </a>
                                         </p>
                                         <p className="text-sm text-gray-500">
-                                            Jika perlu perkecil ukuran PDF:
+                                            Jika perlu perkecil ukuran PDF:{" "}
                                             <a
                                                 href="https://www.ilovepdf.com/compress_pdf"
                                                 target="_blank"
@@ -917,237 +911,58 @@ export default function RegistrationForm({ competition, categories, errors }) {
 
                                     <div className="space-y-6">
                                         {/* Business Proposal File */}
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700">
-                                                Proposal Bisnis{" "}
-                                                <span className="text-red-500">
-                                                    *
-                                                </span>
-                                            </label>
-                                            <div className="mt-1 flex items-center">
-                                                <label
-                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
-                                                        errors.business_proposal_file
-                                                            ? "border-red-300 border-2"
-                                                            : "border-gray-300"
-                                                    }`}
-                                                >
-                                                    <svg
-                                                        className="w-8 h-8 text-gray-400"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                                        ></path>
-                                                    </svg>
-                                                    <span className="mt-2 text-sm text-gray-600">
-                                                        {data.business_proposal_file
-                                                            ? data
-                                                                  .business_proposal_file
-                                                                  .name
-                                                            : "Pilih File"}
-                                                    </span>
-                                                    <input
-                                                        type="file"
-                                                        name="business_proposal_file"
-                                                        onChange={handleFileChange(
-                                                            "business_proposal_file"
-                                                        )}
-                                                        className="hidden"
-                                                        accept=".pdf"
-                                                    />
-                                                </label>
-                                            </div>
-                                            {errors.business_proposal_file && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    File Proposal Terlalu Besar,
-                                                    Harap Perkecil Ukuran File
-                                                </p>
-                                            )}
-                                        </div>
+                                        <FileUploadField
+                                            label="Proposal Bisnis *"
+                                            fieldName="business_proposal"
+                                            value={data.business_proposal}
+                                            onChange={handleFileChange}
+                                            uploading={
+                                                uploadingFiles.business_proposal
+                                            }
+                                            error={errors.business_proposal}
+                                        />
 
                                         {/* Mustahik Certificate File */}
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700">
-                                                Dokumen Self Assesment Mustahik{" "}
-                                                <span className="text-red-500">
-                                                    *
-                                                </span>
-                                            </label>
-                                            <div className="mt-1 flex items-center">
-                                                <label
-                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
-                                                        errors.mustahik_certificate_file
-                                                            ? "border-red-300 border-2"
-                                                            : "border-gray-300"
-                                                    }`}
-                                                >
-                                                    <svg
-                                                        className="w-8 h-8 text-gray-400"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                                        ></path>
-                                                    </svg>
-                                                    <span className="mt-2 text-sm text-gray-600">
-                                                        {data.mustahik_certificate_file
-                                                            ? data
-                                                                  .mustahik_certificate_file
-                                                                  .name
-                                                            : "Pilih File"}
-                                                    </span>
-                                                    <input
-                                                        type="file"
-                                                        name="mustahik_certificate_file"
-                                                        onChange={handleFileChange(
-                                                            "mustahik_certificate_file"
-                                                        )}
-                                                        className="hidden"
-                                                        accept=".pdf"
-                                                    />
-                                                </label>
-                                            </div>
-                                            {errors.mustahik_certificate_file && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    File Self Assesment Mustahik
-                                                    Terlalu Besar, Harap
-                                                    Perkecil Ukuran File
-                                                </p>
-                                            )}
-                                        </div>
+                                        <FileUploadField
+                                            label="Dokumen Self Assesment Mustahik *"
+                                            fieldName="mustahik_certificate"
+                                            value={data.mustahik_certificate}
+                                            onChange={handleFileChange}
+                                            uploading={
+                                                uploadingFiles.mustahik_certificate
+                                            }
+                                            error={errors.mustahik_certificate}
+                                        />
 
                                         {/* SKTM File */}
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700">
-                                                Surat Keterangan Tidak Mampu
-                                                (SKTM) dari Kelurahan/Desa/DKM
-                                                Masjid{" "}
-                                                <span className="text-red-500">
-                                                    *
-                                                </span>
-                                            </label>
-                                            <div className="mt-1 flex items-center">
-                                                <label
-                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
-                                                        errors.sktm_certificate_file
-                                                            ? "border-red-300 border-2"
-                                                            : "border-gray-300"
-                                                    }`}
-                                                >
-                                                    <svg
-                                                        className="w-8 h-8 text-gray-400"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                                        ></path>
-                                                    </svg>
-                                                    <span className="mt-2 text-sm text-gray-600">
-                                                        {data.sktm_certificate_file
-                                                            ? data
-                                                                  .sktm_certificate_file
-                                                                  .name
-                                                            : "Pilih File"}
-                                                    </span>
-                                                    <input
-                                                        type="file"
-                                                        name="sktm_certificate_file"
-                                                        onChange={handleFileChange(
-                                                            "sktm_certificate_file"
-                                                        )}
-                                                        className="hidden"
-                                                        accept=".pdf"
-                                                    />
-                                                </label>
-                                            </div>
-                                            {errors.sktm_certificate_file && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    File Surat Keterangan Tidak
-                                                    Mampu Terlalu Besar, Harap
-                                                    Perkecil Ukuran File
-                                                </p>
-                                            )}
-                                        </div>
+                                        <FileUploadField
+                                            label="Surat Keterangan Tidak Mampu (SKTM) dari Kelurahan/Desa/DKM Masjid *"
+                                            fieldName="sktm_certificate"
+                                            value={data.sktm_certificate}
+                                            onChange={handleFileChange}
+                                            uploading={
+                                                uploadingFiles.sktm_certificate
+                                            }
+                                            error={errors.sktm_certificate}
+                                        />
 
                                         {/* Pesantren Certificate File */}
-                                        <div>
-                                            <label className="block text-sm font-medium text-gray-700">
-                                                Ijazah Pondok Pesantren / Surat
-                                                Keterangan Kesantrian dari
-                                                Pondok Pesantren{" "}
-                                                <span className="text-red-500">
-                                                    *
-                                                </span>
-                                            </label>
-                                            <div className="mt-1 flex items-center">
-                                                <label
-                                                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed  cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
-                                                        errors.pesantren_certificate_file
-                                                            ? "border-red-300 border-2"
-                                                            : "border-gray-300"
-                                                    }`}
-                                                >
-                                                    <svg
-                                                        className="w-8 h-8 text-gray-400"
-                                                        fill="none"
-                                                        stroke="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            strokeLinecap="round"
-                                                            strokeLinejoin="round"
-                                                            strokeWidth="2"
-                                                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
-                                                        ></path>
-                                                    </svg>
-                                                    <span className="mt-2 text-sm text-gray-600">
-                                                        {data.pesantren_certificate_file
-                                                            ? data
-                                                                  .pesantren_certificate_file
-                                                                  .name
-                                                            : "Pilih File"}
-                                                    </span>
-                                                    <input
-                                                        type="file"
-                                                        name="pesantren_certificate_file"
-                                                        onChange={handleFileChange(
-                                                            "pesantren_certificate_file"
-                                                        )}
-                                                        className="hidden"
-                                                        accept=".pdf"
-                                                    />
-                                                </label>
-                                            </div>
-                                            {errors.pesantren_certificate_file && (
-                                                <p className="mt-1 text-sm text-red-600">
-                                                    File Surat Keterangan
-                                                    Kesantrian Terlalu Besar,
-                                                    Harap Perkecil Ukuran File
-                                                </p>
-                                            )}
-                                        </div>
+                                        <FileUploadField
+                                            label="Ijazah Pondok Pesantren / Surat Keterangan Kesantrian dari Pondok Pesantren *"
+                                            fieldName="pesantren_certificate"
+                                            value={data.pesantren_certificate}
+                                            onChange={handleFileChange}
+                                            uploading={
+                                                uploadingFiles.pesantren_certificate
+                                            }
+                                            error={errors.pesantren_certificate}
+                                        />
                                     </div>
                                 </div>
 
                                 {/* Form Actions */}
                                 <div className="pt-6 border-t border-gray-200">
-                                    <div className="soace-y-6">
+                                    <div className="space-y-3 mb-6">
                                         <p className="text-sm text-red-700 font-semibold">
                                             * Peserta hanya dapat mendaftar 1
                                             Klaster
@@ -1156,7 +971,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                             * 1 Kartu Keluarga untuk 1 Peserta
                                         </p>
                                     </div>
-                                    <div className="flex justify-end pt-6 ">
+                                    <div className="flex justify-end">
                                         <button
                                             type="submit"
                                             disabled={processing}
@@ -1168,26 +983,7 @@ export default function RegistrationForm({ competition, categories, errors }) {
                                         >
                                             {processing ? (
                                                 <>
-                                                    <svg
-                                                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        fill="none"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <circle
-                                                            className="opacity-25"
-                                                            cx="12"
-                                                            cy="12"
-                                                            r="10"
-                                                            stroke="currentColor"
-                                                            strokeWidth="4"
-                                                        ></circle>
-                                                        <path
-                                                            className="opacity-75"
-                                                            fill="currentColor"
-                                                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                                        ></path>
-                                                    </svg>
+                                                    <Loader2 className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
                                                     Memproses...
                                                 </>
                                             ) : (
@@ -1204,3 +1000,64 @@ export default function RegistrationForm({ competition, categories, errors }) {
         </AuthenticatedLayout>
     );
 }
+
+// Komponen terpisah untuk file upload
+const FileUploadField = ({
+    label,
+    fieldName,
+    value,
+    onChange,
+    uploading,
+    error,
+}) => {
+    console.log(error);
+    return (
+        <div>
+            <label className="block text-sm font-medium text-gray-700">
+                {label}
+            </label>
+            <div className="mt-1 flex items-center">
+                <label
+                    className={`flex flex-col items-center px-4 py-6 bg-white rounded-lg border border-dashed cursor-pointer hover:bg-gray-50 transition-colors duration-150 ${
+                        error
+                            ? "border-red-300 border-2"
+                            : value
+                            ? "border-green-300 bg-green-50"
+                            : "border-gray-300"
+                    } ${uploading ? "opacity-50 cursor-not-allowed" : ""}`}
+                >
+                    {uploading ? (
+                        <Loader2 className="w-8 h-8 text-gray-400 animate-spin" />
+                    ) : value ? (
+                        // Icon check ketika file berhasil terupload
+                        <FileCheck className="w-8 h-8 text-green-500" />
+                    ) : (
+                        <Upload className="w-8 h-8 text-gray-400" />
+                    )}
+                    <span className="mt-2 text-sm text-gray-600 text-center">
+                        {uploading
+                            ? "Mengupload..."
+                            : value
+                            ? `File Terupload \n ${value.split("/").pop()}`
+                            : "Pilih File"}
+                    </span>
+                    <input
+                        type="file"
+                        name={fieldName}
+                        onChange={onChange(fieldName)}
+                        className="hidden"
+                        accept=".pdf"
+                        disabled={uploading}
+                    />
+                </label>
+            </div>
+            {error && (
+                <p className="mt-1 text-sm text-red-600">
+                    {error.includes("Terlalu Besar")
+                        ? "File terlalu besar, harap perkecil ukuran file (maks. 2MB)"
+                        : error}
+                </p>
+            )}
+        </div>
+    );
+};

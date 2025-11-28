@@ -6,7 +6,9 @@ import Toaster from "@/Components/Toater";
 import {
     FiAward,
     FiCalendar,
+    FiCheckCircle,
     FiFileText,
+    FiGift,
     FiHome,
     FiKey,
     FiLock,
@@ -14,6 +16,7 @@ import {
     FiUserCheck,
     FiUsers,
 } from "react-icons/fi";
+import { BadgeCheck, HandHeart } from "lucide-react";
 
 export default function AuthenticatedLayout({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -34,7 +37,7 @@ export default function AuthenticatedLayout({ children }) {
             name: "Dashboard",
             href: "/dashboard",
             icon: <FiHome className="w-5 h-5" />,
-            allowedRoles: [3, 2, 1],
+            allowedRoles: [3, 2, 1, 4],
         },
         {
             name: "Data Peserta",
@@ -61,6 +64,12 @@ export default function AuthenticatedLayout({ children }) {
             allowedRoles: [1],
         },
         {
+            name: "Maintanance",
+            href: "/super-admin/maintenance",
+            icon: <FiLock className="w-5 h-5" />,
+            allowedRoles: [1],
+        },
+        {
             name: "Pendaftaran",
             href: "/admin/registrations",
             icon: <FiFileText className="w-5 h-5" />,
@@ -79,16 +88,17 @@ export default function AuthenticatedLayout({ children }) {
             allowedRoles: [3],
         },
         {
-            name: "Maintanance",
-            href: "/super-admin/maintenance",
-            icon: <FiLock className="w-5 h-5" />,
-            allowedRoles: [1],
+            name: "Penerima Manfaat",
+            href: "/baznas/beneficiary",
+            icon: <HandHeart className="w-5 h-5" />,
+            allowedRoles: [4],
         },
+
         {
             name: "Pengaturan",
             href: "/profile",
             icon: <FiSettings className="w-5 h-5" />,
-            allowedRoles: [1, 2, 3],
+            allowedRoles: [1, 2, 3, 4],
         },
     ];
 

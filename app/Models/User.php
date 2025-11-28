@@ -31,6 +31,7 @@ class User extends Authenticatable
         'email',
         'password',
         'nik',
+        'no_wa',
         'role_id',
     ];
 
@@ -79,10 +80,18 @@ class User extends Authenticatable
         return $this->role_id === Role::SUPER_ADMIN;
     }
 
+
+
     public function isAdmin(): bool
     {
         return $this->role_id === 2;
     }
+
+    public function isBaznas(): bool
+    {
+        return $this->role_id === 4;
+    }
+
 
     public function isUser(): bool
     {

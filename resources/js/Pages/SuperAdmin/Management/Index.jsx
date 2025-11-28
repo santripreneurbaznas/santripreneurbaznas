@@ -6,7 +6,6 @@ import {
     FiList,
     FiPlus,
     FiEdit2,
-    FiTrash2,
     FiToggleLeft,
     FiToggleRight,
     FiCalendar,
@@ -15,6 +14,8 @@ import {
 } from "react-icons/fi";
 import Modal from "@/Components/Modal";
 import Button from "@/Components/Button";
+import WinnerManagement from "./WinnerManagement";
+import WinnerList from "./WinnerList";
 
 export default function ManagementIndex({ auth, competitions }) {
     const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -345,6 +346,17 @@ export default function ManagementIndex({ auth, competitions }) {
                                                                                     ? "Aktif"
                                                                                     : "Nonaktif"}
                                                                             </span>
+                                                                            {/* Winner Management */}
+                                                                            <WinnerManagement
+                                                                                category={
+                                                                                    category
+                                                                                }
+                                                                            />
+                                                                            <WinnerList
+                                                                                category={
+                                                                                    category
+                                                                                }
+                                                                            />
                                                                         </div>
                                                                         <div className="flex space-x-2">
                                                                             <Button

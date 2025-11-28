@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import {
@@ -6,9 +6,8 @@ import {
     FiAward,
     FiFileText,
     FiArrowRight,
-    FiXCircle,
     FiCheckCircle,
-    FiClock,
+    FiX,
 } from "react-icons/fi";
 import useFlashMessages from "@/Hooks/useFlashMessages";
 
@@ -16,6 +15,8 @@ export default function Dashboard({
     auth,
     registrationsCount,
     recentActivities,
+    activeCompetition,
+    shouldShowReminderModal,
 }) {
     // const getStatusIcon = (status) => {
     //     switch (status) {
@@ -60,7 +61,12 @@ export default function Dashboard({
 
     useFlashMessages();
 
-    console.log(registrationsCount);
+    const [openReminderModal, setOpenReminderModal] = useState(false);
+    useEffect(() => {
+        if (shouldShowReminderModal) {
+            setOpenReminderModal(true);
+        }
+    }, [shouldShowReminderModal]);
 
     return (
         <AuthenticatedLayout>
@@ -157,7 +163,8 @@ export default function Dashboard({
                                 </div>
                                 <div className="bg-gray-50 p-3 rounded-lg">
                                     <p className="text-sm text-gray-600">
-                                        +10 kompetisi tersedia untuk Anda ikuti
+                                        Temukan kompetisi tersedia untuk Anda
+                                        ikuti
                                     </p>
                                 </div>
                             </div>
@@ -260,6 +267,73 @@ export default function Dashboard({
                         </div>
                     </div>
                 </div>
+
+                {/* Modal Reminder */}
+                {openReminderModal && activeCompetition && (
+                    <div className="fixed inset-0 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 border border-green-200 overflow-hidden">
+                            {/* Header dengan gradient */}
+                            <div className="bg-gradient-to-r from-[#259148] to-[#4CAF50] p-4 text-white">
+                                <div className="flex justify-between items-center">
+                                    <h2 className="text-xl font-bold">
+                                        Kompetisi Tersedia!
+                                    </h2>
+                                    <button
+                                        onClick={() =>
+                                            setOpenReminderModal(false)
+                                        }
+                                        className="text-white hover:bg-white/20 p-1 rounded-full transition-colors"
+                                    >
+                                        <FiX className="text-lg" />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Content */}
+                            <div className="p-6">
+                                <div className="flex items-start mb-4">
+                                    <div className="bg-green-100 p-3 rounded-full mr-4">
+                                        <FiAward className="text-green-600 text-xl" />
+                                    </div>
+                                    <div>
+                                        <p className="text-gray-700">
+                                            Terdapat kompetisi yang bisa Anda
+                                            ikuti:
+                                        </p>
+                                        <p className="font-semibold text-green-700 text-lg mt-1">
+                                            {activeCompetition.name}
+                                        </p>
+                                        <p className="text-gray-600 text-sm mt-2">
+                                            Jangan lewatkan kesempatan untuk
+                                            berpartisipasi dan menunjukkan
+                                            kemampuan Anda!
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-end gap-3 mt-6">
+                                    <button
+                                        onClick={() =>
+                                            setOpenReminderModal(false)
+                                        }
+                                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors duration-200 font-medium"
+                                    >
+                                        Nanti Saja
+                                    </button>
+                                    <Link
+                                        href={`/user/competitions/${activeCompetition.id}/register`}
+                                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors duration-200 font-medium shadow-md hover:shadow-lg"
+                                        onClick={() =>
+                                            setOpenReminderModal(false)
+                                        }
+                                    >
+                                        Daftar Sekarang
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </AuthenticatedLayout>
     );

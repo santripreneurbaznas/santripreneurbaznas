@@ -20,9 +20,11 @@
     },
     "dependencies": {
         "framer-motion": "^12.18.1",
+        "lucide-react": "^0.555.0",
         "react-icons": "^5.5.0",
         "react-intersection-observer": "^9.16.0",
         "recharts": "^3.0.2",
-        "sonner": "^2.0.5"
+        "sonner": "^2.0.5",
+        "xlsx": "^0.18.5"
     }
 }

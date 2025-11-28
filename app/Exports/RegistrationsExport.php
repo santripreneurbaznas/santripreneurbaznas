@@ -34,6 +34,7 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
     {
         return [
             'Nama Peserta',
+            'NIK',
             'Kompetisi',
             'Kategori',
             'Nomor KK',
@@ -59,10 +60,11 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
 
     public function map($reg): array
     {
-        $baseUrl = url('/berkas/storage/');
+        $baseUrl = url('/berkas/storage');
 
         return [
             $reg->user->name,
+            "'" . $reg->user->nik,
             $reg->competition->name,
             $reg->category->name,
             "'" . $reg->number_kk,
@@ -82,36 +84,31 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
             $baseUrl . '/' . $reg->mustahik_certificate_file,
             $baseUrl . '/' . $reg->pesantren_certificate_file,
             $baseUrl . '/' . $reg->sktm_certificate_file,
-            null // Kolom nilai kosong
+            null // Nilai
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        // Style untuk header
-        $sheet->getStyle('A1:U1')->applyFromArray([
-            'font' => [
-                'bold' => true,
-                'size' => 12,
-            ],
+        // HEADER STYLE
+        $sheet->getStyle('A1:V1')->applyFromArray([
+            'font' => ['bold' => true, 'size' => 12],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
                 'startColor' => ['rgb' => 'D3D3D3']
             ],
             'borders' => [
-                'allBorders' => [
-                    'borderStyle' => Border::BORDER_THIN
-                ]
+                'allBorders' => ['borderStyle' => Border::BORDER_THIN]
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
-                'vertical' => Alignment::VERTICAL_CENTER,
-                'wrapText' => true,
+                'vertical'   => Alignment::VERTICAL_CENTER,
+                'wrapText'   => true
             ]
         ]);
 
-        // Style untuk seluruh data
-        $sheet->getStyle('A2:U' . $sheet->getHighestRow())
+        // STYLE DATA
+        $sheet->getStyle('A2:V' . $sheet->getHighestRow())
             ->applyFromArray([
                 'borders' => [
                     'allBorders' => [
@@ -121,79 +118,58 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
                 ],
                 'alignment' => [
                     'vertical' => Alignment::VERTICAL_TOP,
-                    'wrapText' => true,
+                    'wrapText' => true
                 ]
             ]);
 
-        // Set alignment khusus untuk kolom tertentu
-        $sheet->getStyle('A2:A' . $sheet->getHighestRow())->applyFromArray([
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_LEFT,
-            ]
-        ]);
-
-        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->applyFromArray([
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
-
-        $sheet->getStyle('P2:P' . $sheet->getHighestRow())->applyFromArray([
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
-        ]);
-
-        // Warna hijau untuk kolom Nilai (kolom U)
-        $sheet->getStyle('U2:U' . $sheet->getHighestRow())
+        // WARNA KOLOM NILAI (V)
+        $sheet->getStyle('V2:V' . $sheet->getHighestRow())
             ->applyFromArray([
                 'fill' => [
                     'fillType' => Fill::FILL_SOLID,
-                    'startColor' => ['rgb' => '90EE90'] // Warna hijau muda
+                    'startColor' => ['rgb' => '90EE90']
                 ]
             ]);
 
-        // Format hyperlink untuk kolom file
+        // HYPERLINK
         $highestRow = $sheet->getHighestRow();
-
         for ($row = 2; $row <= $highestRow; $row++) {
-            // Proposal Bisnis (Q kolom - index 17)
-            $this->setHyperlink($sheet, "Q{$row}");
-
-            // Sertifikat Mustahik (R kolom - index 18)
             $this->setHyperlink($sheet, "R{$row}");
-
-            // Sertifikat Pesantren (S kolom - index 19)
             $this->setHyperlink($sheet, "S{$row}");
-
-            // Surat SKTM (T kolom - index 20)
             $this->setHyperlink($sheet, "T{$row}");
+            $this->setHyperlink($sheet, "U{$row}");
         }
 
-        // Set width kolom
-        $sheet->getColumnDimension('A')->setWidth(25); // Nama Peserta
-        $sheet->getColumnDimension('B')->setWidth(20); // Kompetisi
-        $sheet->getColumnDimension('C')->setWidth(20); // Kategori
-        $sheet->getColumnDimension('D')->setWidth(15); // Nomor KK
-        $sheet->getColumnDimension('E')->setWidth(15); // Tempat Lahir
-        $sheet->getColumnDimension('F')->setWidth(15); // Tanggal Lahir
-        $sheet->getColumnDimension('G')->setWidth(15); // Jenis Kelamin
-        $sheet->getColumnDimension('H')->setWidth(30); // Alamat
-        $sheet->getColumnDimension('I')->setWidth(15); // Provinsi
-        $sheet->getColumnDimension('J')->setWidth(15); // Kabupaten
-        $sheet->getColumnDimension('K')->setWidth(15); // Kecamatan
-        $sheet->getColumnDimension('L')->setWidth(15); // Kelurahan
-        $sheet->getColumnDimension('M')->setWidth(20); // Nama Pesantren
-        $sheet->getColumnDimension('N')->setWidth(30); // Motivasi
-        $sheet->getColumnDimension('O')->setWidth(25); // Perkiraan Penghasilan
-        $sheet->getColumnDimension('P')->setWidth(15); // Nomor WA
-        $sheet->getColumnDimension('Q')->setWidth(30); // Link Proposal Bisnis
-        $sheet->getColumnDimension('R')->setWidth(30); // Link Assesmen Mustahik
-        $sheet->getColumnDimension('S')->setWidth(30); // Link Ijazah Pesantren
-        $sheet->getColumnDimension('T')->setWidth(30); // Link Surat SKTM
-        $sheet->getColumnDimension('U')->setWidth(15); // Nilai
+        // SET WIDTH KOLOM
+        $columnWidths = [
+            'A' => 25,
+            'B' => 20,
+            'C' => 20,
+            'D' => 20,
+            'E' => 15,
+            'F' => 15,
+            'G' => 15,
+            'H' => 30,
+            'I' => 15,
+            'J' => 15,
+            'K' => 15,
+            'L' => 15,
+            'M' => 20,
+            'N' => 30,
+            'O' => 25,
+            'P' => 15,
+            'Q' => 30,
+            'R' => 30,
+            'S' => 30,
+            'T' => 30,
+            'U' => 30,
+            'V' => 15
+        ];
 
-        // Set tinggi baris header
+        foreach ($columnWidths as $col => $width) {
+            $sheet->getColumnDimension($col)->setWidth($width);
+        }
+
         $sheet->getRowDimension(1)->setRowHeight(30);
 
         return [];
@@ -202,7 +178,7 @@ class RegistrationsExport implements FromCollection, WithHeadings, WithMapping, 
     protected function setHyperlink(Worksheet $sheet, $cell)
     {
         $url = $sheet->getCell($cell)->getValue();
-        if (!empty($url)) {
+        if ($url) {
             $sheet->getCell($cell)->getHyperlink()->setUrl($url);
             $sheet->getStyle($cell)->applyFromArray([
                 'font' => [

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Competition;
 use App\Models\Registration;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -150,6 +152,34 @@ class DashboardController extends Controller
             );
         }
 
+        if (auth()->user()->role_id === 4) {
+            // Hitung berdasarkan provinsi
+            $provinsiCounts = Registration::where('is_winner', true)
+                ->select('province', DB::raw('COUNT(*) as total'))
+                ->groupBy('province')
+                ->orderBy('province')
+                ->get();
+
+            // Hitung berdasarkan kabupaten/kota
+            $kabupatenCounts = Registration::where('is_winner', true)
+                ->select('kabupaten', DB::raw('COUNT(*) as total'))
+                ->groupBy('kabupaten')
+                ->orderBy('kabupaten')
+                ->get();
+
+            $isWinner = Registration::where('is_winner', true)->count();
+
+
+
+
+            return Inertia::render('Baznas/Dashboard', [
+                'provinsiData' => $provinsiCounts,
+                'kabupatenData' => $kabupatenCounts,
+                'totalPenerima' => $isWinner,
+            ]);
+            return Inertia::render('Baznas/Dashboard');
+        }
+
         $user = Auth::user();
 
         $registrationsCount = $user->registrations()->count();
@@ -172,10 +202,35 @@ class DashboardController extends Controller
                 'formatted_date' => Carbon::parse($registration->created_at)->diffForHumans(),
             ];
         });
+        $activeCompetition = Competition::where('is_active', true)->first();
+        $userId = auth()->id();
+
+        // Cek apakah user pernah menang kompetisi mana pun
+        $hasEverWon = Registration::where('user_id', $userId)
+            ->where('is_winner', true)
+            ->exists();
+
+        // Default modal: tidak tampil
+        $shouldShowReminderModal = false;
+
+        if ($activeCompetition && !$hasEverWon) {
+
+            // Cek apakah user sudah daftar kompetisi aktif
+            $alreadyRegistered = Registration::where('user_id', $userId)
+                ->where('competition_id', $activeCompetition->id)
+                ->exists();
+
+            // Jika BELUM daftar → tampilkan modal
+            $shouldShowReminderModal = !$alreadyRegistered;
+        }
+
+
 
         return Inertia::render('Dashboard', [
             'registrationsCount' => $registrationsCount,
-            'recentActivities' => $recentActivities
+            'recentActivities' => $recentActivities,
+            'activeCompetition' => $activeCompetition,
+            'shouldShowReminderModal' => $shouldShowReminderModal,
         ]);
 
         return Inertia::render('Dashboard', [
