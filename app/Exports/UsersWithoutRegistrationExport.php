@@ -11,16 +11,19 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
-use PhpOffice\PhpSpreadsheet\Style\Font;
 
 class UsersWithoutRegistrationExport implements FromCollection, WithHeadings, WithMapping, WithStyles
 {
     public function collection()
     {
-        // Ambil user yang tidak memiliki relasi dengan registrations dan role_id = 3
-        return User::whereDoesntHave('registrations')
-            ->where('role_id', 3)
-            ->select('name', 'nik', 'email')
+        return User::where('role_id', 3)
+            ->where(function ($query) {
+                $query->whereDoesntHave('registrations')
+                    ->orWhereDoesntHave('registrations', function ($sub) {
+                        $sub->where('is_winner', true);
+                    });
+            })
+            ->select('name', 'nik', 'email', 'no_wa', 'created_at')
             ->get();
     }
 
@@ -29,7 +32,9 @@ class UsersWithoutRegistrationExport implements FromCollection, WithHeadings, Wi
         return [
             'Nama',
             'NIK',
-            'Email'
+            'Email',
+            'No WA',
+            'Tanggal Daftar',
         ];
     }
 
@@ -37,83 +42,67 @@ class UsersWithoutRegistrationExport implements FromCollection, WithHeadings, Wi
     {
         return [
             $user->name,
-            "'" . $user->nik, // Prepend with ' to preserve leading zeros
-            $user->email
+            "'" . $user->nik,
+            $user->email,
+            "'" . $user->no_wa,
+            $user->created_at ? $user->created_at->format('d-m-Y H:i') : '',
         ];
     }
 
     public function styles(Worksheet $sheet)
     {
-        // Style untuk header
-        $sheet->getStyle('A1:C1')->applyFromArray([
+        // Style header (A1:E1)
+        $sheet->getStyle('A1:E1')->applyFromArray([
             'font' => [
                 'bold' => true,
                 'size' => 12,
             ],
             'fill' => [
                 'fillType' => Fill::FILL_SOLID,
-                'startColor' => ['rgb' => 'D3D3D3']
-            ],
-            'borders' => [
-                'allBorders' => [
-                    'borderStyle' => Border::BORDER_THIN
-                ]
+                'startColor' => ['rgb' => 'D3D3D3'],
             ],
             'alignment' => [
                 'horizontal' => Alignment::HORIZONTAL_CENTER,
                 'vertical' => Alignment::VERTICAL_CENTER,
-                'wrapText' => true,
-            ]
-        ]);
-
-        // Style untuk seluruh data
-        $sheet->getStyle('A2:C' . $sheet->getHighestRow())
-            ->applyFromArray([
-                'borders' => [
-                    'allBorders' => [
-                        'borderStyle' => Border::BORDER_THIN,
-                        'color' => ['rgb' => '000000']
-                    ]
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
                 ],
-                'alignment' => [
-                    'vertical' => Alignment::VERTICAL_TOP,
-                    'wrapText' => true,
-                ]
-            ]);
-
-        // Set alignment khusus untuk kolom
-        $sheet->getStyle('A2:A' . $sheet->getHighestRow())->applyFromArray([
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_LEFT,
-            ]
+            ],
         ]);
 
-        $sheet->getStyle('B2:B' . $sheet->getHighestRow())->applyFromArray([
+        // Style semua data (A2:E...)
+        $sheet->getStyle('A2:E' . $sheet->getHighestRow())->applyFromArray([
             'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_CENTER,
-            ]
+                'vertical' => Alignment::VERTICAL_TOP,
+                'wrapText' => true,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => Border::BORDER_THIN,
+                ],
+            ],
         ]);
 
-        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->applyFromArray([
-            'alignment' => [
-                'horizontal' => Alignment::HORIZONTAL_LEFT,
-            ]
-        ]);
+        // Alignment kolom per kolom
+        $sheet->getStyle('A2:A' . $sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);   // Nama
+        $sheet->getStyle('B2:B' . $sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // NIK
+        $sheet->getStyle('C2:C' . $sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);   // Email
+        $sheet->getStyle('D2:D' . $sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_LEFT);   // No WA
+        $sheet->getStyle('E2:E' . $sheet->getHighestRow())->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER); // Tgl daftar
 
-        // Set width kolom
+        // Lebar kolom
         $sheet->getColumnDimension('A')->setWidth(30); // Nama
         $sheet->getColumnDimension('B')->setWidth(20); // NIK
         $sheet->getColumnDimension('C')->setWidth(30); // Email
+        $sheet->getColumnDimension('D')->setWidth(18); // No WA
+        $sheet->getColumnDimension('E')->setWidth(22); // Tanggal Daftar
 
-        // Set tinggi baris header
+        // Tinggi header
         $sheet->getRowDimension(1)->setRowHeight(25);
 
-        // Auto size rows for better text wrapping
-        foreach (range('A', 'C') as $column) {
-            $sheet->getColumnDimension($column)->setAutoSize(false);
-        }
-
-        // Freeze header row
+        // Freeze header
         $sheet->freezePane('A2');
 
         return [];
