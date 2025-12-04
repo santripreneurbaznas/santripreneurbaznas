@@ -202,8 +202,7 @@ const TermsAndConditions = () => {
                             {[
                                 "Peserta hanya dapat mendaftar 1 Klaster",
                                 "Pastikan dokumen yang diupload jelas dan terbaca",
-                                "Proposal usaha maksimal 15 halaman",
-                                "Peserta diwajibkan untuk menggunakan template yang telah kami sediakan",
+                                "Peserta dapat mengembangkan / menyesuaikan proposal dari template yg disediakan.",
                                 "Pendaftaran tidak dipungut biaya apapun",
                             ].map((item, index) => (
                                 <motion.li
