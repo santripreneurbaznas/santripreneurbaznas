@@ -75,7 +75,7 @@ class ResetPassword extends Notification
     protected function buildMailMessage($url)
     {
         return (new MailMessage)
-            ->subject('Reset Password | Aplikasi Santripreneur')
+            ->subject('Reset Password | Santripreneur BAZNAS ')
             ->greeting('Assalamu’alaikum!')
             ->line('Kami menerima permintaan untuk mengatur ulang kata sandi akun Anda di Aplikasi Santripreneur.')
             ->action('Reset Kata Sandi', $url)

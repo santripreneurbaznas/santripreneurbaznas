@@ -4,12 +4,13 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Competition;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
-use PhpParser\Node\Stmt\TryCatch;
+
 
 class RegistrationController extends Controller
 {
@@ -57,11 +58,93 @@ class RegistrationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+    // public function store(Request $request)
+    // {
+    //     set_time_limit(60);
+    //     // dd($request->all());
+
+
+    //     $validated = $request->validate([
+    //         'competition_id' => 'required|exists:competitions,id',
+    //         'category_id' => 'required|exists:categories,id',
+    //         'place_of_birth' => 'required|string|max:100',
+    //         'date_of_birth' => 'required|date',
+    //         'gender' => 'required|in:Laki-laki,Perempuan',
+    //         'address' => 'required|string|max:255',
+    //         'province' => 'required|string|max:100',
+    //         'kabupaten' => 'required|string|max:100',
+    //         'kecamatan' => 'required|string|max:100',
+    //         'kelurahan' => 'required|string|max:100',
+    //         'boarding_school_name' => 'required|string|max:100',
+    //         'motivation' => 'required|string|max:2000',
+    //         'estimated_monthly_income' => 'required',
+    //         'number_wa' => 'required|string|max:20',
+    //         'number_kk' => 'required|string|max:25',
+    //         'business_proposal' => 'required|string', // Sekarang berupa path string
+    //         'mustahik_certificate' => 'required|string',
+    //         'pesantren_certificate' => 'required|string',
+    //         'sktm_certificate' => 'required|string',
+    //     ]);
+
+
+
+    //     // Dapatkan nama user yang login (ganti spasi dengan underscore jika ada)
+    //     $userName = str_replace(' ', '_', auth()->user()->name);
+
+    //     // Buat timestamp dalam format Indonesia: tanggalbulantahunjam
+    //     $timestamp = now()->format('dmYHi'); // Format: tanggal (d), bulan (m), tahun (Y), jam (H), menit (i)
+
+    //     // Mapping nama file untuk masing-masing tipe dengan menambahkan timestamp
+    //     $fileNames = [
+    //         'business_proposal' => $userName . '_' . $timestamp . '_proposal_bisnis.pdf',
+    //         'mustahik_certificate' => $userName . '_' . $timestamp . '_sertifikat_mustahik.pdf',
+    //         'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf',
+    //         'sktm_certificate' => $userName . '_' . $timestamp . '_sertifikat_sktm.pdf'
+    //     ];
+
+    //     // Simpan file dengan nama yang sudah ditentukan
+
+    //     DB::beginTransaction();
+    //     try {
+    //         // Langsung buat registrasi karena file sudah diupload sebelumnya
+    //         $registration = Registration::create([
+    //             'user_id' => auth()->id(),
+    //             'competition_id' => $validated['competition_id'],
+    //             'category_id' => $validated['category_id'],
+    //             'place_of_birth' => $validated['place_of_birth'],
+    //             'date_of_birth' => $validated['date_of_birth'],
+    //             'gender' => $validated['gender'],
+    //             'address' => $validated['address'],
+    //             'province' => $validated['province'],
+    //             'kabupaten' => $validated['kabupaten'],
+    //             'kecamatan' => $validated['kecamatan'],
+    //             'kelurahan' => $validated['kelurahan'],
+    //             'boarding_school_name' => $validated['boarding_school_name'],
+    //             'motivation' => $validated['motivation'],
+    //             'estimated_monthly_income' => $validated['estimated_monthly_income'],
+    //             'number_wa' => $validated['number_wa'],
+    //             'number_kk' => $validated['number_kk'],
+
+    //             // 🟢 FE → DB mapping (INI YANG PENTING)
+    //             'business_proposal_file'      => $validated['business_proposal'],
+    //             'mustahik_certificate_file'   => $validated['mustahik_certificate'],
+    //             'pesantren_certificate_file'  => $validated['pesantren_certificate'],
+
+    //             // Jika ada kolom SKTM
+    //             'sktm_certificate_file'       => $validated['sktm_certificate'] ?? null,
+    //         ]);
+
+    //         DB::commit();
+
+    //         return redirect()->route('user.registrations.index')->with('success', 'Pendaftaran berhasil dikirim!');
+    //     } catch (\Exception $e) {
+    //         DB::rollBack();
+    //         return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+    //     }
+    // }
     public function store(Request $request)
     {
         set_time_limit(60);
-        // dd($request->all());
-
 
         $validated = $request->validate([
             'competition_id' => 'required|exists:competitions,id',
@@ -79,35 +162,52 @@ class RegistrationController extends Controller
             'estimated_monthly_income' => 'required',
             'number_wa' => 'required|string|max:20',
             'number_kk' => 'required|string|max:25',
-            'business_proposal' => 'required|string', // Sekarang berupa path string
+            'business_proposal' => 'required|string',
             'mustahik_certificate' => 'required|string',
             'pesantren_certificate' => 'required|string',
             'sktm_certificate' => 'required|string',
         ]);
 
+        $user = auth()->user();
+        $competition = Competition::findOrFail($validated['competition_id']);
 
+        /* ============================
+     * 1. CEK PERNAH MENANG
+     * ============================ */
+        $hasEverWon = Registration::where('user_id', $user->id)
+            ->where('is_winner', true)
+            ->exists();
 
-        // Dapatkan nama user yang login (ganti spasi dengan underscore jika ada)
-        $userName = str_replace(' ', '_', auth()->user()->name);
+        if ($hasEverWon) {
+            return back()->with('error', 'Anda sudah pernah menjadi pemenang dan tidak dapat mengikuti lomba lagi.');
+        }
 
-        // Buat timestamp dalam format Indonesia: tanggalbulantahunjam
-        $timestamp = now()->format('dmYHi'); // Format: tanggal (d), bulan (m), tahun (Y), jam (H), menit (i)
+        /* ============================
+     * 2. CEK SUDAH PERNAH DAFTAR
+     * ============================ */
+        $alreadyRegistered = Registration::where('user_id', $user->id)
+            ->where('competition_id', $competition->id)
+            ->exists();
 
-        // Mapping nama file untuk masing-masing tipe dengan menambahkan timestamp
-        $fileNames = [
-            'business_proposal' => $userName . '_' . $timestamp . '_proposal_bisnis.pdf',
-            'mustahik_certificate' => $userName . '_' . $timestamp . '_sertifikat_mustahik.pdf',
-            'pesantren_certificate' => $userName . '_' . $timestamp . '_sertifikat_pesantren.pdf',
-            'sktm_certificate' => $userName . '_' . $timestamp . '_sertifikat_sktm.pdf'
-        ];
+        if ($alreadyRegistered) {
+            return back()->with('error', 'Anda sudah terdaftar di lomba ini.');
+        }
 
-        // Simpan file dengan nama yang sudah ditentukan
+        /* ============================
+     * 3. CEK KOMPETISI MASIH AKTIF
+     * ============================ */
+        if (!$competition->is_active) {
+            return back()->with('error', 'Lomba sudah tidak tersedia.');
+        }
+
+        /* ============================
+     * 4. SIMPAN DATA
+     * ============================ */
 
         DB::beginTransaction();
         try {
-            // Langsung buat registrasi karena file sudah diupload sebelumnya
-            $registration = Registration::create([
-                'user_id' => auth()->id(),
+            Registration::create([
+                'user_id' => $user->id,
                 'competition_id' => $validated['competition_id'],
                 'category_id' => $validated['category_id'],
                 'place_of_birth' => $validated['place_of_birth'],
@@ -124,23 +224,28 @@ class RegistrationController extends Controller
                 'number_wa' => $validated['number_wa'],
                 'number_kk' => $validated['number_kk'],
 
-                // 🟢 FE → DB mapping (INI YANG PENTING)
                 'business_proposal_file'      => $validated['business_proposal'],
                 'mustahik_certificate_file'   => $validated['mustahik_certificate'],
                 'pesantren_certificate_file'  => $validated['pesantren_certificate'],
-
-                // Jika ada kolom SKTM
-                'sktm_certificate_file'       => $validated['sktm_certificate'] ?? null,
+                'sktm_certificate_file'       => $validated['sktm_certificate'],
             ]);
 
             DB::commit();
 
-            return redirect()->route('user.registrations.index')->with('success', 'Pendaftaran berhasil dikirim!');
+            return redirect()->route('user.registrations.index')
+                ->with('success', 'Pendaftaran berhasil dikirim!');
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+
+            // Jika kamu sudah menambahkan UNIQUE constraint, ini menangkap errornya
+            if (str_contains($e->getMessage(), 'unique')) {
+                return back()->with('error', 'Anda sudah terdaftar di lomba ini.');
+            }
+
+            return back()->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
         }
     }
+
 
     /**
      * Display the specified resource.
