@@ -15,6 +15,7 @@ import {
     FiSettings,
     FiUserCheck,
     FiUsers,
+    FiVolume2,
 } from "react-icons/fi";
 import { BadgeCheck, HandHeart } from "lucide-react";
 
@@ -61,6 +62,12 @@ export default function AuthenticatedLayout({ children }) {
             name: "Program",
             href: "/super-admin/management",
             icon: <FiAward className="w-5 h-5" />,
+            allowedRoles: [1],
+        },
+        {
+            name: "Pengumuman",
+            href: "/super-admin/announcements",
+            icon: <FiVolume2 className="w-5 h-5" />,
             allowedRoles: [1],
         },
         {

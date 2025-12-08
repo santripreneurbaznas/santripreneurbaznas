@@ -12,16 +12,19 @@ use App\Http\Controllers\Admin\{
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Baznas\ProgramBaznasController;
 use App\Http\Controllers\CkeditorController;
+use App\Http\Controllers\CompetitionAnnouncementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\SuperAdmin\AdminController;
 use App\Http\Controllers\SuperAdmin\ManagementController;
 use App\Http\Controllers\User\{
+    AnnouncementUserController,
     ArticleUserController,
     CompetitionController as UserCompetitionController,
     RegistrationController as UserRegistrationController
 };
 use App\Models\User;
+use Illuminate\Session\TokenMismatchException;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +40,7 @@ use App\Models\User;
 Route::get('/', function () {
     return Inertia::render('Welcome');
 });
+
 Route::get('/pendaftaran', function () {
     return Inertia::render('Pendaftaran');
 });
@@ -46,12 +50,20 @@ Route::get('/pendaftaran', function () {
 Route::get('/kompetisi', function () {
     return Inertia::render('Kompetisi');
 });
-Route::get('/announcement', function () {
-    return Inertia::render('Announcement');
-});
+// Route::get('/announcement', function () {
+//     return Inertia::render('Announcement');
+// });
+
+Route::get('/announcements/{competition:slug}', [AnnouncementUserController::class, 'show'])
+    ->name('announcements.show');
+
+Route::get('/announcements', [AnnouncementUserController::class, 'index'])
+    ->name('announcements.index');
 Route::fallback(function () {
     return Inertia::render('NotFound');
 });
+
+
 
 
 // Article
@@ -99,6 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('super-admin')->middleware('superadmin')->group(function () {
 
         Route::resource('users', UserController::class);
+
 
         Route::get('/admin-access', [AdminController::class, 'index'])->name('superadmin.admin-access.index');
         Route::post('/admin-access', [AdminController::class, 'updateAccess'])->name('superadmin.admin-access.update');
@@ -148,6 +161,21 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         Route::post('/articles/category', [ArticleController::class, 'storeCategory'])->name('superadmin.articles.category.store');
+
+
+        // Announcement
+        Route::prefix('announcements')->name('global.announcements.')->group(function () {
+            Route::get('/', [CompetitionAnnouncementController::class, 'index'])
+                ->name('index');
+            Route::post('/', [CompetitionAnnouncementController::class, 'store'])
+                ->name('store');
+            Route::get('/{announcement}/edit', [CompetitionAnnouncementController::class, 'edit'])
+                ->name('edit');
+            Route::put('/{announcement}', [CompetitionAnnouncementController::class, 'update'])
+                ->name('update');
+            Route::delete('/{announcement}', [CompetitionAnnouncementController::class, 'destroy'])
+                ->name('destroy');
+        });
     });
 
     // Baznasroutes

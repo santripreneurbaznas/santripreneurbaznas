@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Inertia\Inertia;
 use Throwable;
 
@@ -54,6 +55,16 @@ class Handler extends ExceptionHandler
             }
             return null;
         });
+        // === 419 Page Expired / TokenMismatchException ===
+        $this->renderable(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Page expired. Please refresh and try again.'], 419);
+            }
+
+            return Inertia::render('Errors/ExpiredPage')
+                ->toResponse($request)
+                ->setStatusCode(419);
+        });
     }
 
     protected function prepareForbiddenResponse($message, $request)
@@ -67,6 +78,18 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
+        // === Paksa TokenMismatchException untuk merender halaman Inertia ===
+        if ($e instanceof TokenMismatchException) {
+
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Page expired. Please refresh and try again.'], 419);
+            }
+
+            return Inertia::render('Errors/ExpiredPage')
+                ->toResponse($request)
+                ->setStatusCode(419);
+        }
+
         // Jika dalam maintenance mode dan bukan route yang dikecualikan
         if (app()->isDownForMaintenance() && !$this->shouldBypassMaintenance($request)) {
             return response()->view('maintenance', [], 503);

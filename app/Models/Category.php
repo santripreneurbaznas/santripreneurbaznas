@@ -41,4 +41,8 @@ class Category extends Model
     {
         return $this->hasMany(Upload::class);
     }
+    public function announcements()
+    {
+        return $this->hasMany(CategoryAnnouncement::class);
+    }
 }
