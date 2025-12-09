@@ -133,7 +133,7 @@ const AnnouncementsIndex = ({ competitions, stats }) => {
         {
             icon: FiAward,
             value: stats.total_competitions,
-            label: "Total Daftar Kompetisi",
+            label: "Total Batch Kompetisi",
             color: "from-emerald-500 to-green-600",
             bgColor: "bg-emerald-50",
             textColor: "text-emerald-700",
@@ -192,7 +192,7 @@ const AnnouncementsIndex = ({ competitions, stats }) => {
                             </div>
                         </motion.div>
 
-                        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 text-shadow-lg">
+                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 text-shadow-lg">
                             <span className="block animate-gradient">
                                 Pengumuman Kompetisi
                             </span>
@@ -315,7 +315,7 @@ const AnnouncementsIndex = ({ competitions, stats }) => {
                                     >
                                         <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100 hover:border-emerald-200 transition-all duration-300 h-full flex flex-col">
                                             {/* Card Header */}
-                                            <div className="relative h-48 bg-gradient-to-r from-emerald-500 to-green-600 overflow-hidden">
+                                            <div className="relative h-36 bg-gradient-to-r from-emerald-500 to-green-600 overflow-hidden">
                                                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                                                 <div className="absolute top-4 right-4">
                                                     <div className="bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">

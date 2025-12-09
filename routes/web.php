@@ -1,10 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
 use App\Http\Controllers\Admin\{
     RegistrationController as AdminRegistrationController,
     UserController
@@ -23,61 +21,64 @@ use App\Http\Controllers\User\{
     CompetitionController as UserCompetitionController,
     RegistrationController as UserRegistrationController
 };
-use App\Models\User;
-use Illuminate\Session\TokenMismatchException;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
 
-Route::get('/pendaftaran', function () {
-    return Inertia::render('Pendaftaran');
-});
 // Route::get('/klaster', function () {
 //     return Inertia::render('Klaster');
 // });
-Route::get('/kompetisi', function () {
-    return Inertia::render('Kompetisi');
-});
-// Route::get('/announcement', function () {
-//     return Inertia::render('Announcement');
-// });
 
+
+// ===========================
+// PUBLIC PAGES
+// ===========================
+
+Route::get('/', fn() => Inertia::render('Welcome'));
+Route::get('/pendaftaran', fn() => Inertia::render('Pendaftaran'));
+Route::get('/kompetisi', fn() => Inertia::render('Kompetisi'));
+
+// Announcements (public)
+Route::get('/announcements', [AnnouncementUserController::class, 'index'])
+    ->name('announcements.index');
 Route::get('/announcements/{competition:slug}', [AnnouncementUserController::class, 'show'])
     ->name('announcements.show');
 
-Route::get('/announcements', [AnnouncementUserController::class, 'index'])
-    ->name('announcements.index');
-
-Route::fallback(function () {
-    return Inertia::render('NotFound');
+// Articles (public)
+Route::prefix('articles')->name('user.articles.')->group(function () {
+    Route::get('/', [ArticleUserController::class, 'index'])->name('index');
+    Route::get('/search', [ArticleUserController::class, 'search'])->name('search');
+    Route::get('/category/{category}', [ArticleUserController::class, 'category'])->name('category');
+    Route::get('/{slug}', [ArticleUserController::class, 'show'])->name('show');
 });
 
-
-
-
-// Article
-Route::get('/articles', [ArticleUserController::class, 'index'])->name('user.articles.index');
-Route::get('/articles/search', [ArticleUserController::class, 'search'])->name('user.articles.search');
-Route::get('/articles/category/{category}', [ArticleUserController::class, 'category'])->name('user.articles.category');
-Route::get('/articles/{slug}', [ArticleUserController::class, 'show'])->name('user.articles.show');
+// 404 fallback
+Route::fallback(fn() => Inertia::render('NotFound'));
 
 
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    // User routes
+
+// ===========================
+// PROTECTED ROUTES
+// ===========================
+
+Route::middleware(['auth'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])
+        ->name('dashboard');
+
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+
+
+    // ---------------------------
+    // USER ROUTES
+    // ---------------------------
     Route::prefix('user')->group(function () {
         Route::get('/competitions', function () {
             return Inertia::render('Competitions/Index');
@@ -97,7 +98,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/my-registrations/{registration}', [UserRegistrationController::class, 'destroy'])->name('user.registrations.destroy');
     });
 
-    // Admin routes
+    // ---------------------------
+    // ADMIN
+    // ---------------------------
     Route::prefix('admin')->middleware('admin')->group(function () {
 
         Route::get('/registrations', [AdminRegistrationController::class, 'index'])->name('admin.registrations.index');
@@ -108,7 +111,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('admin.registrations.export');
     });
 
-    // Super Admin routes
+    // ---------------------------
+    // SUPER ADMIN
+    // ---------------------------
     Route::prefix('super-admin')->middleware('superadmin')->group(function () {
 
         Route::resource('users', UserController::class);
@@ -179,32 +184,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
-    // Baznasroutes
+    // ---------------------------
+    // BAZNAS
+    // ---------------------------
     Route::prefix('baznas')->middleware('baznas')->group(function () {
         Route::get('/beneficiary', [ProgramBaznasController::class, 'index'])->name('baznas.beneficiary.index');
     });
 
-    // Export Exel
+    // Export Excel (Super Admin)
     Route::get('/user/export', [UserController::class, 'export_excel'])
         ->name('superadmin.users.export');
 
+    // Winners Export
     Route::get('/participant/categories/{category}/winners', [ManagementController::class, 'getWinnersByCategory'])->name('superadmin.winners.index');
     Route::get('/participant/categories/{category}/winners/export', [ManagementController::class, 'exportWinners'])->name('superadmin.winners.export');
 });
 
 
-
-
-
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
 require __DIR__ . '/auth.php';

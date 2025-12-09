@@ -103,10 +103,6 @@ const PreFooter = () => {
                         </span>
                         <span className="absolute inset-0 bg-[#1e7a3d] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                     </Link>
-
-                    <p className="mt-6 text-gray-500 text-sm">
-                        Pendaftaran ditutup pada 31 juli 2025
-                    </p>
                 </div>
             </div>
 

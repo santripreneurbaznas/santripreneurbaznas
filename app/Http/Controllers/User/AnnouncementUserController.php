@@ -18,14 +18,14 @@ class AnnouncementUserController extends Controller
                     $q->orderBy('top_type', 'desc'); // Urutkan dari Top 100 ke Top 10
                 }]);
             }])
-            ->firstOrFail();
+            ->first();
 
 
 
         if (!$competition) {
             // return Inertia::render('NotFound');
             // atau bisa redirect route khusus:
-            return redirect()->route('announcements.index')->with('error', 'Competition not found.');
+            return redirect('/announcements')->with('error', 'Competition not found.');
         }
 
         // Transform data untuk memudahkan grouping

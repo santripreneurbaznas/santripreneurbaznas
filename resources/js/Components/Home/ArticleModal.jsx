@@ -1,18 +1,23 @@
 import { useEffect, useState } from "react";
 import { Link } from "@inertiajs/react";
-import { FiCheck } from "react-icons/fi";
+import { FiCheck, FiBookOpen } from "react-icons/fi";
+import { ArrowBigRightIcon } from "lucide-react";
 
-export default function WelcomeModal() {
-    const [isOpen, setIsOpen] = useState(true);
+export default function ArticleModal({ showModal = false }) {
+    const [isOpen, setIsOpen] = useState(showModal);
 
     useEffect(() => {
-        // Cek jika modal sudah pernah ditampilkan
-        const hasSeenModal = localStorage.getItem("hasSeenBaznasModal");
-        if (!hasSeenModal) {
+        // Cek jika modal artikel sudah pernah ditampilkan
+        const hasSeenArticleModal = localStorage.getItem("hasSeenArticleModal");
+        if (!hasSeenArticleModal && showModal) {
             setIsOpen(true);
-            localStorage.setItem("hasSeenBaznasModal", "true");
         }
-    }, []);
+    }, [showModal]);
+
+    const closeModal = () => {
+        setIsOpen(false);
+        localStorage.setItem("hasSeenArticleModal", "true");
+    };
 
     if (!isOpen) return null;
 
@@ -23,7 +28,7 @@ export default function WelcomeModal() {
                 <div
                     className="fixed inset-0 transition-opacity"
                     aria-hidden="true"
-                    onClick={() => setIsOpen(false)}
+                    onClick={closeModal}
                 >
                     <div className="absolute inset-0 bg-gray-900 opacity-75"></div>
                 </div>
@@ -41,7 +46,6 @@ export default function WelcomeModal() {
                     <div className="bg-white px-6 py-8 sm:p-10">
                         <div className="text-center">
                             {/* Logo/Header */}
-
                             <div>
                                 <img
                                     src="/images/logo.png"
@@ -50,31 +54,33 @@ export default function WelcomeModal() {
                                 />
                             </div>
 
-                            <h3 className="text-2xl  lg:text-3xl font-extrabold text-gray-900 mb-2">
-                                Kompetisi{" "}
-                                <span className="text-[#259148]">BAZNAS</span>{" "}
-                                Santripreuner
+                            <h3 className="text-2xl lg:text-3xl font-extrabold text-gray-900 mb-2">
+                                Artikel{" "}
+                                <span className="text-[#259148]">
+                                    Inspiratif
+                                </span>{" "}
+                                Santripreneur
                             </h3>
 
                             <div className="mt-6 space-y-4">
                                 <p className="text-lg text-[#259148] font-semibold capitalize">
-                                    Wujudkan mimpi bisnis Anda!
+                                    Tingkatkan Wawasan Wirausaha Anda!
                                 </p>
                                 <p className="text-justify">
-                                    Kompetisi BAZNAS Santripreneur adalah
-                                    program perencanaan bisnis yang membuka
-                                    peluang bagi santri maupun alumni santri
-                                    untuk mengasah jiwa wirausaha melalui
-                                    pendampingan profesional.
+                                    Temukan kumpulan artikel inspiratif seputar
+                                    kewirausahaan, tips bisnis, kisah sukses
+                                    santripreneur, dan berbagai informasi
+                                    bermanfaat untuk mengembangkan jiwa
+                                    wirausaha Anda.
                                 </p>
 
                                 <div className="bg-[#259148]/10 p-4 rounded-lg mb-6 text-left">
                                     <ul className="space-y-3 text-gray-700">
                                         {[
-                                            "Kompetisi untuk mengembangkan jiwa wirausaha santri",
-                                            "Total hadiah ratusan juta rupiah",
-                                            "Pendampingan dari mentor berpengalaman",
-                                            "Jaringan bisnis dengan berbagai stakeholder",
+                                            "Artikel seputar kewirausahaan santri",
+                                            "Tips dan strategi bisnis praktis",
+                                            "Kisah inspirasi santripreneur sukses",
+                                            "Update terbaru dunia usaha dan startup",
                                         ].map((text, index) => (
                                             <li
                                                 key={index}
@@ -89,24 +95,14 @@ export default function WelcomeModal() {
 
                                 <div className="mt-8">
                                     <Link
-                                        href="/kompetisi"
+                                        href="/articles"
                                         className="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-[#259148] hover:bg-[#1e7a3a] shadow-lg transition-all duration-300 transform hover:scale-105"
                                     >
-                                        Lihat Detail Kompetisi
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="ml-2 -mr-1 h-5 w-5"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                                            />
-                                        </svg>
+                                        Jelajahi Artikel
+                                        <ArrowBigRightIcon
+                                            className="w-5 h-5 ml-2"
+                                            aria-hidden="true"
+                                        />
                                     </Link>
                                 </div>
                             </div>
@@ -116,7 +112,7 @@ export default function WelcomeModal() {
                     {/* close modal */}
                     <div
                         className="absolute top-4 right-4 cursor-pointer"
-                        onClick={() => setIsOpen(false)}
+                        onClick={closeModal}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

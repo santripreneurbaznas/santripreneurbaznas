@@ -18,8 +18,8 @@ const Kompetisi = () => {
             <AboutCompetition />
             <CompetitionCategories />
             <TermsAndConditions />
-            <PrizesAndAwards />
-            <Timeline />
+            {/* <PrizesAndAwards /> */}
+            {/* <Timeline /> */}
             <PreFooter />
             <Footer />
         </>
