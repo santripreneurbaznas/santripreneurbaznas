@@ -59,6 +59,7 @@ Route::get('/announcements/{competition:slug}', [AnnouncementUserController::cla
 
 Route::get('/announcements', [AnnouncementUserController::class, 'index'])
     ->name('announcements.index');
+
 Route::fallback(function () {
     return Inertia::render('NotFound');
 });

@@ -20,6 +20,14 @@ class AnnouncementUserController extends Controller
             }])
             ->firstOrFail();
 
+
+
+        if (!$competition) {
+            // return Inertia::render('NotFound');
+            // atau bisa redirect route khusus:
+            return redirect()->route('announcements.index')->with('error', 'Competition not found.');
+        }
+
         // Transform data untuk memudahkan grouping
         $competition->categories->transform(function ($category) {
             // Group announcements by top_type
@@ -75,7 +83,7 @@ class AnnouncementUserController extends Controller
                 ];
             });
 
-        // dd($competitions);
+
 
         return Inertia::render('User/Announcements/Index', [
             'competitions' => $competitions,
