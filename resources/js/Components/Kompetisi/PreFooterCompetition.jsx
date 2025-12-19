@@ -50,7 +50,7 @@ const PreFooter = () => {
                     <div className="bg-white p-8 rounded-xl border-2 border-[#259148]/20 hover:border-[#259148] transition-all duration-300 animate-fadeIn delay-300 group shadow-lg hover:shadow-xl">
                         <div className="text-5xl font-bold text-[#259148] mb-4 flex items-center justify-center relative">
                             <span className="group-hover:scale-110 transition-transform duration-300">
-                                500
+                                450
                             </span>
                             <span className="text-3xl ml-1">JT+</span>
                             <div className="absolute -bottom-2 w-16 h-1 bg-[#259148] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

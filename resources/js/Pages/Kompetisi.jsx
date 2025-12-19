@@ -16,9 +16,9 @@ const Kompetisi = () => {
             <Navbar />
             <HeroSection />
             <AboutCompetition />
-            <CompetitionCategories />
+            {/* <CompetitionCategories /> */}
             <TermsAndConditions />
-            {/* <PrizesAndAwards /> */}
+            <PrizesAndAwards />
             {/* <Timeline /> */}
             <PreFooter />
             <Footer />

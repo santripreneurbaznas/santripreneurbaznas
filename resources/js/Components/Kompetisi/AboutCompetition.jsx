@@ -92,7 +92,7 @@ const AboutCompetition = () => {
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                                 <div className="text-3xl font-bold text-[#259148] mb-2">
-                                    100+
+                                    500+
                                 </div>
                                 <div className="text-gray-600">
                                     Peserta Tahun Lalu
@@ -100,7 +100,7 @@ const AboutCompetition = () => {
                             </div>
                             <div className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition-shadow">
                                 <div className="text-3xl font-bold text-[#259148] mb-2">
-                                    Rp500jt+
+                                    Rp 450jt+
                                 </div>
                                 <div className="text-gray-600">
                                     Total Hadiah

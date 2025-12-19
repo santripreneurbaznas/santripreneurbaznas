@@ -5,21 +5,21 @@ const PrizesAndAwards = () => {
     const prizes = [
         {
             title: "Juara 1",
-            amount: "Rp 20.000.000",
+            amount: "Rp 18.000.000",
             description: "Program Pendampingan 6 Bulan + Sertifikat",
             color: "from-yellow-400 to-yellow-300",
             icon: "🥇",
         },
         {
             title: "Juara 2",
-            amount: "Rp 17.500.000",
+            amount: "Rp 15.750.000",
             description: "Program Pendampingan 6 Bulan + Sertifikat",
             color: "from-gray-300 to-gray-200",
             icon: "🥈",
         },
         {
             title: "Juara 3",
-            amount: "Rp 15.000.000",
+            amount: "Rp 13.500.000",
             description: "Program Pendampingan 6 Bulan + Sertifikat",
             color: "from-amber-600 to-amber-500",
             icon: "🥉",
@@ -30,17 +30,17 @@ const PrizesAndAwards = () => {
         {
             title: "10 Finalis Terbaik",
             description: "Program Pendampingan 6 Bulan + Sertifikat",
-            prize: "Rp 10.000.000",
+            prize: "Rp 9.000.000",
         },
         {
             title: "50 Finalis Terbaik",
             description: "Program Pendampingan 6 Bulan + Sertifikat",
-            prize: "Rp 6.000.000",
+            prize: "Rp 5.400.000",
         },
         {
             title: "100 Finalis Terbaik",
             description: "Program Pendampingan 6 Bulan + Sertifikat",
-            prize: "Rp 2.750.000",
+            prize: "Rp 2.475.000",
         },
     ];
 
@@ -72,7 +72,7 @@ const PrizesAndAwards = () => {
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                         Total hadiah lebih dari{" "}
                         <span className="font-bold text-[#259148]">
-                            Rp 500.000.000
+                            Rp 450.000.000
                         </span>{" "}
                         untuk pemenang kompetisi
                     </p>
