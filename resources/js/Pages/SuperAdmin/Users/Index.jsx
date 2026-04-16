@@ -245,7 +245,7 @@ export default function SuperAdminUsersIndex({ auth }) {
                         </div>
                         <input
                             type="text"
-                            placeholder="Cari nama/email..."
+                            placeholder="Cari nik/nama/email..."
                             value={searchQuery}
                             onChange={handleSearchChange}
                             className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 sm:text-sm"
@@ -484,13 +484,20 @@ export default function SuperAdminUsersIndex({ auth }) {
                                                                                                             .name
                                                                                                     }
                                                                                                 </h5>
-                                                                                                <p className="text-sm text-gray-500">
-                                                                                                    {
-                                                                                                        reg
-                                                                                                            .category
-                                                                                                            .name
-                                                                                                    }
-                                                                                                </p>
+                                                                                                <div className="flex items-center gap-3">
+                                                                                                    <p className="text-sm text-gray-500">
+                                                                                                        {
+                                                                                                            reg
+                                                                                                                .category
+                                                                                                                .name
+                                                                                                        }
+                                                                                                    </p>
+                                                                                                    <p className="text-sm text-green-500">
+                                                                                                        {reg.is_winner
+                                                                                                            ? "(Menang)"
+                                                                                                            : ""}
+                                                                                                    </p>
+                                                                                                </div>
                                                                                             </div>
                                                                                             <Link
                                                                                                 href={`/super-admin/registrations/${reg.id}`}

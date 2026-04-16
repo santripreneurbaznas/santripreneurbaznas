@@ -22,12 +22,14 @@ class UserController extends Controller
     {
         $users =  User::where('role_id', 3)->with(['role', 'managedCategories', 'registrations.competition', 'registrations.category'])->when($request->search, function ($query) use ($request) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
+                $q->where('nik', 'like', '%' . $request->search . '%')
+                    ->orWhere('name', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%');
             });
         })
             ->orderBy('name', 'asc')
-            ->paginate(10);
+            ->paginate(50);
+
         $roles = Role::all();
         $categories = Category::all();
 

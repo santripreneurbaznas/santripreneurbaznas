@@ -21,7 +21,7 @@ class ManagementController extends Controller
     // Menampilkan halaman management
     public function index()
     {
-        $competitions = Competition::with('categories')->get();
+        $competitions = Competition::with('categories')->orderBy('created_at', 'desc')->get();
         return inertia('SuperAdmin/Management/Index', [
             'competitions' => $competitions,
         ]);

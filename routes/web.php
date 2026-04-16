@@ -14,6 +14,7 @@ use App\Http\Controllers\CompetitionAnnouncementController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MaintenanceController;
 use App\Http\Controllers\SuperAdmin\AdminController;
+use App\Http\Controllers\SuperAdmin\ImportWinnersController;
 use App\Http\Controllers\SuperAdmin\ManagementController;
 use App\Http\Controllers\User\{
     AnnouncementUserController,
@@ -36,6 +37,10 @@ use App\Http\Controllers\User\{
 Route::get('/', fn() => Inertia::render('Welcome'));
 Route::get('/pendaftaran', fn() => Inertia::render('Pendaftaran'));
 Route::get('/kompetisi', fn() => Inertia::render('Kompetisi'));
+
+
+Route::get('/import-winners', [ImportWinnersController::class, 'index']);
+Route::post('/import-winners-process', [ImportWinnersController::class, 'import'])->name('import.excel');
 
 // Announcements (public)
 Route::get('/announcements', [AnnouncementUserController::class, 'index'])

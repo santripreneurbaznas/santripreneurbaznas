@@ -3,13 +3,13 @@
 // app/Http/Controllers/CompetitionAnnouncementController.php
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Competition;
 use App\Models\CategoryAnnouncement;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Rule;
 
 class CompetitionAnnouncementController extends Controller
 {
@@ -41,6 +41,7 @@ class CompetitionAnnouncementController extends Controller
         $allCategories = Category::with('competition')
             ->orderBy('name')
             ->get();
+
 
         return Inertia::render('SuperAdmin/Announcements/Index', [
             'competitions' => $competitions,

@@ -1,0 +1,1 @@
+import{X as e,r as o}from"./app-d10c07c6.js";import{t as r}from"./index-4eaca23c.js";function a(){const{flash:s}=e().props;o.useEffect(()=>{s.error&&r.error(s.error),s.success&&r.success(s.success)},[s])}export{a as u};
