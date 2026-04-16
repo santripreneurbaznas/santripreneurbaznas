@@ -401,7 +401,7 @@ export default function GlobalAnnouncements({
 
                                                                                                         <div className="flex items-center gap-2">
                                                                                                             <a
-                                                                                                                href={`/berkas/${a.file_path}`}
+                                                                                                                href={`/berkas/storage/${a.file_path}`}
                                                                                                                 target="_blank"
                                                                                                                 rel="noopener noreferrer"
                                                                                                                 className="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
