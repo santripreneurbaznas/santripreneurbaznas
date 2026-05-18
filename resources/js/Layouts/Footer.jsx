@@ -208,7 +208,7 @@ const Footer = () => {
                                         color: colorPalette.secondaryText,
                                     }}
                                 >
-                                    +62 81383822698
+                                    +62 822-9992-8099
                                 </span>
                             </li>
                             <li className="flex items-center">
