@@ -318,10 +318,10 @@ export default function UserRegistrationsIndex({ auth }) {
 
                                         <p className="text-sm text-gray-900 mt-5">
                                             Gabung grup WhatsApp:
-                                            {reg.category_id === 4 ? (
+                                            {reg.category_id === 13 ? (
                                                 <>
                                                     <a
-                                                        href="https://chat.whatsapp.com/Cj2rxqvQqTU84hXEsUJR5S?mode=r_t"
+                                                        href="https://chat.whatsapp.com/BCJ01fchAnx0EovSesW38g?mode=r_t"
                                                         target="_blank"
                                                         rel="noopener noreferrer"
                                                         className="text-green-600 hover:text-green-800 ml-1 underline"

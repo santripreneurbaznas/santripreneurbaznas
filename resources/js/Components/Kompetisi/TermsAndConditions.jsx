@@ -75,7 +75,7 @@ const TermsAndConditions = () => {
                     <div className="w-20 h-1 bg-[#259148] mx-auto mb-6"></div>
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                         Persyaratan yang harus dipenuhi untuk mengikuti Baznas
-                        Santripreneur Competition 2025
+                        Santripreneur Competition 2026
                     </p>
                 </div>
 

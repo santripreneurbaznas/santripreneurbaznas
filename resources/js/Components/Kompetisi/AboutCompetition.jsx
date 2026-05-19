@@ -41,7 +41,7 @@ const AboutCompetition = () => {
                     <div className="w-20 h-1 bg-[#259148] mx-auto mb-6"></div>
                     <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
                         Mengenal lebih dalam tentang BAZNAS Santripreneur
-                        Competition 2025
+                        Competition 2026
                     </p>
                 </div>
 
@@ -70,7 +70,7 @@ const AboutCompetition = () => {
                                 Santri
                             </h3>
                             <p className="text-gray-600 mb-6">
-                                BAZNAS Santripreneur Competition 2025 merupakan
+                                BAZNAS Santripreneur Competition 2026 merupakan
                                 ajang kompetisi wirausaha yang dirancang khusus
                                 untuk santri dan atau alumni santri seluruh
                                 Indonesia. Kompetisi ini bertujuan untuk

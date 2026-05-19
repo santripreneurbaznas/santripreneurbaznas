@@ -129,7 +129,7 @@ const KlasterPage = () => {
                     <footer className="mt-16 text-center text-white text-opacity-70 animate-fadeIn delay-500">
                         <p>Pendaftaran ditutup pada 30 Juni 2025</p>
                         <p className="mt-2 text-sm">
-                            © 2025 BAZNAS Santri Preuner. All rights reserved.
+                            © 2026 BAZNAS Santri Preuner. All rights reserved.
                         </p>
                     </footer>
                 </div>
